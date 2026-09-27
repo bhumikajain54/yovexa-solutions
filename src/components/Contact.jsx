@@ -35,6 +35,20 @@ export default function Contact({ preselectedService, preselectedProject }) {
     contentService.getContactContent().then(data => {
       if (isMounted && data) {
         setContactInfo(prev => ({ ...prev, ...data }));
+        if (Array.isArray(data.budgetOptions) && data.budgetOptions.length > 0) {
+          setBudgetOptions(data.budgetOptions);
+          setFormData(prev => {
+            if (!prev.projectBudget || !data.budgetOptions.includes(prev.projectBudget)) {
+              return {
+                ...prev,
+                projectBudget: data.budgetOptions.includes('Not Sure Yet')
+                  ? 'Not Sure Yet'
+                  : data.budgetOptions[data.budgetOptions.length - 1] || data.budgetOptions[0]
+              };
+            }
+            return prev;
+          });
+        }
       }
     }).catch(err => {
       console.warn('Using cached contact info', err);
@@ -91,13 +105,13 @@ export default function Contact({ preselectedService, preselectedProject }) {
     return () => { isMounted = false; };
   }, [preselectedService]);
 
-  const budgetOptions = [
+  const [budgetOptions, setBudgetOptions] = useState([
     "Under ₹25,000",
     "₹25,000 – ₹50,000",
     "₹50,000 – ₹1,00,000",
     "₹1,00,000+",
     "Not Sure Yet"
-  ];
+  ]);
 
   const validate = () => {
     const errs = {};
@@ -142,7 +156,7 @@ export default function Contact({ preselectedService, preselectedProject }) {
         phone: '',
         company: '',
         serviceRequired: serviceOptions[0] || 'Other / Custom Requirement',
-        projectBudget: 'Not Sure Yet',
+        projectBudget: budgetOptions.includes('Not Sure Yet') ? 'Not Sure Yet' : (budgetOptions[budgetOptions.length - 1] || budgetOptions[0] || 'Not Sure Yet'),
         message: '',
       });
     } catch (err) {

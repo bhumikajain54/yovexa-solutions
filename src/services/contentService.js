@@ -46,6 +46,15 @@ export const contentService = {
         turnaroundTime: data.turnaroundTime || '',
         heading: data.heading || '',
         description: data.description || '',
+        budgetOptions: Array.isArray(data.budgetOptions) && data.budgetOptions.length > 0
+          ? data.budgetOptions
+          : [
+              "Under ₹25,000",
+              "₹25,000 – ₹50,000",
+              "₹50,000 – ₹1,00,000",
+              "₹1,00,000+",
+              "Not Sure Yet"
+            ],
       };
     } catch (err) {
       console.error('Failed to fetch contact content:', err);
@@ -53,11 +62,32 @@ export const contentService = {
     }
   },
 
+  async getBudgetOptions() {
+    try {
+      const res = await api.get('/content/budget-options');
+      const data = extractData(res);
+      if (Array.isArray(data) && data.length > 0) {
+        return data;
+      }
+    } catch (err) {
+      console.warn('Fallback to contact content for budget options', err);
+    }
+    const contact = await this.getContactContent();
+    return contact?.budgetOptions || [
+      "Under ₹25,000",
+      "₹25,000 – ₹50,000",
+      "₹50,000 – ₹1,00,000",
+      "₹1,00,000+",
+      "Not Sure Yet"
+    ];
+  },
+
   async updateContactContent(contactData) {
     try {
       const payload = {
         ...contactData,
         contactEmail: contactData.email || contactData.contactEmail,
+        budgetOptions: contactData.budgetOptions,
       };
       const res = await api.put('/admin/content/contact', payload);
       return extractData(res);

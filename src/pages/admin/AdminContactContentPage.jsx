@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Save, Phone, Mail, MapPin, Clock, Loader2, MessageSquare } from 'lucide-react';
+import { Save, Phone, Mail, MapPin, Clock, Loader2, MessageSquare, Plus, Trash2, IndianRupee, RotateCcw } from 'lucide-react';
 import { contentService } from '../../services/contentService';
 import { useToast } from '../../context/ToastContext';
 
@@ -18,6 +18,13 @@ export default function AdminContactContentPage() {
     workingHours: '',
     heading: '',
     description: '',
+    budgetOptions: [
+      "Under ₹25,000",
+      "₹25,000 – ₹50,000",
+      "₹50,000 – ₹1,00,000",
+      "₹1,00,000+",
+      "Not Sure Yet"
+    ],
   });
 
   useEffect(() => {
@@ -26,7 +33,13 @@ export default function AdminContactContentPage() {
         setLoading(true);
         const data = await contentService.getContactContent();
         if (data) {
-          setFormData(prev => ({ ...prev, ...data }));
+          setFormData(prev => ({
+            ...prev,
+            ...data,
+            budgetOptions: Array.isArray(data.budgetOptions) && data.budgetOptions.length > 0
+              ? data.budgetOptions
+              : prev.budgetOptions,
+          }));
         }
       } catch (err) {
         console.error('Failed to load contact info:', err);
@@ -43,12 +56,54 @@ export default function AdminContactContentPage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleBudgetChange = (index, value) => {
+    setFormData(prev => {
+      const updated = [...(prev.budgetOptions || [])];
+      updated[index] = value;
+      return { ...prev, budgetOptions: updated };
+    });
+  };
+
+  const handleAddBudgetOption = () => {
+    setFormData(prev => ({
+      ...prev,
+      budgetOptions: [...(prev.budgetOptions || []), '']
+    }));
+  };
+
+  const handleRemoveBudgetOption = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      budgetOptions: (prev.budgetOptions || []).filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleResetBudgetDefaults = () => {
+    setFormData(prev => ({
+      ...prev,
+      budgetOptions: [
+        "Under ₹25,000",
+        "₹25,000 – ₹50,000",
+        "₹50,000 – ₹1,00,000",
+        "₹1,00,000+",
+        "Not Sure Yet"
+      ]
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setSaving(true);
-      await contentService.updateContactContent(formData);
-      showToast('Contact information saved successfully!', 'success');
+      const cleanedBudgetOptions = (formData.budgetOptions || [])
+        .map(opt => typeof opt === 'string' ? opt.trim() : '')
+        .filter(Boolean);
+
+      await contentService.updateContactContent({
+        ...formData,
+        budgetOptions: cleanedBudgetOptions.length > 0 ? cleanedBudgetOptions : undefined,
+      });
+      showToast('Contact information & budget options saved successfully!', 'success');
     } catch (err) {
       console.error('Failed to update contact info:', err);
       showToast(err.message || 'Failed to save contact changes', 'error');
@@ -268,6 +323,71 @@ export default function AdminContactContentPage() {
                 className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] text-sm text-[#0F172A]"
               />
             </div>
+          </div>
+        </div>
+
+        {/* Full Width Row: Estimated Budget Options (Dynamic Inquiry Dropdown) */}
+        <div className="lg:col-span-12 space-y-4">
+          <div className="bg-white p-6 sm:p-7 rounded-2xl border border-[#E2E8F0] shadow-sm space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[#E2E8F0] pb-3">
+              <div>
+                <h3 className="text-base font-bold text-[#0B1B3A] flex items-center gap-2">
+                  <IndianRupee className="w-4 h-4 text-[#0EA5E9]" />
+                  Estimated Budget Options (Dynamic Contact Dropdown)
+                </h3>
+                <p className="text-xs text-[#64748B] mt-0.5">
+                  Configure the options displayed in the "Estimated Budget" dropdown on the contact / inquiry form.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={handleResetBudgetDefaults}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#64748B] hover:text-[#0B1B3A] bg-[#F1F5F9] hover:bg-[#E2E8F0] transition-colors"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  Reset Defaults
+                </button>
+                <button
+                  type="button"
+                  onClick={handleAddBudgetOption}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-[#0EA5E9] hover:bg-[#0284C7] transition-colors shadow-sm"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Add Option
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+              {formData.budgetOptions?.map((option, idx) => (
+                <div key={idx} className="flex items-center gap-2 bg-[#F8FAFC] p-2.5 rounded-xl border border-[#E2E8F0]">
+                  <span className="text-xs font-bold text-[#64748B] pl-2 w-6">
+                    {idx + 1}.
+                  </span>
+                  <input
+                    type="text"
+                    value={option}
+                    onChange={(e) => handleBudgetChange(idx, e.target.value)}
+                    placeholder="e.g. ₹50,000 – ₹1,00,000"
+                    className="flex-1 px-3 py-1.5 bg-white rounded-lg border border-[#CBD5E1] text-xs font-semibold text-[#0F172A] focus:outline-none focus:ring-1 focus:ring-[#0EA5E9]"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveBudgetOption(idx)}
+                    title="Remove option"
+                    className="p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 hover:text-rose-700 transition-colors"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+            {(!formData.budgetOptions || formData.budgetOptions.length === 0) && (
+              <p className="text-xs text-amber-600 font-medium italic">
+                No budget options configured. Click "Reset Defaults" or "Add Option" above.
+              </p>
+            )}
           </div>
         </div>
       </div>
