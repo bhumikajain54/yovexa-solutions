@@ -467,7 +467,7 @@ export default function CaseStudyForm({ initialData = null, onSubmit, onCancel, 
               name="technologies"
               value={formData.technologies}
               onChange={handleChange}
-              placeholder="Kafka, Redis, Spring Boot, React, Docker"
+              placeholder="Kafka, MongoDB, Spring Boot, React, Docker"
               className="w-full px-3.5 py-2.5 rounded-xl border border-[#CBD5E1] text-xs font-mono text-[#0F172A]"
             />
           </div>
