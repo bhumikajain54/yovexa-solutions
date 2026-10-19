@@ -32,7 +32,8 @@ export default function CaseStudyListingPage() {
         ]);
         if (isMounted) {
           setCaseStudies(data);
-          setCategories(catData);
+          const hasAll = Array.isArray(catData) && catData.some(c => c.id === 'all');
+          setCategories(hasAll ? catData : [{ id: 'all', label: 'All Case Studies' }, ...(Array.isArray(catData) ? catData : [])]);
         }
       } catch (err) {
         console.error('Failed to load case studies:', err);
@@ -97,16 +98,6 @@ export default function CaseStudyListingPage() {
           {/* Category Filter Pills */}
           {categories.length > 0 && (
             <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
-              <button
-                onClick={() => setActiveCategory('all')}
-                className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 shrink-0 ${
-                  activeCategory === 'all'
-                    ? 'bg-[#0B1B3A] text-white shadow-xs ring-2 ring-[#0284C7]'
-                    : 'bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200'
-                }`}
-              >
-                All Projects
-              </button>
               {categories.map((cat) => {
                 const isActive = activeCategory === cat.id;
                 return (
