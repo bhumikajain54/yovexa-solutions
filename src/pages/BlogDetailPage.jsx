@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Calendar, Clock, User, ArrowLeft, ArrowRight, Share2, Sparkles, BookOpen } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, ArrowRight, Share2, Sparkles, ChevronRight, Check } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BlogContent from '../components/public/BlogContent';
@@ -17,6 +17,7 @@ export default function BlogDetailPage() {
   const [relatedBlogs, setRelatedBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,8 +34,8 @@ export default function BlogDetailPage() {
 
         setBlog(article);
 
-        // Update document SEO Title & Meta tags
-        document.title = `${article.seoTitle || article.title} | Yovexa Solutions`;
+        // Update document SEO Title
+        document.title = `${article.seoTitle || article.title} | Yovexa Insights`;
 
         // Fetch related articles
         const allPublished = await blogService.getPublicBlogs();
@@ -65,7 +66,9 @@ export default function BlogDetailPage() {
       }).catch(() => {});
     } else {
       navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
       addToast('Article link copied to clipboard!', 'success');
+      setTimeout(() => setCopied(false), 2500);
     }
   };
 
@@ -78,11 +81,11 @@ export default function BlogDetailPage() {
             <h1 className="text-4xl font-extrabold text-slate-900 font-display">404</h1>
             <h2 className="text-xl font-bold text-slate-900">Article Not Found</h2>
             <p className="text-sm text-slate-600">
-              The blog article you are looking for might have been moved or is currently in draft.
+              The article you are looking for might have been moved or is currently in draft.
             </p>
             <Link
               to="/blog"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0B1B3A] text-white text-xs font-bold hover:bg-[#183B75] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0B1B3A] text-white text-xs font-bold hover:bg-[#183B75] transition-colors shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to All Articles</span>
@@ -98,9 +101,9 @@ export default function BlogDetailPage() {
     return (
       <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
         <Navbar />
-        <main className="flex-1 max-w-4xl mx-auto w-full px-4 pt-36 pb-24 space-y-6 animate-pulse">
-          <div className="h-6 bg-slate-200 rounded w-1/4" />
-          <div className="h-12 bg-slate-200 rounded w-4/5" />
+        <main className="flex-1 max-w-3xl mx-auto w-full px-4 pt-36 pb-24 space-y-6 animate-pulse">
+          <div className="h-4 bg-slate-200 rounded w-1/4" />
+          <div className="h-10 bg-slate-200 rounded w-4/5" />
           <div className="h-6 bg-slate-200 rounded w-1/3" />
           <div className="h-96 bg-slate-200 rounded-2xl" />
         </main>
@@ -117,87 +120,114 @@ export default function BlogDetailPage() {
       })
     : 'Recently Published';
 
+  const readTime = blog.readTime || blog.readingTime || '4 min read';
+  const categoryLabel = blog.category ? blog.category.replace(/_/g, ' ') : 'Engineering';
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
       <Navbar />
 
       <main className="flex-1 pt-28 pb-24">
         
-        {/* Article Container */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Article Reading Column (680–760px optimized measure) */}
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
           
-          {/* Breadcrumb & Navigation */}
-          <div className="flex items-center justify-between gap-4 mb-6">
-            <Link
-              to="/blog"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0284C7] hover:text-[#0369A1] transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Articles</span>
-            </Link>
+          {/* Breadcrumb Navigation */}
+          <nav className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-8 overflow-x-auto no-scrollbar">
+            <Link to="/" className="hover:text-slate-900 transition-colors">Home</Link>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <Link to="/blog" className="hover:text-slate-900 transition-colors">Insights</Link>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="text-slate-900 font-semibold truncate max-w-xs">{blog.title}</span>
+          </nav>
 
-            <button
-              onClick={handleShare}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors shadow-xs"
-              title="Share article link"
-            >
-              <Share2 className="w-3.5 h-3.5 text-[#0284C7]" />
-              <span>Share</span>
-            </button>
-          </div>
+          {/* Article Header */}
+          <header className="mb-8">
+            {/* Category Pill */}
+            <div className="flex items-center justify-between gap-4 mb-4">
+              <span className="px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-sky-100 text-[#0284C7] border border-sky-200">
+                {categoryLabel}
+              </span>
 
-          {/* Category Pill */}
-          <div className="mb-4">
-            <span className="inline-block px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-sky-100 text-[#0284C7] border border-sky-200">
-              {blog.category || 'Engineering'}
-            </span>
-          </div>
+              <button
+                onClick={handleShare}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors shadow-2xs"
+                title="Share article"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <span className="text-emerald-700">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Share2 className="w-3.5 h-3.5 text-slate-500" />
+                    <span>Share</span>
+                  </>
+                )}
+              </button>
+            </div>
 
-          {/* Article Main Title */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display leading-[1.18]">
-            {blog.title}
-          </h1>
+            {/* Main Title */}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display leading-[1.16]">
+              {blog.title}
+            </h1>
 
-          {/* Meta Bar */}
-          <div className="mt-6 pb-6 border-b border-slate-200 flex flex-wrap items-center gap-4 sm:gap-6 text-xs text-slate-600 font-medium">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-[#0B1B3A] text-white flex items-center justify-center font-bold text-xs">
-                {blog.author?.charAt(0) || 'Y'}
+            {/* Excerpt as Lead In */}
+            {blog.excerpt && (
+              <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+                {blog.excerpt}
+              </p>
+            )}
+
+            {/* Author & Publication Metadata */}
+            <div className="mt-6 pt-5 border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 font-medium">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#0B1B3A] text-white flex items-center justify-center font-bold text-xs">
+                  {blog.author ? blog.author.charAt(0).toUpperCase() : 'Y'}
+                </div>
+                <div>
+                  <div className="font-bold text-slate-900 text-xs">
+                    {blog.author || 'Yovexa Engineering Team'}
+                  </div>
+                  <div className="text-[11px] text-slate-500">Technical Perspectives</div>
+                </div>
               </div>
-              <span className="font-bold text-slate-900">{blog.author || 'Yovexa Solutions'}</span>
-            </div>
 
-            <div className="flex items-center gap-1.5">
-              <Calendar className="w-4 h-4 text-[#0284C7]" />
-              <span>{formattedDate}</span>
+              <div className="flex items-center gap-3 text-slate-500">
+                <span className="flex items-center gap-1">
+                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                  <span>{formattedDate}</span>
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1">
+                  <Clock className="w-3.5 h-3.5 text-slate-400" />
+                  <span>{readTime}</span>
+                </span>
+              </div>
             </div>
+          </header>
 
-            <div className="flex items-center gap-1.5">
-              <Clock className="w-4 h-4 text-[#0284C7]" />
-              <span>{blog.readingTime || '5 min read'}</span>
-            </div>
-          </div>
-
-          {/* Featured Image */}
+          {/* Featured Large Article Image */}
           {blog.featuredImage && (
-            <div className="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-100 max-h-[480px]">
+            <div className="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-100 max-h-[460px]">
               <img
                 src={blog.featuredImage}
                 alt={blog.title}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement.style.display = 'none';
                 }}
               />
             </div>
           )}
 
-          {/* Article Formatted Content */}
-          <article className="py-2">
+          {/* Sanitized Rich Content */}
+          <article className="py-4">
             <BlogContent htmlContent={blog.content} />
           </article>
 
-          {/* Tags */}
+          {/* Tags Chips */}
           {blog.tags && blog.tags.length > 0 && (
             <div className="mt-12 pt-6 border-t border-slate-200 flex items-center flex-wrap gap-2">
               <span className="text-xs font-bold text-slate-900 mr-2">Tags:</span>
@@ -212,30 +242,57 @@ export default function BlogDetailPage() {
             </div>
           )}
 
-          {/* In-Article CTA Banner */}
-          <div className="mt-14 p-8 rounded-2xl bg-[#061225] text-white border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6 tech-grid-dark">
+          {/* Author Sign-off Card */}
+          <div className="mt-12 p-6 rounded-2xl bg-white border border-slate-200/90 shadow-card flex items-start gap-4">
+            <div className="w-12 h-12 rounded-xl bg-[#0284C7] text-white flex items-center justify-center font-extrabold text-base shrink-0 shadow-xs">
+              Y
+            </div>
             <div>
+              <h4 className="text-sm font-bold text-slate-900 font-display">
+                Published by Yovexa Solutions
+              </h4>
+              <p className="mt-1 text-xs text-slate-600 leading-relaxed font-normal">
+                Yovexa Solutions designs and builds modern web applications, mobile platforms, and custom software systems for startups and scaling businesses.
+              </p>
+              <div className="mt-3">
+                <Link
+                  to="/#contact"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0284C7] hover:text-[#0369A1] transition-colors"
+                >
+                  <span>Discuss an engineering project with our team</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* In-Article Conversion Prompt */}
+          <div className="mt-10 p-8 rounded-2xl bg-slate-900 text-white shadow-xl relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="relative z-10">
               <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-[#0284C7]/20 text-sky-400 text-xs font-mono font-bold mb-2">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Partner With Yovexa</span>
+                <span>Custom Engineering</span>
               </div>
-              <h3 className="text-xl font-bold font-display text-white">Have a project in mind?</h3>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1">
-                Let's discuss how our software engineering team can build your solution.
+              <h3 className="text-xl font-bold font-display text-white">
+                Have a project or challenge in mind?
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-md">
+                Let's discuss requirements, architecture approach, and timelines with our senior engineers.
               </p>
             </div>
 
             <a
               href="/#contact"
-              className="shrink-0 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm"
+              className="shrink-0 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm relative z-10"
             >
               Discuss Your Project
             </a>
+            <div className="absolute top-0 right-0 w-36 h-36 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
           </div>
 
-          {/* Related Articles */}
+          {/* Related Articles Section */}
           {relatedBlogs.length > 0 && (
-            <div className="mt-20 pt-10 border-t border-slate-200">
+            <div className="mt-16 pt-10 border-t border-slate-200">
               <h3 className="text-2xl font-bold text-slate-900 font-display mb-8">
                 Related Articles
               </h3>
