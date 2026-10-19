@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Check, ArrowRight, ShieldCheck, Cpu, Target, Users, Code2, Layers } from 'lucide-react';
+import { Sparkles, Check, ArrowRight, ShieldCheck, Target, Users, Code2, Layers } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { contentService } from '../services/contentService';
@@ -9,7 +9,6 @@ import { projectService } from '../services/projectService';
 export default function AboutPage() {
   const [about, setAbout] = useState(null);
   const [featuredProjects, setFeaturedProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -24,12 +23,10 @@ export default function AboutPage() {
         if (isMounted) {
           setAbout(aboutData);
           setFeaturedProjects(Array.isArray(projData) ? projData.slice(0, 2) : []);
-          setLoading(false);
         }
       })
       .catch(err => {
         console.warn('Failed to load about page data:', err);
-        if (isMounted) setLoading(false);
       });
 
     return () => { isMounted = false; };

@@ -4,7 +4,26 @@ import React from 'react';
  * Sanitized Blog Article Renderer
  * Applies high-contrast typography styles for headings, quotes, code, and lists
  */
+/**
+ * Lightweight, dependency-free HTML sanitizer for safe rendering of rich-text blog articles.
+ * Removes <script>, <style>, <iframe>, <object>, <embed> tags, event handler attributes (on*),
+ * and javascript: pseudo-protocols while leaving all valid presentation markup intact.
+ */
+function sanitizeHtml(html) {
+  if (!html || typeof html !== 'string') return '';
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+    .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
+    .replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '')
+    .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+    .replace(/\son\w+\s*=\s*(['"]).*?\1/gi, '')
+    .replace(/\son\w+\s*=\s*[^>\s]+/gi, '')
+    .replace(/(href|src)\s*=\s*(['"])\s*javascript:[^'"]*\2/gi, '$1="#"');
+}
+
 export default function BlogContent({ htmlContent }) {
+  const cleanHtml = React.useMemo(() => sanitizeHtml(htmlContent), [htmlContent]);
   if (!htmlContent) return null;
 
   return (
@@ -20,7 +39,7 @@ export default function BlogContent({ htmlContent }) {
         [&>code]:bg-[#F1F5F9] [&>code]:text-[#0B1B3A] [&>code]:px-1.5 [&>code]:py-0.5 [&>code]:rounded [&>code]:font-mono [&>code]:text-sm
         [&>img]:rounded-2xl [&>img]:my-8 [&>img]:w-full [&>img]:shadow-md [&>img]:border [&>img]:border-[#E2E8F0]
         [&>a]:text-[#0284C7] [&>a]:font-semibold [&>a]:underline hover:[&>a]:text-[#0369A1]"
-      dangerouslySetInnerHTML={{ __html: htmlContent }}
+      dangerouslySetInnerHTML={{ __html: cleanHtml }}
     />
   );
 }
