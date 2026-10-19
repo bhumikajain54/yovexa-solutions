@@ -4,7 +4,7 @@
  */
 import { tokenManager } from './tokenManager';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://yovexa-solutions-backend1.vercel.app/';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.yovexasolutions.in/';
 
 /**
  * Normalizes URL and handles relative vs absolute endpoints
