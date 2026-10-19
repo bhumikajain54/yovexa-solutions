@@ -6,7 +6,6 @@ import {
   Check,
   Sparkles,
   BookOpen,
-  Layers,
   ArrowRight
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
@@ -71,10 +70,10 @@ export default function CaseStudyDetailPage() {
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-32 px-4 text-center">
           <div className="max-w-md mx-auto space-y-4">
-            <h1 className="text-4xl font-extrabold text-[#0B1B3A] font-display">404</h1>
-            <h2 className="text-xl font-bold text-[#0B1B3A]">Case Study Not Found</h2>
-            <p className="text-sm text-[#475569]">
-              The technical case study you are looking for might have been moved, removed, or is currently in draft state.
+            <h1 className="text-4xl font-extrabold text-slate-900 font-display">404</h1>
+            <h2 className="text-xl font-bold text-slate-900">Case Study Not Found</h2>
+            <p className="text-sm text-slate-600">
+              The technical case study you are looking for might have been moved or is currently in draft.
             </p>
             <Link
               to="/case-studies"
@@ -117,41 +116,42 @@ export default function CaseStudyDetailPage() {
     : (typeof caseStudy.technologies === 'string' ? caseStudy.technologies.split(',').map(s => s.trim()).filter(Boolean) : []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#0B1B3A] font-sans">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
       <Navbar />
 
       <main className="flex-1 pt-28 pb-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Top Breadcrumb */}
+          
+          {/* Top Breadcrumbs */}
           <div className="mb-6">
             <Link
               to="/case-studies"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0EA5E9] hover:text-[#0284C7] transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0284C7] hover:text-[#0369A1] transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Back to Case Studies</span>
+              <span>Back to All Case Studies</span>
             </Link>
           </div>
 
-          {/* Header Badges */}
+          {/* Badges */}
           <div className="flex flex-wrap items-center gap-2.5 mb-3">
-            <span className="px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-[#E0F2FE] text-[#0369A1] border border-[#BAE6FD]">
+            <span className="px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-sky-100 text-[#0284C7] border border-sky-200">
               {caseStudy.category ? caseStudy.category.replace(/_/g, ' ') : 'Case Study'}
             </span>
             {caseStudy.clientLabel && (
-              <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-[#F1F5F9] text-[#475569] border border-[#CBD5E1]">
+              <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
                 {caseStudy.clientLabel}
               </span>
             )}
             {caseStudy.projectReference && (
               <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                Project: {caseStudy.projectReference}
+                Project Reference: {caseStudy.projectReference}
               </span>
             )}
           </div>
 
           {/* Title & Subtitle */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1B3A] tracking-tight font-display leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display leading-tight">
             {caseStudy.title}
           </h1>
           {caseStudy.subtitle && (
@@ -160,9 +160,9 @@ export default function CaseStudyDetailPage() {
             </p>
           )}
 
-          {/* Featured Hero Thumbnail / Architecture Diagram */}
+          {/* Featured Hero Image */}
           {caseStudy.featuredImage && (
-            <div className="my-8 rounded-2xl overflow-hidden border border-[#E2E8F0] shadow-md bg-slate-100 max-h-[460px]">
+            <div className="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-100 max-h-[460px]">
               <img
                 src={caseStudy.featuredImage}
                 alt={caseStudy.title}
@@ -174,24 +174,24 @@ export default function CaseStudyDetailPage() {
             </div>
           )}
 
-          {/* Executive Briefing / Architecture Overview */}
-          <div className="p-6 rounded-2xl bg-white text-[#0B1B3A] border border-[#E2E8F0] shadow-card mb-10">
-            <h3 className="text-xs font-mono font-bold uppercase text-[#0284C7] tracking-wider mb-2">
-              Case Study Executive Briefing
+          {/* Executive Briefing */}
+          <div className="p-7 sm:p-8 rounded-2xl bg-white text-slate-900 border border-slate-200 shadow-card mb-10">
+            <h3 className="text-xs font-mono font-bold uppercase text-[#0284C7] tracking-wider mb-2.5">
+              Executive Briefing & Architecture Overview
             </h3>
-            <p className="text-sm sm:text-base text-[#334155] leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal">
               {caseStudy.summary}
             </p>
 
-            {/* Action buttons (only rendered when configured) */}
+            {/* Action buttons */}
             {(caseStudy.liveUrl || caseStudy.githubUrl) && (
-              <div className="mt-5 pt-4 border-t border-[#E2E8F0] flex flex-wrap items-center gap-3">
+              <div className="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center gap-3">
                 {caseStudy.liveUrl && (
                   <a
                     href={caseStudy.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0EA5E9] hover:bg-[#0284C7] text-white text-xs font-bold transition-all shadow-sm"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold transition-all shadow-xs"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>View Reference System</span>
@@ -202,9 +202,9 @@ export default function CaseStudyDetailPage() {
                     href={caseStudy.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0B1B3A] hover:bg-[#183B75] border border-[#CBD5E1] text-white text-xs font-bold transition-all shadow-sm"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0B1B3A] hover:bg-[#183B75] text-white text-xs font-bold transition-all shadow-xs"
                   >
-                    <GithubIcon className="w-3.5 h-3.5 text-[#38BDF8]" />
+                    <GithubIcon className="w-3.5 h-3.5 text-sky-400" />
                     <span>Architecture Repo</span>
                   </a>
                 )}
@@ -212,25 +212,25 @@ export default function CaseStudyDetailPage() {
             )}
           </div>
 
-          {/* Deep Problem & Technical Solution Breakdown Cards */}
+          {/* Problem & Solution Breakdown */}
           <div className="space-y-6 mb-10">
             {caseStudy.problem && (
-              <div className="p-6 sm:p-7 rounded-2xl bg-white border border-rose-100 shadow-sm space-y-2">
-                <span className="text-xs font-extrabold uppercase tracking-wider text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded border border-rose-200 inline-block">
+              <div className="p-7 rounded-2xl bg-white border border-rose-100 shadow-xs space-y-2">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-rose-700 bg-rose-50 px-2.5 py-0.5 rounded border border-rose-200 inline-block">
                   Business Challenge & Problem Statement
                 </span>
-                <p className="text-sm text-[#334155] leading-relaxed pt-1 whitespace-pre-line">
+                <p className="text-sm text-slate-700 leading-relaxed pt-1 whitespace-pre-line font-normal">
                   {caseStudy.problem}
                 </p>
               </div>
             )}
 
             {caseStudy.solution && (
-              <div className="p-6 sm:p-7 rounded-2xl bg-white border border-emerald-100 shadow-sm space-y-2">
-                <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200 inline-block">
-                  Technical Solution & Implementation
+              <div className="p-7 rounded-2xl bg-white border border-emerald-100 shadow-xs space-y-2">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200 inline-block">
+                  Technical Architecture & Solution
                 </span>
-                <p className="text-sm text-[#334155] leading-relaxed pt-1 whitespace-pre-line">
+                <p className="text-sm text-slate-700 leading-relaxed pt-1 whitespace-pre-line font-normal">
                   {caseStudy.solution}
                 </p>
               </div>
@@ -239,17 +239,17 @@ export default function CaseStudyDetailPage() {
 
           {/* Key Architectural Features */}
           {featuresList.length > 0 && (
-            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-[#E2E8F0] shadow-sm mb-10">
-              <h3 className="text-lg font-bold text-[#0B1B3A] font-display mb-4">
+            <div className="p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs mb-10">
+              <h3 className="text-lg font-bold text-slate-900 font-display mb-4">
                 Key Architectural Features
               </h3>
               <div className="space-y-3">
                 {featuresList.map((feat, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-[#E0F2FE] text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-5 h-5 rounded-full bg-sky-100 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-3.5 h-3.5 stroke-[3]" />
                     </div>
-                    <span className="text-xs sm:text-sm text-[#334155] font-medium leading-relaxed">
+                    <span className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
                       {feat}
                     </span>
                   </div>
@@ -260,15 +260,15 @@ export default function CaseStudyDetailPage() {
 
           {/* Technology & Tooling Stack */}
           {techList.length > 0 && (
-            <div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] shadow-sm mb-10">
-              <h3 className="text-xs font-extrabold text-[#0B1B3A] uppercase tracking-wider mb-3">
+            <div className="p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs mb-10">
+              <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-3">
                 Technologies & Architecture Stack
               </h3>
               <div className="flex flex-wrap gap-2">
                 {techList.map((tech, i) => (
                   <span
                     key={i}
-                    className="px-3 py-1.5 rounded-lg bg-[#F8FAFC] text-[#0B1B3A] text-xs font-mono font-bold border border-[#CBD5E1]"
+                    className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-800 text-xs font-mono font-bold border border-slate-200"
                   >
                     {tech}
                   </span>
@@ -278,21 +278,21 @@ export default function CaseStudyDetailPage() {
           )}
 
           {/* CTA Banner */}
-          <div className="p-8 rounded-2xl bg-white text-[#0B1B3A] border border-[#E2E8F0] shadow-card flex flex-col sm:flex-row items-center justify-between gap-6 tech-grid-bg">
+          <div className="p-8 rounded-2xl bg-[#061225] text-white border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6 tech-grid-dark">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E0F2FE] border border-[#BAE6FD] text-[#0369A1] text-xs font-bold mb-2 shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-[#0284C7]/20 text-sky-400 text-xs font-mono font-bold mb-2">
+                <Sparkles className="w-3.5 h-3.5" />
                 <span>Custom Architecture Design</span>
               </div>
-              <h3 className="text-xl font-bold font-display text-[#0B1B3A]">Facing a similar technical challenge?</h3>
-              <p className="text-xs sm:text-sm text-[#475569] mt-1">
-                Our architects can design and build high-performance systems for your organization.
+              <h3 className="text-xl font-bold font-display text-white">Facing a similar technical challenge?</h3>
+              <p className="text-xs sm:text-sm text-slate-300 mt-1">
+                Our architects can evaluate and build scalable software for your organization.
               </p>
             </div>
 
             <a
               href="/#contact"
-              className="shrink-0 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0EA5E9] hover:bg-[#0284C7] transition-all shadow-sm transform hover:-translate-y-0.5 active:translate-y-0"
+              className="shrink-0 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm"
             >
               Schedule Consultation
             </a>
@@ -300,8 +300,8 @@ export default function CaseStudyDetailPage() {
 
           {/* Related Case Studies */}
           {relatedStudies.length > 0 && (
-            <div className="mt-16 pt-8 border-t border-[#E2E8F0]">
-              <h3 className="text-xl font-bold text-[#0B1B3A] font-display mb-6">
+            <div className="mt-16 pt-8 border-t border-slate-200">
+              <h3 className="text-xl font-bold text-slate-900 font-display mb-6">
                 Explore More Case Studies
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -309,15 +309,15 @@ export default function CaseStudyDetailPage() {
                   <Link
                     key={cs.id}
                     to={`/case-studies/${cs.slug || cs.id}`}
-                    className="p-5 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#0EA5E9] shadow-sm transition-all group"
+                    className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-sky-300 shadow-xs transition-all group"
                   >
                     <span className="text-[10px] font-bold uppercase text-[#0284C7] tracking-wider">
-                      {cs.category}
+                      {cs.category ? cs.category.replace(/_/g, ' ') : 'Case Study'}
                     </span>
-                    <h4 className="text-base font-bold text-[#0B1B3A] group-hover:text-[#0284C7] transition-colors mt-1 font-display">
+                    <h4 className="text-base font-bold text-slate-900 group-hover:text-[#0284C7] transition-colors mt-1 font-display">
                       {cs.title}
                     </h4>
-                    <p className="text-xs text-[#64748B] line-clamp-2 mt-1">
+                    <p className="text-xs text-slate-500 line-clamp-2 mt-1">
                       {cs.summary || cs.problem}
                     </p>
                   </Link>
@@ -325,6 +325,7 @@ export default function CaseStudyDetailPage() {
               </div>
             </div>
           )}
+
         </div>
       </main>
 

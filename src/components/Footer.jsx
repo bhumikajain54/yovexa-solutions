@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowUp, Mail, MapPin } from 'lucide-react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { ArrowUp, Mail, MapPin, Phone, ShieldCheck, Heart } from 'lucide-react';
 import { COMPANY_INFO } from '../data/company';
 import { siteSettingsService } from '../services/siteSettingsService';
 import { servicesService } from '../services/servicesService';
@@ -13,21 +13,23 @@ export default function Footer() {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    siteSettingsService.getSettings().then(setSettings);
+    let isMounted = true;
+    siteSettingsService.getSettings().then(data => {
+      if (isMounted) setSettings(data);
+    });
     servicesService.getServices({ activeOnly: true })
       .then(data => {
-        if (Array.isArray(data)) setServices(data);
+        if (isMounted && Array.isArray(data)) setServices(data);
       })
-      .catch(err => console.error('Failed to load footer services:', err));
+      .catch(err => console.warn('Failed to load footer services:', err));
+    return () => { isMounted = false; };
   }, []);
 
-  const displayDescription = settings?.footerDescription || settings?.description || '';
-  const displayEmail = settings?.email || '';
-  const displayLocation = settings?.location || '';
+  const displayDescription = settings?.footerDescription || settings?.description || 'Yovexa Solutions is an engineering-driven digital solutions company building robust websites, web applications, and custom software for growing businesses.';
+  const displayEmail = settings?.email || 'support@yovexasolutions.in';
+  const displayPhone = settings?.phone || '7828255442';
+  const displayLocation = settings?.location || 'India · Serving Clients Globally';
   const displayCopyright = settings?.copyrightText || settings?.copyright || '';
-
-  // Built by siteSettingsService from flat backend fields (linkedin, github, etc.)
-  // Empty array when no social URLs are configured — nothing is rendered.
   const displaySocials = settings?.socials || [];
 
   const scrollToTop = () => {
@@ -42,6 +44,16 @@ export default function Footer() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
+    if (href === '/case-studies' || href === '/case-studies/') {
+      navigate('/case-studies');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (href === '/portfolio' || href === '/portfolio/') {
+      navigate('/portfolio');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
 
     const targetId = href.replace('/#', '').replace('#', '');
 
@@ -52,12 +64,6 @@ export default function Footer() {
       }
     } else {
       navigate(`/#${targetId}`);
-      setTimeout(() => {
-        const element = document.getElementById(targetId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
     }
   };
 
@@ -97,56 +103,60 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#071426] text-[#F5F9FF] border-t border-[#183047] pt-16 pb-12 relative overflow-hidden">
-      {/* Subtle background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-[#0EA5E9]/10 blur-3xl pointer-events-none" />
+    <footer className="bg-[#061225] text-slate-300 border-t border-slate-800 pt-16 pb-12 relative overflow-hidden">
+      {/* Background Soft Accent */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-20 bg-sky-500/5 blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-        {/* Main Footer Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-[#183047]">
+        {/* 4-Column Footer Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
 
-          {/* Col 1: Brand & Identity (4 cols) */}
+          {/* Col 1: Identity & Summary (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
-            <a href="#hero" onClick={(e) => handleNavClick(e, '#hero')} className="inline-block focus:outline-none focus:ring-2 focus:ring-[#22B8FF] rounded-lg p-1">
+            <a
+              href="/#hero"
+              onClick={(e) => handleNavClick(e, '#hero')}
+              className="inline-block focus:outline-none focus:ring-2 focus:ring-[#0284C7] rounded-lg p-0.5"
+            >
               <Logo variant="dark" size="default" />
             </a>
 
-            {displayDescription && (
-              <p className="text-sm text-[#B7C5D6] max-w-sm leading-relaxed mt-2 font-normal">
-                {displayDescription}
-              </p>
-            )}
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm font-normal">
+              {displayDescription}
+            </p>
 
-            {/* Dynamic Social Links */}
-            <div className="pt-2 flex items-center gap-3">
-              {displaySocials.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-[#0D1F38] border border-[#1E5A85] flex items-center justify-center text-white hover:bg-[#0B6FA4] hover:text-white hover:border-[#22B8FF] hover:shadow-[0_0_12px_rgba(34,184,255,0.35)] transition-all duration-200"
-                  aria-label={`Yovexa on ${social.name}`}
-                >
-                  {getSocialSvg(social.name)}
-                </a>
-              ))}
-            </div>
+            {/* Social Links */}
+            {displaySocials.length > 0 && (
+              <div className="pt-2 flex items-center gap-2.5">
+                {displaySocials.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:bg-[#0284C7] hover:text-white hover:border-[#0284C7] transition-all duration-150"
+                    aria-label={`Yovexa on ${social.name}`}
+                  >
+                    {getSocialSvg(social.name)}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Col 2: Company Links (2 cols) */}
+          {/* Col 2: Navigation Links (2 cols) */}
           <div className="lg:col-span-2 space-y-3">
-            <h4 className="text-xs uppercase tracking-widest font-extrabold text-[#22B8FF]">
-              Company
+            <h4 className="text-xs font-mono uppercase tracking-widest font-extrabold text-[#38BDF8]">
+              Navigation
             </h4>
-            <ul className="space-y-2 text-sm text-[#B7C5D6]">
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
               {COMPANY_INFO.footerCompany.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="hover:text-[#22B8FF] transition-colors font-medium"
+                    className="hover:text-white transition-colors"
                   >
                     {link.label}
                   </a>
@@ -157,50 +167,63 @@ export default function Footer() {
 
           {/* Col 3: Services (3 cols) */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs uppercase tracking-widest font-extrabold text-[#22B8FF]">
+            <h4 className="text-xs font-mono uppercase tracking-widest font-extrabold text-[#38BDF8]">
               Services
             </h4>
-            <ul className="space-y-2 text-sm text-[#B7C5D6]">
-              {services.map((service) => (
-                <li key={service.id || service.slug || service.title}>
-                  <a
-                    href="#services"
-                    onClick={(e) => handleNavClick(e, '#services')}
-                    className="hover:text-[#22B8FF] transition-colors font-medium"
-                  >
-                    {service.title}
-                  </a>
-                </li>
-              ))}
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
+              {services.length > 0 ? (
+                services.map((service) => (
+                  <li key={service.id || service.slug || service.title}>
+                    <Link
+                      to={`/services/${service.slug || service.id}`}
+                      className="hover:text-white transition-colors line-clamp-1"
+                    >
+                      {service.title}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li><a href="/#services" onClick={(e) => handleNavClick(e, '#services')} className="hover:text-white">Website Development</a></li>
+                  <li><a href="/#services" onClick={(e) => handleNavClick(e, '#services')} className="hover:text-white">Web Applications</a></li>
+                  <li><a href="/#services" onClick={(e) => handleNavClick(e, '#services')} className="hover:text-white">REST API Integration</a></li>
+                  <li><a href="/#services" onClick={(e) => handleNavClick(e, '#services')} className="hover:text-white">Admin Dashboards</a></li>
+                </>
+              )}
             </ul>
           </div>
 
-          {/* Col 4: Contact Placeholders (3 cols) */}
+          {/* Col 4: Contact & Coordinates (3 cols) */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs uppercase tracking-widest font-extrabold text-[#22B8FF]">
-              Get In Touch
+            <h4 className="text-xs font-mono uppercase tracking-widest font-extrabold text-[#38BDF8]">
+              Contact Details
             </h4>
-            <div className="space-y-2.5 text-xs text-[#B7C5D6]">
+            <div className="space-y-2.5 text-xs text-slate-400">
               {displayEmail && (
-                <div className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-[#22B8FF] shrink-0" />
-                  <a
-                    href={`mailto:${displayEmail}`}
-                    className="hover:text-[#22B8FF] transition-colors whitespace-nowrap font-medium"
-                  >
+                <div className="flex items-center gap-2.5">
+                  <Mail className="w-3.5 h-3.5 text-[#0284C7] shrink-0" />
+                  <a href={`mailto:${displayEmail}`} className="hover:text-white transition-colors truncate">
                     {displayEmail}
                   </a>
                 </div>
               )}
+              {displayPhone && (
+                <div className="flex items-center gap-2.5">
+                  <Phone className="w-3.5 h-3.5 text-[#0284C7] shrink-0" />
+                  <a href={`tel:${displayPhone}`} className="hover:text-white transition-colors">
+                    +91 {displayPhone}
+                  </a>
+                </div>
+              )}
               {displayLocation && (
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-[#22B8FF] shrink-0" />
-                  <span className="font-medium whitespace-nowrap">{displayLocation}</span>
+                <div className="flex items-center gap-2.5">
+                  <MapPin className="w-3.5 h-3.5 text-[#0284C7] shrink-0" />
+                  <span>{displayLocation}</span>
                 </div>
               )}
               <div className="pt-2">
-                <span className="inline-block px-2.5 py-1 rounded bg-[#0D1F38] text-[#22B8FF] text-xs font-mono font-bold border border-[#1E5A85] whitespace-nowrap">
-                  Direct Inquiries Open
+                <span className="inline-block px-2.5 py-1 rounded-md bg-slate-900 text-[#38BDF8] text-[11px] font-mono font-semibold border border-slate-800">
+                  Open for Project Discussions
                 </span>
               </div>
             </div>
@@ -208,28 +231,35 @@ export default function Footer() {
 
         </div>
 
-        {/* Bottom Bar: Copyright & Legal */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#B7C5D6]">
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
             {displayCopyright ? (
               <span>{displayCopyright}</span>
             ) : (
               <span>
-                &copy; {new Date().getFullYear()} <strong className="text-[#F5F9FF]">Yovexa Solutions</strong>. All rights reserved.
+                &copy; {new Date().getFullYear()} <strong className="text-slate-300">Yovexa Solutions</strong>. All rights reserved.
               </span>
             )}
           </div>
 
           <div className="flex items-center gap-6">
-            <a href="#hero" className="hover:text-[#22B8FF] transition-colors font-medium">Privacy Policy</a>
-            <a href="#hero" className="hover:text-[#22B8FF] transition-colors font-medium">Terms of Service</a>
+            <Link to="/#hero" onClick={(e) => handleNavClick(e, '#hero')} className="hover:text-slate-300 transition-colors">
+              Privacy
+            </Link>
+            <Link to="/#hero" onClick={(e) => handleNavClick(e, '#hero')} className="hover:text-slate-300 transition-colors">
+              Terms
+            </Link>
+            <Link to="/login" className="hover:text-slate-400 text-slate-600 transition-colors text-[11px]">
+              Admin
+            </Link>
             <button
               onClick={scrollToTop}
-              className="p-2 rounded-lg bg-[#0D1F38] hover:bg-[#0B6FA4] text-white border border-[#1E5A85] hover:border-[#22B8FF] hover:shadow-[0_0_10px_rgba(34,184,255,0.3)] transition-all duration-200 flex items-center gap-1.5"
+              className="p-1.5 rounded-lg bg-slate-900 hover:bg-[#0284C7] text-white border border-slate-800 hover:border-[#0284C7] transition-all flex items-center gap-1"
               aria-label="Back to top"
             >
               <ArrowUp className="w-3.5 h-3.5" />
-              <span className="text-xs font-bold">Top</span>
+              <span className="text-[11px] font-bold">Top</span>
             </button>
           </div>
         </div>

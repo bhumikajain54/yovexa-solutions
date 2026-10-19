@@ -1,39 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, MessageSquareCode } from 'lucide-react';
+import { Menu, X, ArrowUpRight, ChevronDown, Sparkles, MessageSquare, Layers, Globe, Cpu, ShieldCheck } from 'lucide-react';
 import { COMPANY_INFO } from '../data/company';
 import Logo from './Logo';
 
 export default function Navbar({ onOpenContact }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const dropdownRef = useRef(null);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  // State A: Dark/navy background (Top of homepage over dark #hero)
-  // State B: White/light background (Scrolled homepage or any internal page like /blog, /projects)
-  const isHomePage = location.pathname === '/';
-  const isDarkHeader = false;
-
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 30) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 20);
 
-      // Active section spy only on homepage
+      // Scrollspy active section on homepage
       if (location.pathname === '/') {
-        if (window.scrollY < 80) {
+        if (window.scrollY < 120) {
           setActiveSection('hero');
           return;
         }
 
         const sections = ['hero', 'about', 'services', 'process', 'portfolio', 'why-us', 'contact'];
-        const scrollPosition = window.scrollY + 100;
+        const scrollPosition = window.scrollY + 140;
 
         for (const section of sections) {
           const el = document.getElementById(section);
@@ -46,10 +39,18 @@ export default function Navbar({ onOpenContact }) {
             }
           }
         }
-      } else if (location.pathname.startsWith('/blog')) {
-        setActiveSection('blog');
+      } else if (location.pathname.startsWith('/services')) {
+        setActiveSection('services');
+      } else if (location.pathname.startsWith('/portfolio') || location.pathname.startsWith('/projects')) {
+        setActiveSection('portfolio');
       } else if (location.pathname.startsWith('/case-studies')) {
         setActiveSection('case-studies');
+      } else if (location.pathname.startsWith('/blog')) {
+        setActiveSection('blog');
+      } else if (location.pathname.startsWith('/about')) {
+        setActiveSection('about');
+      } else if (location.pathname.startsWith('/contact')) {
+        setActiveSection('contact');
       }
     };
 
@@ -58,42 +59,55 @@ export default function Navbar({ onOpenContact }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [location.pathname]);
 
-  // Handle URL hash on initial load or navigation
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setServicesDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Handle URL hash on initial load or route transition
   useEffect(() => {
     if (location.hash && location.pathname === '/') {
       const targetId = location.hash.replace('#', '');
-      if (targetId === 'hero') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setActiveSection('hero');
-      } else {
-        setTimeout(() => {
-          const element = document.getElementById(targetId);
-          if (element) {
-            const navHeight = 72;
-            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-            window.scrollTo({
-              top: Math.max(0, elementPosition - navHeight),
-              behavior: 'smooth'
-            });
-            setActiveSection(targetId);
-          }
-        }, 150);
-      }
+      const timer = setTimeout(() => {
+        const element = document.getElementById(targetId);
+        if (element) {
+          const navHeight = 76;
+          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: Math.max(0, elementPosition - navHeight),
+            behavior: 'smooth'
+          });
+          setActiveSection(targetId);
+        }
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, [location.hash, location.pathname]);
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
     setMobileMenuOpen(false);
+    setServicesDropdownOpen(false);
 
+    // Direct standalone routes
     if (href === '/blog' || href === '/blog/') {
       navigate('/blog');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-
     if (href === '/case-studies' || href === '/case-studies/') {
       navigate('/case-studies');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (href === '/portfolio' || href === '/portfolio/') {
+      navigate('/portfolio');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
@@ -110,7 +124,7 @@ export default function Navbar({ onOpenContact }) {
 
       const element = document.getElementById(targetId);
       if (element) {
-        const navHeight = 72;
+        const navHeight = 76;
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({
           top: Math.max(0, elementPosition - navHeight),
@@ -121,55 +135,139 @@ export default function Navbar({ onOpenContact }) {
       }
     } else {
       navigate(`/#${targetId}`);
-      setTimeout(() => {
-        if (targetId === 'hero') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          setActiveSection('hero');
-          return;
-        }
-        const element = document.getElementById(targetId);
-        if (element) {
-          const navHeight = 72;
-          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-          window.scrollTo({
-            top: Math.max(0, elementPosition - navHeight),
-            behavior: 'smooth'
-          });
-          setActiveSection(targetId);
-        }
-      }, 150);
+    }
+  };
+
+  const handleCtaClick = () => {
+    setMobileMenuOpen(false);
+    if (onOpenContact) {
+      onOpenContact();
+    } else if (location.pathname === '/') {
+      const el = document.getElementById('contact');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/#contact');
     }
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md py-3.5 border-b border-[#E2E8F0] shadow-sm">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/95 backdrop-blur-md py-3 border-b border-slate-200/90 shadow-sm'
+          : 'bg-white/85 backdrop-blur-sm py-4 border-b border-slate-200/60'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a
-            href="#hero"
+            href="/#hero"
             onClick={(e) => handleNavClick(e, '#hero')}
-            className="flex items-center focus:outline-none focus:ring-2 focus:ring-[#0EA5E9] rounded-lg p-1"
+            className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0284C7] rounded-lg p-0.5"
             aria-label="Yovexa Solutions Home"
           >
             <Logo variant="light" size="default" />
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 p-1.5 rounded-full bg-[#F8FAFC] border border-[#E2E8F0] transition-all duration-300">
+          <nav className="hidden lg:flex items-center space-x-1 p-1 rounded-full bg-slate-100/80 border border-slate-200/80">
             {COMPANY_INFO.navLinks.map((link) => {
               const sectionId = link.href.replace('#', '').replace('/#', '').replace(/^\//, '');
               const isActive = activeSection === sectionId;
-              
+
+              // Services with quick dropdown
+              if (link.label === 'Services') {
+                return (
+                  <div key={link.label} className="relative" ref={dropdownRef}>
+                    <button
+                      onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
+                      onMouseEnter={() => setServicesDropdownOpen(true)}
+                      className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
+                        isActive || servicesDropdownOpen
+                          ? 'bg-[#0B1B3A] text-white shadow-xs'
+                          : 'text-slate-700 hover:text-[#0B1B3A] hover:bg-white/70'
+                      }`}
+                    >
+                      <span>Services</span>
+                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${servicesDropdownOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {servicesDropdownOpen && (
+                      <div
+                        onMouseLeave={() => setServicesDropdownOpen(false)}
+                        className="absolute top-full left-0 mt-2 w-72 rounded-2xl bg-white border border-slate-200 p-2 shadow-xl animate-in fade-in slide-in-from-top-2 duration-150"
+                      >
+                        <div className="px-3 py-2 border-b border-slate-100 text-[11px] font-mono font-bold uppercase text-slate-400">
+                          Core Capabilities
+                        </div>
+                        <div className="space-y-1 pt-1">
+                          <a
+                            href="/#services"
+                            onClick={(e) => handleNavClick(e, '#services')}
+                            className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition-colors text-left"
+                          >
+                            <div className="w-7 h-7 rounded-lg bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
+                              <Globe className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <div className="text-xs font-bold text-slate-900">Website Development</div>
+                              <div className="text-[11px] text-slate-500">Business & brand platforms</div>
+                            </div>
+                          </a>
+
+                          <a
+                            href="/#services"
+                            onClick={(e) => handleNavClick(e, '#services')}
+                            className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition-colors text-left"
+                          >
+                            <div className="w-7 h-7 rounded-lg bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
+                              <Cpu className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <div className="text-xs font-bold text-slate-900">Web Applications</div>
+                              <div className="text-[11px] text-slate-500">React + Spring Boot systems</div>
+                            </div>
+                          </a>
+
+                          <a
+                            href="/#services"
+                            onClick={(e) => handleNavClick(e, '#services')}
+                            className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition-colors text-left"
+                          >
+                            <div className="w-7 h-7 rounded-lg bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
+                              <Layers className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <div className="text-xs font-bold text-slate-900">REST APIs & Integrations</div>
+                              <div className="text-[11px] text-slate-500">Scalable data exchange</div>
+                            </div>
+                          </a>
+
+                          <Link
+                            to="/services"
+                            onClick={() => setServicesDropdownOpen(false)}
+                            className="flex items-center justify-between p-2 mt-1 rounded-xl bg-slate-50 text-[#0284C7] hover:bg-sky-50 text-xs font-bold transition-colors"
+                          >
+                            <span>Explore All Services</span>
+                            <ArrowUpRight className="w-3.5 h-3.5" />
+                          </Link>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <a
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`px-4 py-1.5 rounded-full text-xs lg:text-sm font-semibold transition-all duration-200 ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
                     isActive
-                      ? 'bg-[#0B1B3A] text-white shadow-sm'
-                      : 'text-[#334155] hover:text-[#0B1B3A] hover:bg-[#E2E8F0]/60'
+                      ? 'bg-[#0B1B3A] text-white shadow-xs'
+                      : 'text-slate-700 hover:text-[#0B1B3A] hover:bg-white/70'
                   }`}
                 >
                   {link.label}
@@ -179,30 +277,25 @@ export default function Navbar({ onOpenContact }) {
           </nav>
 
           {/* Desktop Right CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             <button
-              onClick={() => {
-                if (onOpenContact) onOpenContact();
-                else {
-                  const el = document.getElementById('contact');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-              className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-white bg-[#0EA5E9] hover:bg-[#0284C7] transition-all duration-200 shadow-sm transform hover:-translate-y-0.5 active:translate-y-0"
+              onClick={handleCtaClick}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-xs transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0284C7]"
             >
-              <span>Let's Talk</span>
-              <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-white" />
+              <span>Discuss Your Project</span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-white" />
             </button>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center">
+          <div className="flex lg:hidden items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#0EA5E9] text-[#0B1B3A] bg-[#F1F5F9] border-[#CBD5E1]"
+              className="p-2.5 rounded-xl border focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0284C7] text-slate-900 bg-slate-100/90 border-slate-200"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6 text-[#0EA5E9]" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 text-[#0284C7]" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -210,8 +303,8 @@ export default function Navbar({ onOpenContact }) {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-x-0 top-full bg-white/98 backdrop-blur-xl border-b border-[#E2E8F0] shadow-2xl px-6 py-6 transition-all animate-in fade-in slide-in-from-top-4 duration-300">
-          <div className="flex flex-col space-y-2.5">
+        <div className="lg:hidden fixed inset-x-0 top-full bg-white/98 backdrop-blur-xl border-b border-slate-200 shadow-2xl px-5 py-6 transition-all animate-in fade-in slide-in-from-top-2 duration-200 max-h-[85vh] overflow-y-auto">
+          <div className="flex flex-col space-y-1.5">
             {COMPANY_INFO.navLinks.map((link) => {
               const sectionId = link.href.replace('#', '').replace('/#', '').replace(/^\//, '');
               const isActive = activeSection === sectionId;
@@ -223,26 +316,22 @@ export default function Navbar({ onOpenContact }) {
                   className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
                     isActive
                       ? 'bg-[#0B1B3A] text-white'
-                      : 'text-[#334155] hover:text-[#0B1B3A] hover:bg-[#F1F5F9]'
+                      : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
                   <span>{link.label}</span>
-                  {isActive && <span className="w-2 h-2 rounded-full bg-[#0EA5E9]"></span>}
+                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0284C7]" />}
                 </a>
               );
             })}
 
-            <div className="pt-4 mt-2 border-t border-[#E2E8F0]">
+            <div className="pt-4 mt-2 border-t border-slate-200">
               <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  const el = document.getElementById('contact');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold text-white bg-[#0B1B3A] hover:bg-[#183B75] transition-colors shadow-md"
+                onClick={handleCtaClick}
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-bold text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-colors shadow-md"
               >
-                <MessageSquareCode className="w-4 h-4 text-[#38BDF8]" />
-                <span>Let's Talk & Start a Project</span>
+                <MessageSquare className="w-4 h-4 text-white" />
+                <span>Discuss Your Project</span>
               </button>
             </div>
           </div>

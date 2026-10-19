@@ -4,8 +4,10 @@ import Hero from '../components/Hero';
 import TrustStrip from '../components/TrustStrip';
 import About from '../components/About';
 import Services from '../components/Services';
+import Process from '../components/Process';
 import WhyYovexa from '../components/WhyYovexa';
 import Portfolio from '../components/Portfolio';
+import LatestBlogs from '../components/LatestBlogs';
 import ProjectModal from '../components/ProjectModal';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
@@ -39,7 +41,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-navy-900 selection:bg-cyan-500 selection:text-navy-950 font-sans">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans selection:bg-sky-500 selection:text-white">
       {/* Sticky Header */}
       <Navbar onOpenContact={handleOpenContact} />
 
@@ -49,8 +51,10 @@ export default function HomePage() {
         <TrustStrip />
         <About />
         <Services onSelectService={handleSelectService} />
+        <Process />
         <WhyYovexa />
         <Portfolio onSelectProject={setSelectedProject} />
+        <LatestBlogs />
         <Contact 
           preselectedService={preselectedService} 
           preselectedProject={preselectedProject} 

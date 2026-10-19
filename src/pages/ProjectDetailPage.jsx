@@ -7,13 +7,7 @@ import {
   Sparkles,
   Layers,
   ArrowRight,
-  Shield,
-  Activity,
-  Boxes,
-  Navigation,
-  BookOpen,
-  ShoppingBag,
-  CreditCard
+  BookOpen
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -78,13 +72,13 @@ export default function ProjectDetailPage() {
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-32 px-4 text-center">
           <div className="max-w-md mx-auto space-y-4">
-            <h1 className="text-4xl font-extrabold text-[#0B1B3A] font-display">404</h1>
-            <h2 className="text-xl font-bold text-[#0B1B3A]">Project Not Found</h2>
-            <p className="text-sm text-[#475569]">
-              The project you are looking for might have been moved, removed, or is currently in draft state.
+            <h1 className="text-4xl font-extrabold text-slate-900 font-display">404</h1>
+            <h2 className="text-xl font-bold text-slate-900">Project Not Found</h2>
+            <p className="text-sm text-slate-600">
+              The project you are looking for might have been moved or is currently unavailable.
             </p>
             <Link
-              to="/#portfolio"
+              to="/portfolio"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0B1B3A] text-white text-xs font-bold hover:bg-[#183B75] transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -115,38 +109,41 @@ export default function ProjectDetailPage() {
     );
   }
 
+  const projectTitle = project.title || project.projectName || project.name || 'Untitled Project';
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#0B1B3A] font-sans">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
       <Navbar />
 
       <main className="flex-1 pt-28 pb-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Top Breadcrumbs & Back link */}
+          
+          {/* Top Breadcrumbs */}
           <div className="mb-6">
             <Link
-              to="/#portfolio"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0EA5E9] hover:text-[#0284C7] transition-colors"
+              to="/portfolio"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0284C7] hover:text-[#0369A1] transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Back to Portfolio</span>
+              <span>Back to All Projects</span>
             </Link>
           </div>
 
-          {/* Header Badges */}
+          {/* Badges */}
           <div className="flex flex-wrap items-center gap-2.5 mb-3">
-            <span className="px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-[#E0F2FE] text-[#0369A1] border border-[#BAE6FD]">
-              {project.category}
+            <span className="px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-sky-100 text-[#0284C7] border border-sky-200">
+              {project.category ? project.category.replace(/_/g, ' ') : 'Project'}
             </span>
             {project.clientLabel && (
-              <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-[#F1F5F9] text-[#475569] border border-[#CBD5E1]">
+              <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
                 {project.clientLabel}
               </span>
             )}
           </div>
 
           {/* Title & Subtitle */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1B3A] tracking-tight font-display leading-tight">
-            {project.title || project.projectName}
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display leading-tight">
+            {projectTitle}
           </h1>
           {project.subtitle && (
             <p className="mt-2 text-base sm:text-lg text-[#0284C7] font-semibold">
@@ -154,12 +151,12 @@ export default function ProjectDetailPage() {
             </p>
           )}
 
-          {/* Featured Hero Thumbnail */}
+          {/* Featured Image */}
           {project.featuredImage && (
-            <div className="my-8 rounded-2xl overflow-hidden border border-[#E2E8F0] shadow-md bg-slate-100 max-h-[460px]">
+            <div className="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-100 max-h-[460px]">
               <img
                 src={project.featuredImage}
-                alt={project.title}
+                alt={projectTitle}
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
@@ -168,62 +165,64 @@ export default function ProjectDetailPage() {
             </div>
           )}
 
-          {/* High-level Summary */}
-          <div className="p-6 rounded-2xl bg-white text-[#0B1B3A] border border-[#E2E8F0] shadow-card mb-10">
-            <h3 className="text-xs font-mono font-bold uppercase text-[#0284C7] tracking-wider mb-2">
+          {/* Project Overview Card */}
+          <div className="p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-card mb-10">
+            <h3 className="text-xs font-mono font-bold uppercase text-[#0284C7] tracking-wider mb-2.5">
               Project Overview
             </h3>
-            <p className="text-sm sm:text-base text-[#334155] leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal">
               {project.summary || project.shortDescription || project.description}
             </p>
 
-            {/* Action buttons (only rendered when configured) */}
-            <div className="mt-5 pt-4 border-t border-[#E2E8F0] flex flex-wrap items-center gap-3">
-              {project.projectUrl && (
-                <a
-                  href={project.projectUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0EA5E9] hover:bg-[#0284C7] text-white text-xs font-bold transition-all shadow-sm"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  <span>Launch Live Demo</span>
-                </a>
-              )}
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0B1B3A] hover:bg-[#183B75] border border-[#CBD5E1] text-white text-xs font-bold transition-all shadow-sm"
-                >
-                  <GithubIcon className="w-3.5 h-3.5 text-[#38BDF8]" />
-                  <span>Source Code</span>
-                </a>
-              )}
-              {project.caseStudyUrl && (
-                <a
-                  href={project.caseStudyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F1F5F9] hover:bg-[#E2E8F0] text-[#0B1B3A] border border-[#CBD5E1] text-xs font-bold transition-all"
-                >
-                  <BookOpen className="w-3.5 h-3.5 text-[#0284C7]" />
-                  <span>Read Full Case Study</span>
-                </a>
-              )}
-            </div>
+            {/* Action buttons */}
+            {(project.projectUrl || project.githubUrl || project.caseStudyUrl) && (
+              <div className="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center gap-3">
+                {project.projectUrl && (
+                  <a
+                    href={project.projectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold transition-all shadow-xs"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Launch Live Platform</span>
+                  </a>
+                )}
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0B1B3A] hover:bg-[#183B75] text-white text-xs font-bold transition-all shadow-xs"
+                  >
+                    <GithubIcon className="w-3.5 h-3.5 text-sky-400" />
+                    <span>Repository</span>
+                  </a>
+                )}
+                {project.caseStudyUrl && (
+                  <a
+                    href={project.caseStudyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 text-xs font-bold transition-all"
+                  >
+                    <BookOpen className="w-3.5 h-3.5 text-[#0284C7]" />
+                    <span>Case Study</span>
+                  </a>
+                )}
+              </div>
+            )}
           </div>
 
-          {/* Detailed Project Description (if distinct from summary) */}
-          {project.description && 
-           project.description !== project.summary && 
+          {/* Detailed Description */}
+          {project.description &&
+           project.description !== project.summary &&
            project.description !== project.shortDescription && (
-            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-[#E2E8F0] shadow-sm mb-10">
-              <h3 className="text-lg font-bold text-[#0B1B3A] font-display mb-3">
-                About The Project
+            <div className="p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm mb-10">
+              <h3 className="text-lg font-bold text-slate-900 font-display mb-3">
+                Architectural Implementation
               </h3>
-              <p className="text-sm text-[#334155] leading-relaxed whitespace-pre-line font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line font-normal">
                 {project.description}
               </p>
             </div>
@@ -231,15 +230,15 @@ export default function ProjectDetailPage() {
 
           {/* Technology Stack Tags */}
           {project.technologies && project.technologies.length > 0 && (
-            <div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] shadow-sm mb-10">
-              <h3 className="text-xs font-extrabold text-[#0B1B3A] uppercase tracking-wider mb-3">
-                Technologies & Tools Used
+            <div className="p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-sm mb-10">
+              <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-3">
+                Technologies & Architecture Stack
               </h3>
               <div className="flex flex-wrap gap-2">
                 {(Array.isArray(project.technologies) ? project.technologies : project.technologies.split(',')).map((tech, i) => (
                   <span
                     key={i}
-                    className="px-3 py-1.5 rounded-lg bg-[#F8FAFC] text-[#0B1B3A] text-xs font-mono font-bold border border-[#CBD5E1]"
+                    className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-800 text-xs font-mono font-bold border border-slate-200"
                   >
                     {tech.trim()}
                   </span>
@@ -249,30 +248,30 @@ export default function ProjectDetailPage() {
           )}
 
           {/* CTA Banner */}
-          <div className="p-8 rounded-2xl bg-white text-[#0B1B3A] border border-[#E2E8F0] shadow-card flex flex-col sm:flex-row items-center justify-between gap-6 tech-grid-bg">
+          <div className="p-8 rounded-2xl bg-[#061225] text-white border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6 tech-grid-dark">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E0F2FE] border border-[#BAE6FD] text-[#0369A1] text-xs font-bold mb-2 shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
-                <span>Partner With Yovexa</span>
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-[#0284C7]/20 text-sky-400 text-xs font-mono font-bold mb-2">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Custom Engineering</span>
               </div>
-              <h3 className="text-xl font-bold font-display text-[#0B1B3A]">Need a similar architecture built?</h3>
-              <p className="text-xs sm:text-sm text-[#475569] mt-1">
-                Let's discuss how our engineering team can build your solution.
+              <h3 className="text-xl font-bold font-display text-white">Need a similar architecture built?</h3>
+              <p className="text-xs sm:text-sm text-slate-300 mt-1">
+                Our developers can engineer high-performance systems for your organization.
               </p>
             </div>
 
             <a
               href="/#contact"
-              className="shrink-0 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0EA5E9] hover:bg-[#0284C7] transition-all shadow-sm transform hover:-translate-y-0.5 active:translate-y-0"
+              className="shrink-0 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm"
             >
-              Let's Talk
+              Discuss Your Project
             </a>
           </div>
 
           {/* Related Projects */}
           {relatedProjects.length > 0 && (
-            <div className="mt-16 pt-8 border-t border-[#E2E8F0]">
-              <h3 className="text-xl font-bold text-[#0B1B3A] font-display mb-6">
+            <div className="mt-16 pt-8 border-t border-slate-200">
+              <h3 className="text-xl font-bold text-slate-900 font-display mb-6">
                 Explore More Projects
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -280,15 +279,15 @@ export default function ProjectDetailPage() {
                   <Link
                     key={p.id}
                     to={`/projects/${p.slug || p.id}`}
-                    className="p-5 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#0EA5E9] shadow-sm transition-all group"
+                    className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-sky-300 shadow-xs transition-all group"
                   >
                     <span className="text-[10px] font-bold uppercase text-[#0284C7] tracking-wider">
-                      {p.category}
+                      {p.category ? p.category.replace(/_/g, ' ') : 'Project'}
                     </span>
-                    <h4 className="text-base font-bold text-[#0B1B3A] group-hover:text-[#0284C7] transition-colors mt-1 font-display">
+                    <h4 className="text-base font-bold text-slate-900 group-hover:text-[#0284C7] transition-colors mt-1 font-display">
                       {p.title || p.projectName}
                     </h4>
-                    <p className="text-xs text-[#64748B] line-clamp-2 mt-1">
+                    <p className="text-xs text-slate-500 line-clamp-2 mt-1">
                       {p.summary || p.shortDescription}
                     </p>
                   </Link>
@@ -296,6 +295,7 @@ export default function ProjectDetailPage() {
               </div>
             </div>
           )}
+
         </div>
       </main>
 

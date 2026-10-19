@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Clock, Sparkles, MessageSquare } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Clock, Sparkles, Phone, ShieldCheck } from 'lucide-react';
 import { contentService } from '../services/contentService';
 import { inquiryService } from '../services/inquiryService';
 import { servicesService } from '../services/servicesService';
 
 export default function Contact({ preselectedService, preselectedProject }) {
+  const [budgetOptions, setBudgetOptions] = useState([
+    "Under ₹25,000",
+    "₹25,000 – ₹50,000",
+    "₹50,000 – ₹1,00,000",
+    "₹1,00,000+",
+    "Not Sure Yet"
+  ]);
+
+  const [serviceOptions, setServiceOptions] = useState([
+    "Website Development",
+    "Web Application Development",
+    "REST API Development",
+    "Admin Dashboard Development",
+    "Other / Custom Requirement"
+  ]);
+
   const [contactInfo, setContactInfo] = useState({
     email: '',
     phone: '',
@@ -20,9 +36,11 @@ export default function Contact({ preselectedService, preselectedProject }) {
     email: '',
     phone: '',
     company: '',
-    serviceRequired: preselectedService || '',
+    serviceRequired: preselectedService || 'Website Development',
     projectBudget: 'Not Sure Yet',
-    message: '',
+    message: preselectedProject
+      ? `Hi Yovexa Team, I would like to discuss building a project similar in architecture to ${preselectedProject}. Here are our requirements: `
+      : '',
   });
 
   const [errors, setErrors] = useState({});
@@ -30,6 +48,7 @@ export default function Contact({ preselectedService, preselectedProject }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Fetch contact metadata & budget options
   useEffect(() => {
     let isMounted = true;
     contentService.getContactContent().then(data => {
@@ -56,25 +75,7 @@ export default function Contact({ preselectedService, preselectedProject }) {
     return () => { isMounted = false; };
   }, []);
 
-  // Update service if preselected from service cards
-  useEffect(() => {
-    if (preselectedService) {
-      setFormData(prev => ({ ...prev, serviceRequired: preselectedService }));
-    }
-  }, [preselectedService]);
-
-  // Update message if preselected from project case study
-  useEffect(() => {
-    if (preselectedProject) {
-      setFormData(prev => ({
-        ...prev,
-        message: `Hi Yovexa Team, I would like to discuss building a project similar in architecture to ${preselectedProject}. Here are our requirements: `
-      }));
-    }
-  }, [preselectedProject]);
-
-  const [serviceOptions, setServiceOptions] = useState([]);
-
+  // Fetch live active services to populate service dropdown
   useEffect(() => {
     let isMounted = true;
     servicesService.getServices({ activeOnly: true })
@@ -82,36 +83,37 @@ export default function Contact({ preselectedService, preselectedProject }) {
         if (isMounted && Array.isArray(services) && services.length > 0) {
           const titles = services.map(s => s.title);
           setServiceOptions([...titles, "Other / Custom Requirement"]);
-          setFormData(prev => {
-            if (!prev.serviceRequired) {
-              return { ...prev, serviceRequired: preselectedService || titles[0] };
-            }
-            return prev;
-          });
-        } else if (isMounted) {
-          setServiceOptions(["Other / Custom Requirement"]);
           setFormData(prev => ({
             ...prev,
-            serviceRequired: prev.serviceRequired || "Other / Custom Requirement"
+            serviceRequired: preselectedService || prev.serviceRequired || titles[0]
           }));
         }
       })
       .catch(err => {
-        console.error('Failed to load services in contact form:', err);
-        if (isMounted) {
-          setServiceOptions(["Other / Custom Requirement"]);
-        }
+        console.warn('Failed to load services in contact form:', err);
       });
     return () => { isMounted = false; };
   }, [preselectedService]);
 
-  const [budgetOptions, setBudgetOptions] = useState([
-    "Under ₹25,000",
-    "₹25,000 – ₹50,000",
-    "₹50,000 – ₹1,00,000",
-    "₹1,00,000+",
-    "Not Sure Yet"
-  ]);
+  // Synchronize when preselectedService or preselectedProject props change
+  const [prevService, setPrevService] = useState(preselectedService);
+  if (preselectedService !== prevService) {
+    setPrevService(preselectedService);
+    if (preselectedService) {
+      setFormData(prev => ({ ...prev, serviceRequired: preselectedService }));
+    }
+  }
+
+  const [prevProject, setPrevProject] = useState(preselectedProject);
+  if (preselectedProject !== prevProject) {
+    setPrevProject(preselectedProject);
+    if (preselectedProject) {
+      setFormData(prev => ({
+        ...prev,
+        message: `Hi Yovexa Team, I would like to discuss building a project similar in architecture to ${preselectedProject}. Here are our requirements: `
+      }));
+    }
+  }
 
   const validate = () => {
     const errs = {};
@@ -155,123 +157,135 @@ export default function Contact({ preselectedService, preselectedProject }) {
         email: '',
         phone: '',
         company: '',
-        serviceRequired: serviceOptions[0] || 'Other / Custom Requirement',
-        projectBudget: budgetOptions.includes('Not Sure Yet') ? 'Not Sure Yet' : (budgetOptions[budgetOptions.length - 1] || budgetOptions[0] || 'Not Sure Yet'),
+        serviceRequired: serviceOptions[0] || 'Website Development',
+        projectBudget: budgetOptions.includes('Not Sure Yet') ? 'Not Sure Yet' : (budgetOptions[budgetOptions.length - 1] || 'Not Sure Yet'),
         message: '',
       });
     } catch (err) {
       console.error("Submission error:", err);
-      setApiError(err.response?.data?.message || err.message || "Failed to submit inquiry. Please try again.");
+      setApiError(err.response?.data?.message || err.message || "Failed to submit inquiry. Please try again or email us directly.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="py-28 sm:py-32 bg-[#F8FAFC] text-[#0B1B3A] relative tech-grid-bg overflow-hidden border-t border-[#E2E8F0] scroll-mt-20">
-      {/* Background Ambience */}
-      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-[#0EA5E9]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-sky-400/5 rounded-full blur-3xl pointer-events-none" />
-
+    <section id="contact" className="py-28 sm:py-32 bg-[#F8FAFC] text-slate-900 relative tech-grid-bg overflow-hidden border-t border-slate-200 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E0F2FE] border border-[#BAE6FD] text-[#0369A1] text-xs font-bold uppercase tracking-wider mb-3 shadow-sm">
+        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
-            <span>Start a Conversation</span>
+            <span>START A PROJECT</span>
           </div>
-          {contactInfo.heading && (
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1B3A] tracking-tight font-display">
-              {contactInfo.heading}
-            </h2>
-          )}
-          {contactInfo.description && (
-            <p className="mt-4 text-base sm:text-lg text-[#334155] font-normal leading-relaxed">
-              {contactInfo.description}
-            </p>
-          )}
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display">
+            {contactInfo.heading || "Have a Project in Mind?"}
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
+            {contactInfo.description || "Tell us what you're building. Let's discuss your requirements, technical approach, and next steps."}
+          </p>
         </div>
 
-        {/* 2-Column Contact Section */}
+        {/* 2-Column Contact Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-          {/* Left Column: Direct Communication & Expectation Cards */}
+          {/* Left Column: Direct Consultation Expectation & Details */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-7 rounded-2xl bg-white border border-[#E2E8F0] shadow-card">
-              <h3 className="text-xl font-bold text-[#0B1B3A] font-display mb-5">
-                What Happens Next?
+            <div className="p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-card">
+              <h3 className="text-xl font-bold text-slate-900 font-display mb-6">
+                What to Expect
               </h3>
 
-              <div className="space-y-5 text-sm">
+              <div className="space-y-6 text-sm">
                 <div className="flex items-start gap-3.5">
-                  <div className="w-7 h-7 rounded-full bg-[#0284C7] text-white flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs shadow-sm">
+                  <div className="w-7 h-7 rounded-full bg-[#0284C7] text-white flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs shadow-xs">
                     1
                   </div>
                   <div>
-                    <strong className="text-[#0B1B3A] text-sm">Review & Feasibility Check:</strong>
-                    <p className="text-[#475569] mt-0.5 text-xs leading-relaxed font-normal">We analyze your requirements and prepare technical architecture recommendations.</p>
+                    <strong className="text-slate-900 text-sm block">Requirements & Feasibility</strong>
+                    <p className="text-slate-600 mt-0.5 text-xs sm:text-sm leading-relaxed">
+                      We review your specification and evaluate architecture, data model, and API considerations.
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3.5">
-                  <div className="w-7 h-7 rounded-full bg-[#0284C7] text-white flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs shadow-sm">
+                  <div className="w-7 h-7 rounded-full bg-[#0284C7] text-white flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs shadow-xs">
                     2
                   </div>
                   <div>
-                    <strong className="text-[#0B1B3A] text-sm">Direct Technical Discussion:</strong>
-                    <p className="text-[#475569] mt-0.5 text-xs leading-relaxed font-normal">Speak with an engineer directly to clarify technical milestones and dependencies.</p>
+                    <strong className="text-slate-900 text-sm block">Direct Engineering Consultation</strong>
+                    <p className="text-slate-600 mt-0.5 text-xs sm:text-sm leading-relaxed">
+                      Speak directly with our senior developers to clarify technical milestones and dependencies.
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3.5">
-                  <div className="w-7 h-7 rounded-full bg-[#0284C7] text-white flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs shadow-sm">
+                  <div className="w-7 h-7 rounded-full bg-[#0284C7] text-white flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs shadow-xs">
                     3
                   </div>
                   <div>
-                    <strong className="text-[#0B1B3A] text-sm">Scope & Milestone Proposal:</strong>
-                    <p className="text-[#475569] mt-0.5 text-xs leading-relaxed font-normal">Transparent deliverable schedule with realistic estimates and milestone payments.</p>
+                    <strong className="text-slate-900 text-sm block">Transparent Milestone Roadmap</strong>
+                    <p className="text-slate-600 mt-0.5 text-xs sm:text-sm leading-relaxed">
+                      Clear deliverable schedules with realistic estimates, clean milestones, and continuous communication.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Direct Contact Info Tile */}
-            <div className="p-6 rounded-2xl bg-white border border-[#E2E8F0] shadow-card space-y-4">
+            {/* Direct Contact Coordinates */}
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-card space-y-4 text-xs sm:text-sm">
               {contactInfo.email && (
-                <div className="flex items-center gap-3.5 text-sm">
-                  <div className="w-10 h-10 rounded-xl bg-[#E0F2FE] flex items-center justify-center text-[#0284C7] shrink-0 border border-[#BAE6FD]">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 border border-sky-100">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider">Official Inquiries</div>
-                    <a href={`mailto:${contactInfo.email}`} className="text-[#0B1B3A] font-semibold hover:text-[#0284C7] transition-colors">
+                    <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider">Direct Email</div>
+                    <a href={`mailto:${contactInfo.email}`} className="text-slate-900 font-semibold hover:text-[#0284C7] transition-colors">
                       {contactInfo.email}
                     </a>
                   </div>
                 </div>
               )}
 
+              {contactInfo.phone && (
+                <div className="flex items-center gap-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 border border-sky-100">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider">Phone / WhatsApp</div>
+                    <a href={`tel:${contactInfo.phone}`} className="text-slate-900 font-semibold hover:text-[#0284C7] transition-colors">
+                      +91 {contactInfo.phone}
+                    </a>
+                  </div>
+                </div>
+              )}
+
               {contactInfo.turnaroundTime && (
-                <div className="flex items-center gap-3.5 text-sm">
-                  <div className="w-10 h-10 rounded-xl bg-[#E0F2FE] flex items-center justify-center text-[#0284C7] shrink-0 border border-[#BAE6FD]">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 border border-sky-100">
                     <Clock className="w-5 h-5" />
                   </div>
                   <div>
                     <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider">Turnaround Time</div>
-                    <div className="text-[#0B1B3A] font-semibold">{contactInfo.turnaroundTime}</div>
+                    <div className="text-slate-900 font-semibold">{contactInfo.turnaroundTime}</div>
                   </div>
                 </div>
               )}
 
               {contactInfo.location && (
-                <div className="flex items-center gap-3.5 text-sm">
-                  <div className="w-10 h-10 rounded-xl bg-[#E0F2FE] flex items-center justify-center text-[#0284C7] shrink-0 border border-[#BAE6FD]">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 border border-sky-100">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
                     <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider">Location</div>
-                    <div className="text-[#0B1B3A] font-semibold">{contactInfo.location}</div>
+                    <div className="text-slate-900 font-semibold">{contactInfo.location}</div>
                   </div>
                 </div>
               )}
@@ -279,33 +293,33 @@ export default function Contact({ preselectedService, preselectedProject }) {
 
           </div>
 
-          {/* Right Column: High Contrast Accessible White Form Card */}
+          {/* Right Column: Accessible High-Contrast Form */}
           <div className="lg:col-span-7">
-            <div className="p-7 sm:p-9 rounded-2xl bg-white text-[#0B1B3A] border border-[#E2E8F0] shadow-card">
+            <div className="p-7 sm:p-9 rounded-2xl bg-white border border-slate-200 shadow-card">
 
               {isSubmitted ? (
-                <div className="py-12 px-4 text-center space-y-4 animate-in fade-in">
-                  <div className="w-16 h-16 rounded-full bg-[#F0FDF4] border border-[#BBF7D0] text-[#16A34A] flex items-center justify-center mx-auto">
+                <div className="py-12 px-4 text-center space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl font-bold text-[#0B1B3A] font-display">Inquiry Received</h3>
-                  <p className="text-[#334155] text-sm max-w-md mx-auto leading-relaxed">
-                    Thank you for reaching out to <strong className="text-[#0B1B3A]">Yovexa Solutions</strong>. We have received your project details and our team will get back to you within 24 hours.
+                  <h3 className="text-2xl font-bold text-slate-900 font-display">Inquiry Received</h3>
+                  <p className="text-slate-600 text-sm max-w-md mx-auto leading-relaxed">
+                    Thank you for contacting <strong className="text-slate-900">Yovexa Solutions</strong>. We have received your project details and our engineering team will get back to you within 24 business hours.
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
-                    className="mt-6 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#0B1B3A] hover:bg-[#183B75] transition-colors shadow-sm"
+                    className="mt-6 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#0B1B3A] hover:bg-[#183B75] transition-colors shadow-xs"
                   >
                     Send Another Message
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-
+                  
                   {/* Row 1: Name & Email */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="fullName">
+                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="fullName">
                         Full Name <span className="text-[#0284C7]">*</span>
                       </label>
                       <input
@@ -315,19 +329,20 @@ export default function Contact({ preselectedService, preselectedProject }) {
                         value={formData.fullName}
                         onChange={handleChange}
                         placeholder="e.g. Rahul Sharma"
-                        className={`w-full px-4 py-3 rounded-xl bg-white border text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium ${errors.fullName ? 'border-rose-500' : 'border-[#CBD5E1]'
-                          }`}
+                        className={`w-full px-4 py-3 rounded-xl bg-white border text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium ${
+                          errors.fullName ? 'border-rose-500' : 'border-slate-300'
+                        }`}
                       />
                       {errors.fullName && (
                         <p className="mt-1 text-xs text-rose-600 flex items-center gap-1 font-semibold">
-                          <AlertCircle className="w-3.5 h-3.5" /> {errors.fullName}
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {errors.fullName}
                         </p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="email">
-                        Email Address <span className="text-[#0284C7]">*</span>
+                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="email">
+                        Work Email <span className="text-[#0284C7]">*</span>
                       </label>
                       <input
                         type="email"
@@ -336,12 +351,13 @@ export default function Contact({ preselectedService, preselectedProject }) {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="e.g. rahul@company.com"
-                        className={`w-full px-4 py-3 rounded-xl bg-white border text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium ${errors.email ? 'border-rose-500' : 'border-[#CBD5E1]'
-                          }`}
+                        className={`w-full px-4 py-3 rounded-xl bg-white border text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium ${
+                          errors.email ? 'border-rose-500' : 'border-slate-300'
+                        }`}
                       />
                       {errors.email && (
                         <p className="mt-1 text-xs text-rose-600 flex items-center gap-1 font-semibold">
-                          <AlertCircle className="w-3.5 h-3.5" /> {errors.email}
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {errors.email}
                         </p>
                       )}
                     </div>
@@ -350,8 +366,8 @@ export default function Contact({ preselectedService, preselectedProject }) {
                   {/* Row 2: Phone & Company */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="phone">
-                        Phone Number <span className="text-[#64748B] font-normal">(Optional)</span>
+                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="phone">
+                        Phone Number <span className="text-slate-400 font-normal">(Optional)</span>
                       </label>
                       <input
                         type="tel"
@@ -360,13 +376,13 @@ export default function Contact({ preselectedService, preselectedProject }) {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="+91 98765 43210"
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="company">
-                        Company / Organization <span className="text-[#64748B] font-normal">(Optional)</span>
+                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="company">
+                        Company / Business <span className="text-slate-400 font-normal">(Optional)</span>
                       </label>
                       <input
                         type="text"
@@ -374,27 +390,27 @@ export default function Contact({ preselectedService, preselectedProject }) {
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
-                        placeholder="e.g. Acme Enterprises"
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium"
+                        placeholder="e.g. Acme Innovations"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium"
                       />
                     </div>
                   </div>
 
-                  {/* Row 3: Service Required & Project Budget */}
+                  {/* Row 3: Service & Estimated Budget */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="serviceRequired">
-                        Service Required
+                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="serviceRequired">
+                        Service of Interest
                       </label>
                       <select
                         id="serviceRequired"
                         name="serviceRequired"
                         value={formData.serviceRequired}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-[#CBD5E1] text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium"
                       >
                         {serviceOptions.map((opt) => (
-                          <option key={opt} value={opt} className="bg-white text-[#0F172A]">
+                          <option key={opt} value={opt} className="bg-white text-slate-900">
                             {opt}
                           </option>
                         ))}
@@ -402,7 +418,7 @@ export default function Contact({ preselectedService, preselectedProject }) {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="projectBudget">
+                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="projectBudget">
                         Estimated Budget
                       </label>
                       <select
@@ -410,10 +426,10 @@ export default function Contact({ preselectedService, preselectedProject }) {
                         name="projectBudget"
                         value={formData.projectBudget}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-[#CBD5E1] text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium"
                       >
                         {budgetOptions.map((opt) => (
-                          <option key={opt} value={opt} className="bg-white text-[#0F172A]">
+                          <option key={opt} value={opt} className="bg-white text-slate-900">
                             {opt}
                           </option>
                         ))}
@@ -423,8 +439,8 @@ export default function Contact({ preselectedService, preselectedProject }) {
 
                   {/* Row 4: Message */}
                   <div>
-                    <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="message">
-                      Project Details & Requirements <span className="text-[#0284C7]">*</span>
+                    <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="message">
+                      Project Requirements & Context <span className="text-[#0284C7]">*</span>
                     </label>
                     <textarea
                       id="message"
@@ -432,20 +448,21 @@ export default function Contact({ preselectedService, preselectedProject }) {
                       rows={4}
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="Tell us about the project, key features, target timeline, or existing systems you want to connect..."
-                      className={`w-full px-4 py-3 rounded-xl bg-white border text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all resize-none font-medium ${errors.message ? 'border-rose-500' : 'border-[#CBD5E1]'
-                        }`}
+                      placeholder="Briefly describe what you are looking to build, expected timelines, key features, or reference products..."
+                      className={`w-full px-4 py-3 rounded-xl bg-white border text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all resize-none font-medium ${
+                        errors.message ? 'border-rose-500' : 'border-slate-300'
+                      }`}
                     />
                     {errors.message && (
                       <p className="mt-1 text-xs text-rose-600 flex items-center gap-1 font-semibold">
-                        <AlertCircle className="w-3.5 h-3.5" /> {errors.message}
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {errors.message}
                       </p>
                     )}
                   </div>
 
                   {/* API Error Notification */}
                   {apiError && (
-                    <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
+                    <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
                       <AlertCircle className="w-4 h-4 shrink-0 text-rose-500" />
                       <span>{apiError}</span>
                     </div>
@@ -456,23 +473,24 @@ export default function Contact({ preselectedService, preselectedProject }) {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-2.5 py-4 px-6 rounded-xl font-bold text-white bg-[#0EA5E9] hover:bg-[#0284C7] transition-all duration-200 shadow-sm text-sm disabled:opacity-60 disabled:cursor-not-allowed transform hover:-translate-y-0.5 active:translate-y-0"
+                      className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all duration-200 shadow-sm text-sm disabled:opacity-60 disabled:cursor-not-allowed transform hover:-translate-y-0.5 active:translate-y-0"
                     >
                       {isSubmitting ? (
                         <>
                           <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          <span>Processing Inquiry...</span>
+                          <span>Submitting Inquiry...</span>
                         </>
                       ) : (
                         <>
                           <Send className="w-4 h-4 text-white" />
-                          <span>Send Inquiry</span>
+                          <span>Send Project Inquiry</span>
                         </>
                       )}
                     </button>
-                    <p className="mt-2.5 text-xs text-center text-[#64748B] font-medium">
-                      Zero spam. We respect your confidentiality and never share project specs.
-                    </p>
+                    <div className="mt-3 flex items-center justify-center gap-2 text-xs text-slate-500">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Strict confidentiality · Direct response within 24 hours</span>
+                    </div>
                   </div>
 
                 </form>
