@@ -119,7 +119,7 @@ export default function Footer() {
               onClick={(e) => handleNavClick(e, '#hero')}
               className="inline-block focus:outline-none focus:ring-2 focus:ring-[#0284C7] rounded-lg p-0.5"
             >
-              <Logo variant="dark" size="default" />
+              <Logo variant="dark" size="xl" showText={false} />
             </a>
 
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm font-normal">

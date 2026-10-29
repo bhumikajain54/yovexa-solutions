@@ -80,11 +80,17 @@ export default function ProjectModal({ project, onClose, onDiscussProject }) {
           
           {/* Project Image Banner */}
           {projectImage && (
-            <div className="rounded-xl overflow-hidden border border-slate-200 shadow-xs max-h-80 w-full bg-slate-100">
+            <div className="rounded-xl overflow-hidden border border-slate-200/90 shadow-sm relative flex items-center justify-center bg-slate-950 p-2 max-h-88 w-full">
+              <img
+                src={projectImage}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
+              />
               <img
                 src={projectImage}
                 alt={projectTitle}
-                className="w-full h-full object-cover object-top"
+                className="relative z-10 w-full h-full max-h-80 object-contain rounded-lg"
                 onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }}
               />
             </div>

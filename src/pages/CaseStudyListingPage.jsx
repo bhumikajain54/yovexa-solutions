@@ -61,50 +61,46 @@ export default function CaseStudyListingPage() {
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
       <Navbar />
 
-      <main className="flex-1 pt-24 sm:pt-28 pb-24">
-        {/* Editorial Introduction Section */}
-        <section className="bg-white border-b border-slate-200 py-16 sm:py-20 relative tech-grid-bg overflow-hidden shadow-xs mb-12">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
-              <span>PROJECT BREAKDOWNS</span>
+      <main className="flex-1 pt-20 sm:pt-24 pb-16">
+        {/* Streamlined Publication Header */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 pb-5 border-b border-slate-200">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100/80 border border-sky-200/80 text-[#0284C7] text-[10px] font-bold uppercase tracking-wider mb-2 shadow-2xs">
+                <Sparkles className="w-3 h-3 text-[#0284C7]" />
+                <span>PROJECT BREAKDOWNS</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-display">
+                Technical <span className="text-[#0284C7]">Case Studies</span>
+              </h1>
+              <p className="mt-1 text-xs sm:text-sm text-slate-500 max-w-xl font-normal leading-relaxed">
+                Explore in-depth engineering breakdowns of real business challenges solved, architectural decisions, and verified production outcomes.
+              </p>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight font-display">
-              Technical <span className="text-[#0284C7]">Case Studies</span>
-            </h1>
-
-            <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
-              Explore in-depth engineering breakdowns of real business challenges solved, architectural decisions, and verified production outcomes.
-            </p>
-
-            {/* Accessible Search Input */}
-            <div className="mt-8 max-w-lg mx-auto relative">
-              <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+            {/* Compact Search Bar */}
+            <div className="relative w-full md:w-72 shrink-0">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search case studies by title, challenge, or technology..."
-                className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-50 text-slate-900 placeholder-slate-400 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:bg-white shadow-xs border border-slate-300 transition-all"
+                placeholder="Search case studies..."
+                className="w-full pl-9 pr-3.5 py-2 rounded-xl bg-white text-slate-900 placeholder-slate-400 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#0284C7] shadow-2xs border border-slate-200 transition-all"
               />
             </div>
           </div>
-        </section>
 
-        {/* Content Container */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
           {/* Category Filter Pills */}
           {categories.length > 0 && (
-            <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
+            <div className="flex items-center gap-2 overflow-x-auto pt-4 no-scrollbar">
               {categories.map((cat) => {
                 const isActive = activeCategory === cat.id;
                 return (
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 shrink-0 ${
+                    className={`whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 shrink-0 ${
                       isActive
                         ? 'bg-[#0B1B3A] text-white shadow-xs ring-2 ring-[#0284C7]'
                         : 'bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200'
@@ -116,6 +112,10 @@ export default function CaseStudyListingPage() {
               })}
             </div>
           )}
+        </div>
+
+        {/* Content Container */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Loading Skeleton */}
           {loading ? (
@@ -158,11 +158,19 @@ export default function CaseStudyListingPage() {
                     {/* Visual Project Preview */}
                     <div className="lg:col-span-7 relative bg-slate-900 min-h-[320px] lg:min-h-[460px] flex items-center justify-center overflow-hidden group">
                       {featuredCaseStudy.featuredImage ? (
-                        <img
-                          src={featuredCaseStudy.featuredImage}
-                          alt={featuredCaseStudy.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
+                        <>
+                          <img
+                            src={featuredCaseStudy.featuredImage}
+                            alt=""
+                            aria-hidden="true"
+                            className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-35 scale-110 pointer-events-none"
+                          />
+                          <img
+                            src={featuredCaseStudy.featuredImage}
+                            alt={featuredCaseStudy.title}
+                            className="relative z-10 w-full h-full max-h-[460px] object-contain rounded-xl p-2 transition-transform duration-300"
+                          />
+                        </>
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-slate-900 text-sky-400">
                           <Layers className="w-16 h-16 opacity-40 mb-3" />
@@ -295,11 +303,17 @@ export default function CaseStudyListingPage() {
                           <div>
                             {/* Image Header */}
                             {cs.featuredImage ? (
-                              <div className="relative h-56 w-full overflow-hidden bg-slate-100 border-b border-slate-200">
+                              <div className="relative h-56 w-full overflow-hidden bg-slate-950 border-b border-slate-200 flex items-center justify-center p-2">
+                                <img
+                                  src={cs.featuredImage}
+                                  alt=""
+                                  aria-hidden="true"
+                                  className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
+                                />
                                 <img
                                   src={cs.featuredImage}
                                   alt={cs.title}
-                                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                  className="relative z-10 w-full h-full object-contain rounded-lg transition-transform duration-300"
                                   onError={(e) => {
                                     e.currentTarget.parentElement.style.display = 'none';
                                   }}

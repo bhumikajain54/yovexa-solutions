@@ -83,23 +83,31 @@ export default function LatestBlogs() {
                   key={blog.id || blog.slug}
                   className="group relative flex flex-col justify-between rounded-2xl bg-white border border-slate-200/90 hover:border-sky-300 shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
                 >
-                  <Link to={`/blog/${blog.slug}`} className="block relative h-48 overflow-hidden bg-slate-100">
+                  <Link to={`/blog/${blog.slug}`} className="block relative h-48 overflow-hidden bg-slate-950 flex items-center justify-center p-1.5">
                     {blog.featuredImage ? (
-                      <img
-                        src={blog.featuredImage}
-                        alt={blog.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
+                      <>
+                        <img
+                          src={blog.featuredImage}
+                          alt=""
+                          aria-hidden="true"
+                          className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
+                        />
+                        <img
+                          src={blog.featuredImage}
+                          alt={blog.title}
+                          className="relative z-10 w-full h-full object-contain rounded-lg transition-transform duration-300"
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      </>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-slate-900 text-sky-400">
                         <BookOpen className="w-8 h-8 opacity-40" />
                       </div>
                     )}
-                    <div className="absolute top-3 left-3">
+                    <div className="absolute top-3 left-3 z-20">
                       <span className="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-white/95 text-[#0284C7] border border-sky-200 shadow-xs">
                         {blog.category || 'Engineering'}
                       </span>

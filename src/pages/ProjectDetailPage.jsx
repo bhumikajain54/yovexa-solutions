@@ -153,11 +153,17 @@ export default function ProjectDetailPage() {
 
           {/* Featured Image */}
           {project.featuredImage && (
-            <div className="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-100 max-h-[460px]">
+            <div className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-slate-950 relative flex items-center justify-center p-2 sm:p-4">
+              <img
+                src={project.featuredImage}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-35 scale-110 pointer-events-none"
+              />
               <img
                 src={project.featuredImage}
                 alt={projectTitle}
-                className="w-full h-full object-cover"
+                className="relative z-10 w-full h-auto max-h-[560px] object-contain rounded-xl"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                 }}
