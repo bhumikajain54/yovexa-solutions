@@ -41,7 +41,7 @@ export default function Logo({
     return (
       <div className={`relative flex items-center justify-center shrink-0 select-none ${className}`}>
         <img
-          src="/yovexa-symbol.webp"
+          src="/yovexa-symbol.svg"
           alt="Yovexa Solutions Symbol"
           className={`${symbolClass} object-contain rounded-lg shadow-sm transition-transform duration-300 hover:scale-105`}
           loading="eager"
@@ -52,7 +52,7 @@ export default function Logo({
 
   // Standard official corporate brandmark lockup (Icon + Typography)
   const sizeClass = brandmarkSizes[size] || size;
-  const logoSrc = isDarkBg ? '/yovexa-logo-dark.webp' : '/yovexa-logo-transparent.webp';
+  const logoSrc = isDarkBg ? '/yovexa-logo-dark.svg' : '/yovexa-logo-transparent.svg';
 
   return (
     <div className={`flex items-center select-none ${className}`}>

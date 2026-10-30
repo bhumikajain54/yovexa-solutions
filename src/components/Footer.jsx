@@ -76,7 +76,7 @@ export default function Footer() {
           {/* Col 1: Brand & Bio (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <Link to="/#hero" onClick={(e) => handleNavClick(e, '#hero')} className="inline-block">
-              <Logo theme="light" />
+              <Logo variant="dark" size="lg" />
             </Link>
 
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
