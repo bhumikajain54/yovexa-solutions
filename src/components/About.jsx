@@ -14,6 +14,7 @@ export default function About() {
   const sectionLabel = "WHO WE ARE";
   const primaryDesc = "Yovexa Solutions is a digital solutions and software development company dedicated to engineering modern, scalable, and practical digital products.";
   const secondaryDesc = "We build websites, enterprise web applications, and custom backend systems that help businesses streamline workflows, connect with their customers, and scale reliably.";
+  
   const focusAreas = [
     "Custom Web Application Development",
     "Modern Responsive Business Websites",
@@ -24,104 +25,106 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-24 sm:py-28 bg-white text-slate-900 border-b border-slate-200 scroll-mt-20">
+    <section id="about" className="py-20 sm:py-24 bg-white text-slate-900 border-b border-slate-200 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="flex flex-col items-start mb-10 lg:mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-3.5 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
-            <span>{sectionLabel}</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display max-w-4xl">
-            {title}{' '}
-            <span className="text-[#0284C7]">
-              {titleHighlight}
-            </span>
-          </h2>
-        </div>
-
-        {/* 2-Column Main Layout: Left Story + Right Showcase Image */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
-          {/* Left Column: Business Story & Capabilities */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-5 text-left">
-            <div className="space-y-3">
-              <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal">
+          {/* Left Column: Brand Narrative & Action */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
+                <span>{sectionLabel}</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display leading-[1.15]">
+                {title}{' '}
+                <span className="text-[#0284C7]">
+                  {titleHighlight}
+                </span>
+              </h2>
+            </div>
+
+            <div className="space-y-4 font-normal leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-700">
                 {primaryDesc}
               </p>
-              
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              <p className="text-sm sm:text-base text-slate-600">
                 {secondaryDesc}
               </p>
             </div>
 
-            {/* Focus Capabilities Grid */}
-            <div>
-              <h4 className="text-[11px] uppercase tracking-wider font-extrabold text-slate-900 mb-2.5">
-                What We Deliver For Our Clients:
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {focusAreas.map((area, i) => (
-                  <div key={i} className="flex items-start gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition-colors shadow-2xs">
-                    <div className="w-4 h-4 rounded-full bg-sky-100 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 stroke-[3]" />
-                    </div>
-                    <span className="text-[11px] sm:text-xs text-slate-800 font-semibold leading-snug">
-                      {area}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* CTA Buttons */}
-            <div className="pt-1 flex flex-wrap items-center gap-3">
+            <div className="pt-2 flex flex-wrap items-center gap-3.5">
               <button
                 onClick={() => scrollTo('contact')}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0B1B3A] hover:bg-[#183B75] transition-all shadow-sm transform hover:-translate-y-0.5 cursor-pointer"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-[#0B1B3A] hover:bg-[#183B75] transition-all duration-200 shadow-sm transform hover:-translate-y-0.5 cursor-pointer"
               >
                 <span>Start A Conversation</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#38BDF8]" />
+                <ArrowRight className="w-4 h-4 text-[#38BDF8]" />
               </button>
 
               <button
                 onClick={() => scrollTo('services')}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:text-[#0284C7] hover:bg-slate-50 border border-slate-200 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-slate-800 hover:text-[#0284C7] hover:bg-slate-50 border border-slate-200 transition-colors cursor-pointer"
               >
                 <span>Explore Services</span>
               </button>
 
               <Link
                 to="/about"
-                className="inline-flex items-center gap-1 px-2 py-3 text-xs sm:text-sm font-semibold text-[#0284C7] hover:text-[#0369A1] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-3.5 text-sm font-semibold text-[#0284C7] hover:text-[#0369A1] transition-colors"
               >
-                <span>Company Story</span>
-                <ArrowRight className="w-3 h-3" />
+                <span>Read Full Company Story</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>
 
-          {/* Right Column: WebP Showcase Image (Proportioned to match left content) */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
-            <div className="relative group w-full">
-              <div className="absolute -inset-1.5 bg-gradient-to-r from-[#0284C7]/20 via-[#0EA5E9]/15 to-[#38BDF8]/25 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              
-              <div className="relative w-full rounded-2xl overflow-hidden border border-slate-800 bg-[#06101E] shadow-2xl transition-all duration-300 group-hover:shadow-sky-500/10">
-                <img
-                  src="/about-showcase.svg"
-                  alt="Yovexa Solutions - Engineering the Future of Digital Excellence"
-                  className="w-full h-auto aspect-[16/9] object-contain transform transition-transform duration-700 group-hover:scale-[1.01]"
-                  loading="lazy"
-                  width={1024}
-                  height={576}
-                />
+          {/* Right Column: What We Deliver Capability Matrix Card */}
+          <div className="lg:col-span-6">
+            <div className="rounded-3xl bg-slate-50/80 border border-slate-200/90 p-6 sm:p-8 shadow-card relative overflow-hidden">
+              {/* Subtle decorative background gradient glow */}
+              <div className="absolute -top-12 -right-12 w-64 h-64 bg-sky-200/30 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10 mb-6">
+                <span className="text-[11px] uppercase tracking-wider font-extrabold text-[#0284C7] font-mono block mb-1">
+                  Core Deliverables
+                </span>
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 font-display">
+                  What We Deliver For Our Clients:
+                </h3>
               </div>
+
+              <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {focusAreas.map((area, i) => (
+                  <div
+                    key={i}
+                    className="group flex items-start gap-3 p-3.5 rounded-xl bg-white border border-slate-200/80 hover:border-sky-400 hover:shadow-card-hover transition-all duration-200"
+                  >
+                    <div className="w-6 h-6 rounded-lg bg-sky-50 border border-sky-100 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0284C7] group-hover:text-white transition-colors duration-200">
+                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-xs font-bold text-slate-800 leading-snug block group-hover:text-slate-900 transition-colors">
+                        {area}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="relative z-10 mt-6 pt-5 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500 font-mono">
+                <span className="flex items-center gap-1.5 text-slate-600 font-medium">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  Production Standards
+                </span>
+                <span className="text-[#0284C7] font-semibold">Reliable & Scalable</span>
+              </div>
+
             </div>
           </div>
 
         </div>
-
       </div>
     </section>
   );
