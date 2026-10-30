@@ -266,12 +266,12 @@ export default function ProjectDetailPage() {
               </p>
             </div>
 
-            <a
-              href="/#contact"
+            <Link
+              to={`/contact?project=${encodeURIComponent(projectTitle)}`}
               className="shrink-0 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm"
             >
               Discuss Your Project
-            </a>
+            </Link>
           </div>
 
           {/* Related Projects */}

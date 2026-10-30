@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom';
 import { Sparkles, Check, ArrowRight, ShieldCheck, Target, Users, Code2, Layers } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { contentService } from '../services/contentService';
 import { projectService } from '../services/projectService';
 
 export default function AboutPage() {
-  const [about, setAbout] = useState(null);
   const [featuredProjects, setFeaturedProjects] = useState([]);
 
   useEffect(() => {
@@ -15,37 +13,31 @@ export default function AboutPage() {
     document.title = 'About Us | Yovexa Solutions - Software Engineering & Digital Solutions';
 
     let isMounted = true;
-    Promise.all([
-      contentService.getAboutContent(),
-      projectService.getProjects({ publishedOnly: true })
-    ])
-      .then(([aboutData, projData]) => {
+    projectService.getProjects({ publishedOnly: true })
+      .then(projData => {
         if (isMounted) {
-          setAbout(aboutData);
           setFeaturedProjects(Array.isArray(projData) ? projData.slice(0, 2) : []);
         }
       })
       .catch(err => {
-        console.warn('Failed to load about page data:', err);
+        console.warn('Failed to load featured projects on about page:', err);
       });
 
     return () => { isMounted = false; };
   }, []);
 
-  const title = about?.title || "Engineering Pragmatic Digital Solutions";
-  const titleHighlight = about?.titleHighlight || about?.highlightedTitle || "For Modern Businesses";
-  const primaryDesc = about?.description || about?.primaryParagraph || "Yovexa Solutions is an Indian digital solutions and software development company dedicated to engineering modern, scalable, and practical digital products.";
-  const secondaryDesc = about?.additionalDescription || about?.secondaryParagraph || "We build websites, enterprise web applications, and custom backend systems that help businesses streamline workflows, serve customers, and scale reliably.";
-  const focusAreas = Array.isArray(about?.highlights) && about.highlights.length > 0
-    ? about.highlights
-    : [
-        "Custom Web Application Development",
-        "Modern Responsive Business Websites",
-        "REST API Design & Backend Integration",
-        "Database Architecture & Optimization",
-        "Cloud Deployment & Secure Authentication",
-        "Admin Dashboard & CMS Engineering"
-      ];
+  const title = "Engineering Pragmatic Digital Solutions";
+  const titleHighlight = "For Modern Businesses";
+  const primaryDesc = "Yovexa Solutions is an Indian digital solutions and software development company dedicated to engineering modern, scalable, and practical digital products.";
+  const secondaryDesc = "We build websites, enterprise web applications, and custom backend systems that help businesses streamline workflows, serve customers, and scale reliably.";
+  const focusAreas = [
+    "Custom Web Application Development",
+    "Modern Responsive Business Websites",
+    "REST API Design & Backend Integration",
+    "Database Architecture & Optimization",
+    "Cloud Deployment & Secure Authentication",
+    "Admin Dashboard & CMS Engineering"
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
@@ -90,7 +82,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-2xl font-bold text-slate-900 font-display">Engineering Quality</h3>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                We combine strictly typed backend APIs in Java Spring Boot with reactive frontends in React 19. Our systems are backed by optimized MongoDB schemas and standardized deployment configurations.
+                We combine strictly typed backend APIs in Java Spring Boot with reactive frontends in React. Our systems are backed by optimized MongoDB schemas and standardized deployment configurations.
               </p>
             </div>
           </div>
@@ -159,7 +151,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Featured Works Link */}
+          {/* Featured Works Link (Dynamic projects preserved) */}
           {featuredProjects.length > 0 && (
             <div className="p-8 sm:p-10 rounded-2xl bg-slate-900 text-white border border-slate-800 shadow-xl tech-grid-dark">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">

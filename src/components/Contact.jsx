@@ -1,42 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Clock, Sparkles, Phone, ShieldCheck } from 'lucide-react';
-import { contentService } from '../services/contentService';
+import React, { useState } from 'react';
+import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Clock, Sparkles, ShieldCheck } from 'lucide-react';
 import { inquiryService } from '../services/inquiryService';
-import { servicesService } from '../services/servicesService';
+import { COMPANY_INFO } from '../data/company';
+import { SERVICES_DATA } from '../data/services';
 
-export default function Contact({ preselectedService, preselectedProject }) {
-  const [budgetOptions, setBudgetOptions] = useState([
+export default function Contact({ preselectedService, preselectedProject, isStandalone = false }) {
+  const budgetOptions = [
     "Under ₹25,000",
     "₹25,000 – ₹50,000",
     "₹50,000 – ₹1,00,000",
     "₹1,00,000+",
     "Not Sure Yet"
-  ]);
+  ];
 
-  const [serviceOptions, setServiceOptions] = useState([
-    "Website Development",
-    "Web Application Development",
-    "REST API Development",
-    "Admin Dashboard Development",
+  const serviceOptions = [
+    ...SERVICES_DATA.map(s => s.title),
     "Other / Custom Requirement"
-  ]);
+  ];
 
-  const [contactInfo, setContactInfo] = useState({
-    email: '',
-    phone: '',
-    whatsapp: '',
-    location: '',
-    turnaroundTime: '',
-    heading: '',
-    description: '',
-  });
+  const contactInfo = {
+    email: COMPANY_INFO.email,
+    phone: COMPANY_INFO.phone,
+    location: COMPANY_INFO.location,
+    turnaroundTime: COMPANY_INFO.turnaroundTime || "Within 24 Hours",
+    heading: "Have a Project in Mind?",
+    description: "Tell us what you're building. Let's discuss your requirements, technical approach, and next steps.",
+  };
 
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phone: '',
     company: '',
-    serviceRequired: preselectedService || 'Website Development',
+    serviceRequired: preselectedService || serviceOptions[0] || 'Website Development',
     projectBudget: 'Not Sure Yet',
     message: preselectedProject
       ? `Hi Yovexa Team, I would like to discuss building a project similar in architecture to ${preselectedProject}. Here are our requirements: `
@@ -47,53 +43,6 @@ export default function Contact({ preselectedService, preselectedProject }) {
   const [apiError, setApiError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // Fetch contact metadata & budget options
-  useEffect(() => {
-    let isMounted = true;
-    contentService.getContactContent().then(data => {
-      if (isMounted && data) {
-        setContactInfo(prev => ({ ...prev, ...data }));
-        if (Array.isArray(data.budgetOptions) && data.budgetOptions.length > 0) {
-          setBudgetOptions(data.budgetOptions);
-          setFormData(prev => {
-            if (!prev.projectBudget || !data.budgetOptions.includes(prev.projectBudget)) {
-              return {
-                ...prev,
-                projectBudget: data.budgetOptions.includes('Not Sure Yet')
-                  ? 'Not Sure Yet'
-                  : data.budgetOptions[data.budgetOptions.length - 1] || data.budgetOptions[0]
-              };
-            }
-            return prev;
-          });
-        }
-      }
-    }).catch(err => {
-      console.warn('Using cached contact info', err);
-    });
-    return () => { isMounted = false; };
-  }, []);
-
-  // Fetch live active services to populate service dropdown
-  useEffect(() => {
-    let isMounted = true;
-    servicesService.getServices({ activeOnly: true })
-      .then(services => {
-        if (isMounted && Array.isArray(services) && services.length > 0) {
-          const titles = services.map(s => s.title);
-          setServiceOptions([...titles, "Other / Custom Requirement"]);
-          setFormData(prev => ({
-            ...prev,
-            serviceRequired: preselectedService || prev.serviceRequired || titles[0]
-          }));
-        }
-      })
-      .catch(err => {
-        console.warn('Failed to load services in contact form:', err);
-      });
-    return () => { isMounted = false; };
-  }, [preselectedService]);
 
   // Synchronize when preselectedService or preselectedProject props change
   const [prevService, setPrevService] = useState(preselectedService);
@@ -158,7 +107,7 @@ export default function Contact({ preselectedService, preselectedProject }) {
         phone: '',
         company: '',
         serviceRequired: serviceOptions[0] || 'Website Development',
-        projectBudget: budgetOptions.includes('Not Sure Yet') ? 'Not Sure Yet' : (budgetOptions[budgetOptions.length - 1] || 'Not Sure Yet'),
+        projectBudget: 'Not Sure Yet',
         message: '',
       });
     } catch (err) {
@@ -170,7 +119,14 @@ export default function Contact({ preselectedService, preselectedProject }) {
   };
 
   return (
-    <section id="contact" className="py-28 sm:py-32 bg-[#F8FAFC] text-slate-900 relative tech-grid-bg overflow-hidden border-t border-slate-200 scroll-mt-20">
+    <section 
+      id="contact" 
+      className={`${
+        isStandalone 
+          ? 'py-8 sm:py-12' 
+          : 'py-24 sm:py-28 border-t border-slate-200 scroll-mt-24'
+      } bg-[#F8FAFC] text-slate-900 relative tech-grid-bg overflow-hidden`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Section Header */}
@@ -180,10 +136,10 @@ export default function Contact({ preselectedService, preselectedProject }) {
             <span>START A PROJECT</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display">
-            {contactInfo.heading || "Have a Project in Mind?"}
+            {contactInfo.heading}
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
-            {contactInfo.description || "Tell us what you're building. Let's discuss your requirements, technical approach, and next steps."}
+            {contactInfo.description}
           </p>
         </div>
 
@@ -252,20 +208,6 @@ export default function Contact({ preselectedService, preselectedProject }) {
                 </div>
               )}
 
-              {contactInfo.phone && (
-                <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 border border-sky-100">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider">Phone / WhatsApp</div>
-                    <a href={`tel:${contactInfo.phone}`} className="text-slate-900 font-semibold hover:text-[#0284C7] transition-colors">
-                      +91 {contactInfo.phone}
-                    </a>
-                  </div>
-                </div>
-              )}
-
               {contactInfo.turnaroundTime && (
                 <div className="flex items-center gap-3.5">
                   <div className="w-10 h-10 rounded-xl bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 border border-sky-100">
@@ -293,7 +235,7 @@ export default function Contact({ preselectedService, preselectedProject }) {
 
           </div>
 
-          {/* Right Column: Accessible High-Contrast Form */}
+          {/* Right Column: Accessible High-Contrast Form (Kept fully dynamic for inquiries) */}
           <div className="lg:col-span-7">
             <div className="p-7 sm:p-9 rounded-2xl bg-white border border-slate-200 shadow-card">
 
@@ -308,7 +250,7 @@ export default function Contact({ preselectedService, preselectedProject }) {
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
-                    className="mt-6 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#0B1B3A] hover:bg-[#183B75] transition-colors shadow-xs"
+                    className="mt-6 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#0B1B3A] hover:bg-[#183B75] transition-colors shadow-xs cursor-pointer"
                   >
                     Send Another Message
                   </button>
@@ -473,7 +415,7 @@ export default function Contact({ preselectedService, preselectedProject }) {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all duration-200 shadow-sm text-sm disabled:opacity-60 disabled:cursor-not-allowed transform hover:-translate-y-0.5 active:translate-y-0"
+                      className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all duration-200 shadow-sm text-sm disabled:opacity-60 disabled:cursor-not-allowed transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                     >
                       {isSubmitting ? (
                         <>

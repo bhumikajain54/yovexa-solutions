@@ -1,58 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Sparkles, ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck, Cpu, Layers } from 'lucide-react';
+import { useParams, Link } from 'react-router-dom';
+import { Sparkles, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import DynamicIcon from '../components/DynamicIcon';
-import { servicesService } from '../services/servicesService';
+import { SERVICES_DATA } from '../data/services';
 import { projectService } from '../services/projectService';
 import { PROCESS_STEPS } from '../data/process';
 
 export default function ServiceDetailPage() {
   const { slug } = useParams();
-  const navigate = useNavigate();
 
   const [service, setService] = useState(null);
   const [relatedProjects, setRelatedProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [slug]);
 
-  useEffect(() => {
+    const matched = SERVICES_DATA.find(s => s.slug === slug || s.id === slug);
+    if (!matched) {
+      setNotFound(true);
+      return;
+    }
+
+    setService(matched);
+    setNotFound(false);
+    document.title = `${matched.title} | Yovexa Solutions`;
+
     let isMounted = true;
-    const fetchServiceData = async () => {
-      try {
-        setLoading(true);
-        setNotFound(false);
-
-        const allServices = await servicesService.getServices({ activeOnly: true });
-        if (!isMounted) return;
-
-        const matched = allServices.find(s => s.slug === slug || s.id === slug);
-        if (!matched) {
-          setNotFound(true);
-          return;
-        }
-
-        setService(matched);
-        document.title = `${matched.title} | Yovexa Solutions`;
-
-        // Fetch related projects
-        const projects = await projectService.getProjects({ publishedOnly: true });
+    projectService.getProjects({ publishedOnly: true })
+      .then(projects => {
         if (isMounted) {
           setRelatedProjects(Array.isArray(projects) ? projects.slice(0, 2) : []);
         }
-      } catch (err) {
-        if (isMounted) setNotFound(true);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-
-    fetchServiceData();
+      })
+      .catch(err => {
+        console.warn('Failed to load related projects:', err);
+      });
 
     return () => {
       isMounted = false;
@@ -85,18 +70,8 @@ export default function ServiceDetailPage() {
     );
   }
 
-  if (loading || !service) {
-    return (
-      <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
-        <Navbar />
-        <main className="flex-1 max-w-4xl mx-auto w-full px-4 pt-36 pb-24 space-y-6 animate-pulse">
-          <div className="h-6 bg-slate-200 rounded w-1/4" />
-          <div className="h-12 bg-slate-200 rounded w-4/5" />
-          <div className="h-64 bg-slate-200 rounded-2xl" />
-        </main>
-        <Footer />
-      </div>
-    );
+  if (!service) {
+    return null;
   }
 
   const featuresList = Array.isArray(service.features)
@@ -193,7 +168,7 @@ export default function ServiceDetailPage() {
             </div>
           </div>
 
-          {/* Related Case Studies or Projects */}
+          {/* Related Case Studies or Projects (Dynamic) */}
           {relatedProjects.length > 0 && (
             <div className="mt-12">
               <h3 className="text-xl font-bold text-slate-900 font-display mb-4">
@@ -234,12 +209,12 @@ export default function ServiceDetailPage() {
               </p>
             </div>
 
-            <a
-              href="/#contact"
+            <Link
+              to={`/contact?service=${encodeURIComponent(service.title)}`}
               className="shrink-0 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm"
             >
               Discuss This Service
-            </a>
+            </Link>
           </div>
 
         </div>

@@ -112,6 +112,12 @@ export default function Navbar({ onOpenContact }) {
       return;
     }
 
+    if (href === '/contact' || href === '/contact/' || href === '/#contact') {
+      navigate('/contact');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     const targetId = href.replace('/#', '').replace('#', '');
 
     if (location.pathname === '/') {
@@ -140,14 +146,8 @@ export default function Navbar({ onOpenContact }) {
 
   const handleCtaClick = () => {
     setMobileMenuOpen(false);
-    if (onOpenContact) {
-      onOpenContact();
-    } else if (location.pathname === '/') {
-      const el = document.getElementById('contact');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      navigate('/#contact');
-    }
+    navigate('/contact');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

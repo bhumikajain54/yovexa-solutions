@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Portfolio from '../components/Portfolio';
@@ -7,6 +8,7 @@ import Footer from '../components/Footer';
 
 export default function PortfolioPage() {
   const [selectedProject, setSelectedProject] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -14,7 +16,8 @@ export default function PortfolioPage() {
   }, []);
 
   const handleDiscussProject = (projectTitle) => {
-    window.location.href = `/#contact`;
+    navigate(`/contact?project=${encodeURIComponent(projectTitle)}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

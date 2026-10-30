@@ -1,22 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
-  Globe,
   FileText,
   MessageSquare,
-  Sparkles,
   Layers,
-  ChevronDown,
-  ChevronRight,
   LogOut,
   ExternalLink,
   X,
-  Info,
-  Briefcase,
-  GitMerge,
-  Phone,
-  LayoutTemplate,
   BookOpen
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -34,30 +25,11 @@ export default function AdminSidebar({
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Collapsible website content sub-menu state
-  const isContentActive = location.pathname.startsWith('/admin/content') ||
-    location.pathname.startsWith('/admin/services') ||
-    location.pathname.startsWith('/admin/process') ||
-    location.pathname.startsWith('/admin/projects') ||
-    location.pathname.startsWith('/admin/case-studies');
-
-  const [contentMenuOpen, setContentMenuOpen] = useState(true);
-
   const handleLogout = () => {
     logout();
     showToast('Logged out successfully', 'info');
     navigate('/login');
   };
-
-  const contentSubItems = [
-    { label: 'Hero Section', path: '/admin/content/hero', icon: Sparkles },
-    { label: 'About Section', path: '/admin/content/about', icon: Info },
-    { label: 'Services', path: '/admin/services', icon: Briefcase },
-    { label: 'Portfolio Projects', path: '/admin/projects', icon: Layers },
-    { label: 'Case Studies', path: '/admin/case-studies', icon: BookOpen },
-    { label: 'Contact Info', path: '/admin/content/contact', icon: Phone },
-    { label: 'Footer Content', path: '/admin/content/footer', icon: LayoutTemplate },
-  ];
 
   // Whether the sidebar UI is effectively expanded (either desktop hover OR mobile drawer)
   const isDesktopExpanded = isExpanded;
@@ -151,68 +123,51 @@ export default function AdminSidebar({
               )}
             </NavLink>
 
-            {/* Website Content (Collapsible Group) */}
-            <div className="pt-1">
-              <button
-                type="button"
-                onClick={() => {
-                  if (isEffectiveExpanded) {
-                    setContentMenuOpen(!contentMenuOpen);
-                  }
-                }}
-                title={!isEffectiveExpanded ? 'Website Content' : undefined}
-                aria-label="Website Content"
-                className={`w-full flex items-center rounded-xl font-semibold transition-colors duration-200 ${isContentActive
-                    ? 'text-[#38BDF8] bg-white/5 font-bold'
-                    : 'text-[#CBD5E1] hover:text-white hover:bg-white/5'
-                  } ${isEffectiveExpanded ? 'px-3 py-2.5 justify-between' : 'w-11 h-11 mx-auto justify-center'}`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 flex items-center justify-center shrink-0">
-                    <Globe className="w-5 h-5 text-[#38BDF8]" />
-                  </div>
-                  {isEffectiveExpanded && (
-                    <span className="text-sm whitespace-nowrap truncate animate-in fade-in duration-200">
-                      Website Content
-                    </span>
-                  )}
-                </div>
-                {isEffectiveExpanded && (
-                  <div>
-                    {contentMenuOpen ? (
-                      <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
-                    ) : (
-                      <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
-                    )}
-                  </div>
-                )}
-              </button>
-
-              {/* Sub-items (Shown only when expanded and open) */}
-              {isEffectiveExpanded && contentMenuOpen && (
-                <div className="ml-4 pl-3 border-l border-white/15 mt-1 space-y-1 animate-in fade-in duration-200">
-                  {contentSubItems.map((sub) => {
-                    const SubIcon = sub.icon;
-                    return (
-                      <NavLink
-                        key={sub.path}
-                        to={sub.path}
-                        onClick={onCloseMobile}
-                        className={({ isActive }) =>
-                          `flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${isActive
-                            ? 'bg-[#0EA5E9] text-white font-bold shadow-sm'
-                            : 'text-[#94A3B8] hover:text-white hover:bg-white/5'
-                          }`
-                        }
-                      >
-                        <SubIcon className="w-3.5 h-3.5 shrink-0" />
-                        <span className="whitespace-nowrap truncate">{sub.label}</span>
-                      </NavLink>
-                    );
-                  })}
-                </div>
+            {/* Portfolio Projects */}
+            <NavLink
+              to="/admin/projects"
+              onClick={onCloseMobile}
+              title={!isEffectiveExpanded ? 'Portfolio Projects' : undefined}
+              aria-label="Portfolio Projects"
+              className={({ isActive }) =>
+                `flex items-center rounded-xl font-semibold transition-all duration-200 ${isActive
+                  ? 'bg-[#0EA5E9] text-white shadow-sm'
+                  : 'text-[#CBD5E1] hover:text-white hover:bg-white/5'
+                } ${isEffectiveExpanded ? 'px-3 py-2.5 gap-3' : 'w-11 h-11 mx-auto justify-center'}`
+              }
+            >
+              <div className="w-5 h-5 flex items-center justify-center shrink-0">
+                <Layers className="w-5 h-5" />
+              </div>
+              {isEffectiveExpanded && (
+                <span className="text-sm whitespace-nowrap truncate animate-in fade-in duration-200">
+                  Portfolio Projects
+                </span>
               )}
-            </div>
+            </NavLink>
+
+            {/* Case Studies */}
+            <NavLink
+              to="/admin/case-studies"
+              onClick={onCloseMobile}
+              title={!isEffectiveExpanded ? 'Case Studies' : undefined}
+              aria-label="Case Studies"
+              className={({ isActive }) =>
+                `flex items-center rounded-xl font-semibold transition-all duration-200 ${isActive
+                  ? 'bg-[#0EA5E9] text-white shadow-sm'
+                  : 'text-[#CBD5E1] hover:text-white hover:bg-white/5'
+                } ${isEffectiveExpanded ? 'px-3 py-2.5 gap-3' : 'w-11 h-11 mx-auto justify-center'}`
+              }
+            >
+              <div className="w-5 h-5 flex items-center justify-center shrink-0">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              {isEffectiveExpanded && (
+                <span className="text-sm whitespace-nowrap truncate animate-in fade-in duration-200">
+                  Case Studies
+                </span>
+              )}
+            </NavLink>
 
             {/* Blog Articles */}
             <NavLink

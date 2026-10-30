@@ -262,7 +262,7 @@ export default function BlogDetailPage() {
               </p>
               <div className="mt-3">
                 <Link
-                  to="/#contact"
+                  to="/contact"
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0284C7] hover:text-[#0369A1] transition-colors"
                 >
                   <span>Discuss an engineering project with our team</span>
@@ -287,12 +287,12 @@ export default function BlogDetailPage() {
               </p>
             </div>
 
-            <a
-              href="/#contact"
+            <Link
+              to="/contact"
               className="shrink-0 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm relative z-10"
             >
               Discuss Your Project
-            </a>
+            </Link>
             <div className="absolute top-0 right-0 w-36 h-36 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
           </div>
 

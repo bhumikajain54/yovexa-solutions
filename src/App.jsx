@@ -26,29 +26,12 @@ import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminBlogsPage from './pages/admin/AdminBlogsPage';
 import AdminCreateBlogPage from './pages/admin/AdminCreateBlogPage';
 import AdminEditBlogPage from './pages/admin/AdminEditBlogPage';
-
-// Hero Section CRUD Pages
-import AdminHeroListPage from './pages/admin/AdminHeroListPage';
-import AdminCreateHeroPage from './pages/admin/AdminCreateHeroPage';
-import AdminEditHeroPage from './pages/admin/AdminEditHeroPage';
-import AdminViewHeroPage from './pages/admin/AdminViewHeroPage';
-
-// About Section CRUD Pages
-import AdminAboutListPage from './pages/admin/AdminAboutListPage';
-import AdminCreateAboutPage from './pages/admin/AdminCreateAboutPage';
-import AdminEditAboutPage from './pages/admin/AdminEditAboutPage';
-import AdminViewAboutPage from './pages/admin/AdminViewAboutPage';
-
-// Other Admin Pages
-import AdminServicesPage from './pages/admin/AdminServicesPage';
 import AdminProjectsPage from './pages/admin/AdminProjectsPage';
 import AdminCreateProjectPage from './pages/admin/AdminCreateProjectPage';
 import AdminEditProjectPage from './pages/admin/AdminEditProjectPage';
 import AdminCaseStudiesPage from './pages/admin/AdminCaseStudiesPage';
 import AdminCreateCaseStudyPage from './pages/admin/AdminCreateCaseStudyPage';
 import AdminEditCaseStudyPage from './pages/admin/AdminEditCaseStudyPage';
-import AdminContactContentPage from './pages/admin/AdminContactContentPage';
-import AdminFooterContentPage from './pages/admin/AdminFooterContentPage';
 import AdminInquiriesPage from './pages/admin/AdminInquiriesPage';
 
 export default function App() {
@@ -85,26 +68,6 @@ export default function App() {
               <Route index element={<Navigate to="/admin/dashboard" replace />} />
               <Route path="dashboard" element={<AdminDashboardPage />} />
               
-              {/* Blog Management */}
-              <Route path="blogs" element={<AdminBlogsPage />} />
-              <Route path="blogs/create" element={<AdminCreateBlogPage />} />
-              <Route path="blogs/edit/:id" element={<AdminEditBlogPage />} />
-
-              {/* Hero Section CRUD */}
-              <Route path="content/hero" element={<AdminHeroListPage />} />
-              <Route path="content/hero/create" element={<AdminCreateHeroPage />} />
-              <Route path="content/hero/edit/:id" element={<AdminEditHeroPage />} />
-              <Route path="content/hero/:id" element={<AdminViewHeroPage />} />
-
-              {/* About Section CRUD */}
-              <Route path="content/about" element={<AdminAboutListPage />} />
-              <Route path="content/about/create" element={<AdminCreateAboutPage />} />
-              <Route path="content/about/edit/:id" element={<AdminEditAboutPage />} />
-              <Route path="content/about/:id" element={<AdminViewAboutPage />} />
-
-              {/* Other CMS Sections */}
-              <Route path="services" element={<AdminServicesPage />} />
-
               {/* Projects Management */}
               <Route path="projects" element={<AdminProjectsPage />} />
               <Route path="projects/create" element={<AdminCreateProjectPage />} />
@@ -119,8 +82,10 @@ export default function App() {
               <Route path="case-studies/edit/:id" element={<AdminEditCaseStudyPage />} />
               <Route path="case-studies/:id/edit" element={<AdminEditCaseStudyPage />} />
 
-              <Route path="content/contact" element={<AdminContactContentPage />} />
-              <Route path="content/footer" element={<AdminFooterContentPage />} />
+              {/* Blog Management */}
+              <Route path="blogs" element={<AdminBlogsPage />} />
+              <Route path="blogs/create" element={<AdminCreateBlogPage />} />
+              <Route path="blogs/edit/:id" element={<AdminEditBlogPage />} />
 
               {/* Contact Inquiries */}
               <Route path="inquiries" element={<AdminInquiriesPage />} />

@@ -1,59 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ArrowRight, CheckCircle2, ArrowUpRight } from 'lucide-react';
-import { contentService } from '../services/contentService';
 
 export default function Hero() {
-  const [hero, setHero] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let isMounted = true;
-    contentService.getHeroContent()
-      .then(data => {
-        if (isMounted) {
-          setHero(data || null);
-          setLoading(false);
-        }
-      })
-      .catch(err => {
-        console.warn('Failed to load active hero:', err);
-        if (isMounted) {
-          setHero(null);
-          setLoading(false);
-        }
-      });
-    return () => { isMounted = false; };
-  }, []);
-
   const scrollTo = (targetId) => {
     const el = document.getElementById(targetId);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  if (loading) {
-    return (
-      <section id="hero" className="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-[#F8FAFC] border-b border-slate-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full animate-pulse flex flex-col items-center text-center space-y-6">
-          <div className="w-48 h-8 rounded-full bg-slate-200" />
-          <div className="w-4/5 h-16 rounded-2xl bg-slate-200" />
-          <div className="w-full max-w-2xl h-24 rounded-2xl bg-slate-200" />
-          <div className="flex gap-4 pt-2 justify-center">
-            <div className="w-40 h-12 rounded-xl bg-slate-200" />
-            <div className="w-40 h-12 rounded-xl bg-slate-200" />
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (hero?.isVisible === false) return null;
-
-  const badge = hero?.badge || hero?.eyebrow || "Digital Engineering & Software Solutions";
-  const heading = hero?.heading || hero?.headline || "We Build Digital Solutions That Drive";
-  const highlight = hero?.highlightedText || hero?.highlightedHeadline || "Business Growth";
-  const description = hero?.description || "We design and develop modern websites, web applications, and custom software that help businesses streamline operations, serve customers, and scale with confidence.";
-  const primaryCta = hero?.primaryCtaText || hero?.primaryCtaLabel || "Discuss Your Project";
-  const secondaryCta = hero?.secondaryCtaText || hero?.secondaryCtaLabel || "Explore Our Work";
+  const badge = "Digital Engineering & Software Solutions";
+  const heading = "We Build Digital Solutions That Drive";
+  const highlight = "Business Growth";
+  const description = "We design and develop modern websites, web applications, and custom software that help businesses streamline operations, serve customers, and scale with confidence.";
+  const primaryCta = "Discuss Your Project";
+  const secondaryCta = "Explore Our Work";
 
   return (
     <section

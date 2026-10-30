@@ -344,13 +344,13 @@ export default function CaseStudyDetailPage() {
                   <p className="text-xs text-slate-300 leading-relaxed">
                     Our engineering team designs and delivers robust digital solutions tailored to your workflows.
                   </p>
-                  <a
-                    href={`/#contact?project=${encodeURIComponent(caseStudy.title)}`}
+                  <Link
+                    to={`/contact?project=${encodeURIComponent(caseStudy.title)}`}
                     className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold transition-colors"
                   >
                     <span>Discuss Your Project</span>
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
+                  </Link>
                 </div>
                 <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
               </div>

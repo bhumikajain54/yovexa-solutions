@@ -8,21 +8,18 @@ import {
   ArrowRight,
   Sparkles,
   Layers,
-  Briefcase,
+  BookOpen,
   MessageSquare,
   ExternalLink,
   Edit2,
-  Trash2,
-  Info
+  Trash2
 } from 'lucide-react';
 import BlogTable from '../../components/admin/BlogTable';
 import DeleteModal from '../../components/admin/DeleteModal';
 import { blogService } from '../../services/blogService';
 import { projectService } from '../../services/projectService';
-import { servicesService } from '../../services/servicesService';
+import { caseStudyService } from '../../services/caseStudyService';
 import { inquiryService } from '../../services/inquiryService';
-import { heroService } from '../../services/heroService';
-import { aboutService } from '../../services/aboutService';
 import { useToast } from '../../context/ToastContext';
 
 export default function AdminDashboardPage() {
@@ -35,10 +32,10 @@ export default function AdminDashboardPage() {
     draftBlogs: 0,
     totalProjects: 0,
     publishedProjects: 0,
-    totalServices: 0,
+    totalCaseStudies: 0,
+    featuredCaseStudies: 0,
+    totalInquiries: 0,
     newInquiries: 0,
-    totalHeroes: 0,
-    totalAbouts: 0,
   });
 
   const [recentBlogs, setRecentBlogs] = useState([]);
@@ -53,18 +50,17 @@ export default function AdminDashboardPage() {
   const fetchAllData = async () => {
     try {
       setLoading(true);
-      const [blogs, projects, services, inquiries, heroes, abouts] = await Promise.all([
+      const [blogs, projects, caseStudies, inquiries] = await Promise.all([
         blogService.getAdminBlogs(),
         projectService.getProjects(),
-        servicesService.getServices(),
+        caseStudyService.getCaseStudies(),
         inquiryService.getInquiries(),
-        heroService.getHeroes(),
-        aboutService.getAbouts(),
       ]);
 
       const publishedB = blogs.filter(b => b.status === 'PUBLISHED').length;
       const draftB = blogs.filter(b => b.status === 'DRAFT').length;
       const publishedP = projects.filter(p => p.status === 'PUBLISHED').length;
+      const featCS = caseStudies.filter(cs => cs.featured).length;
       const newInq = inquiries.filter(i => i.status === 'NEW').length;
 
       setStats({
@@ -73,10 +69,10 @@ export default function AdminDashboardPage() {
         draftBlogs: draftB,
         totalProjects: projects.length,
         publishedProjects: publishedP,
-        totalServices: services.length,
+        totalCaseStudies: caseStudies.length,
+        featuredCaseStudies: featCS,
+        totalInquiries: inquiries.length,
         newInquiries: newInq,
-        totalHeroes: heroes.length,
-        totalAbouts: abouts.length,
       });
 
       setRecentBlogs(blogs.slice(0, 3));
@@ -167,45 +163,66 @@ export default function AdminDashboardPage() {
           </div>
         </Link>
 
-        {/* Services */}
+        {/* Case Studies */}
         <Link
-          to="/admin/services"
+          to="/admin/case-studies"
           className="p-5 rounded-2xl bg-white border border-[#E2E8F0] shadow-card hover:border-[#CBD5E1] transition-all flex items-center justify-between group"
         >
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-wider text-[#64748B]">
-              Services Offered
+            <span className="text-xs font-extrabold uppercase tracking-wider text-purple-700">
+              Case Studies
             </span>
             <div className="mt-2 text-3xl font-black text-[#0B1B3A] font-display">
-              {loading ? '—' : stats.totalServices}
+              {loading ? '—' : stats.totalCaseStudies}
             </div>
-            <span className="text-[11px] font-semibold text-[#64748B] mt-0.5 inline-block">
-              Active Offerings
+            <span className="text-[11px] font-semibold text-purple-600 mt-0.5 inline-block">
+              {stats.featuredCaseStudies} Featured Stories
             </span>
           </div>
           <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Briefcase className="w-6 h-6" />
+            <BookOpen className="w-6 h-6" />
           </div>
         </Link>
 
-        {/* New Inquiries */}
+        {/* Client Inquiries */}
         <Link
           to="/admin/inquiries"
           className="p-5 rounded-2xl bg-white border border-[#E2E8F0] shadow-card hover:border-[#CBD5E1] transition-all flex items-center justify-between group"
         >
           <div>
             <span className="text-xs font-extrabold uppercase tracking-wider text-sky-700">
-              New Inquiries
+              Client Inquiries
             </span>
             <div className="mt-2 text-3xl font-black text-[#0B1B3A] font-display">
-              {loading ? '—' : stats.newInquiries}
+              {loading ? '—' : stats.totalInquiries}
             </div>
             <span className="text-[11px] font-semibold text-sky-600 mt-0.5 inline-block">
-              Awaiting Follow-up
+              {stats.newInquiries} Awaiting Follow-up
             </span>
           </div>
           <div className="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center group-hover:scale-110 transition-transform">
             <MessageSquare className="w-6 h-6" />
+          </div>
+        </Link>
+
+        {/* Total Blogs */}
+        <Link
+          to="/admin/blogs"
+          className="p-5 rounded-2xl bg-white border border-[#E2E8F0] shadow-card hover:border-[#CBD5E1] transition-all flex items-center justify-between group"
+        >
+          <div>
+            <span className="text-xs font-extrabold uppercase tracking-wider text-slate-700">
+              Total Articles
+            </span>
+            <div className="mt-2 text-3xl font-black text-[#0B1B3A] font-display">
+              {loading ? '—' : stats.totalBlogs}
+            </div>
+            <span className="text-[11px] font-semibold text-slate-500 mt-0.5 inline-block">
+              All Engineering Posts
+            </span>
+          </div>
+          <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <FileText className="w-6 h-6" />
           </div>
         </Link>
 
@@ -222,7 +239,7 @@ export default function AdminDashboardPage() {
               {loading ? '—' : stats.publishedBlogs}
             </div>
             <span className="text-[11px] font-semibold text-emerald-600 mt-0.5 inline-block">
-              Visible on /blog
+              Live on /blog
             </span>
           </div>
           <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -248,69 +265,6 @@ export default function AdminDashboardPage() {
           </div>
           <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
             <Clock className="w-6 h-6" />
-          </div>
-        </Link>
-
-        {/* Hero Sections */}
-        <Link
-          to="/admin/content/hero"
-          className="p-5 rounded-2xl bg-white border border-[#E2E8F0] shadow-card hover:border-[#CBD5E1] transition-all flex items-center justify-between group"
-        >
-          <div>
-            <span className="text-xs font-extrabold uppercase tracking-wider text-[#0284C7]">
-              Hero Variations
-            </span>
-            <div className="mt-2 text-3xl font-black text-[#0B1B3A] font-display">
-              {loading ? '—' : stats.totalHeroes}
-            </div>
-            <span className="text-[11px] font-semibold text-emerald-600 mt-0.5 inline-block">
-              1 Active on Homepage
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-xl bg-[#E0F2FE] text-[#0284C7] flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Sparkles className="w-6 h-6" />
-          </div>
-        </Link>
-
-        {/* About Sections */}
-        <Link
-          to="/admin/content/about"
-          className="p-5 rounded-2xl bg-white border border-[#E2E8F0] shadow-card hover:border-[#CBD5E1] transition-all flex items-center justify-between group"
-        >
-          <div>
-            <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-700">
-              About Sections
-            </span>
-            <div className="mt-2 text-3xl font-black text-[#0B1B3A] font-display">
-              {loading ? '—' : stats.totalAbouts}
-            </div>
-            <span className="text-[11px] font-semibold text-emerald-600 mt-0.5 inline-block">
-              1 Active on Homepage
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Info className="w-6 h-6" />
-          </div>
-        </Link>
-
-        {/* Total Articles */}
-        <Link
-          to="/admin/blogs"
-          className="p-5 rounded-2xl bg-white border border-[#E2E8F0] shadow-card hover:border-[#CBD5E1] transition-all flex items-center justify-between group"
-        >
-          <div>
-            <span className="text-xs font-extrabold uppercase tracking-wider text-[#64748B]">
-              Total Articles
-            </span>
-            <div className="mt-2 text-3xl font-black text-[#0B1B3A] font-display">
-              {loading ? '—' : stats.totalBlogs}
-            </div>
-            <span className="text-[11px] font-semibold text-[#64748B] mt-0.5 inline-block">
-              Content Repository
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center group-hover:scale-110 transition-transform">
-            <FileText className="w-6 h-6" />
           </div>
         </Link>
       </div>
