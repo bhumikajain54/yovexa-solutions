@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Edit2, Trash2, ExternalLink, Tag, FileText } from 'lucide-react';
+import { imageKitService } from '../../services/imageKitService';
 
 export default function BlogTable({ blogs, onEdit, onDelete, loading }) {
   const navigate = useNavigate();
@@ -59,8 +60,10 @@ export default function BlogTable({ blogs, onEdit, onDelete, loading }) {
                   <div className="flex items-center gap-3.5 max-w-md">
                   {blog.featuredImage ? (
                     <img
-                      src={blog.featuredImage}
+                      src={imageKitService.getThumbnailUrl(blog.featuredImage, 96, 96)}
                       alt={blog.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-12 h-12 rounded-lg object-cover shrink-0 border border-[#E2E8F0] bg-slate-100"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';

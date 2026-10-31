@@ -14,6 +14,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { projectService } from '../../services/projectService';
+import { imageKitService } from '../../services/imageKitService';
 import { useToast } from '../../context/ToastContext';
 import DeleteModal from '../../components/admin/DeleteModal';
 
@@ -239,8 +240,10 @@ export default function AdminProjectsPage() {
                       <div className="flex items-center gap-3.5 max-w-md">
                         {p.featuredImage ? (
                           <img
-                            src={p.featuredImage}
+                            src={imageKitService.getThumbnailUrl(p.featuredImage, 96, 96)}
                             alt={p.title || p.projectName}
+                            loading="lazy"
+                            decoding="async"
                             className="w-12 h-12 rounded-lg object-cover shrink-0 border border-[#E2E8F0] bg-slate-100"
                             onError={(e) => {
                               e.currentTarget.style.display = 'none';

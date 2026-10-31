@@ -20,6 +20,7 @@ import { blogService } from '../../services/blogService';
 import { projectService } from '../../services/projectService';
 import { caseStudyService } from '../../services/caseStudyService';
 import { inquiryService } from '../../services/inquiryService';
+import { imageKitService } from '../../services/imageKitService';
 import { useToast } from '../../context/ToastContext';
 
 export default function AdminDashboardPage() {
@@ -343,8 +344,10 @@ export default function AdminDashboardPage() {
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <img
-                      src={p.featuredImage}
+                      src={imageKitService.getThumbnailUrl(p.featuredImage, 80, 80)}
                       alt={p.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-10 h-10 rounded-lg object-cover bg-slate-200 shrink-0"
                     />
                     <div className="min-w-0">

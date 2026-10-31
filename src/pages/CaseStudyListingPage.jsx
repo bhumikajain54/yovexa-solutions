@@ -4,6 +4,7 @@ import { Sparkles, Search, BookOpen, ArrowRight, ExternalLink, Layers, CheckCirc
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { caseStudyService } from '../services/caseStudyService';
+import { imageKitService } from '../services/imageKitService';
 
 export default function CaseStudyListingPage() {
   const [caseStudies, setCaseStudies] = useState([]);
@@ -160,14 +161,16 @@ export default function CaseStudyListingPage() {
                       {featuredCaseStudy.featuredImage ? (
                         <>
                           <img
-                            src={featuredCaseStudy.featuredImage}
+                            src={imageKitService.getLqipUrl(featuredCaseStudy.featuredImage)}
                             alt=""
                             aria-hidden="true"
                             className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-35 scale-110 pointer-events-none"
                           />
                           <img
-                            src={featuredCaseStudy.featuredImage}
+                            src={imageKitService.getDetailUrl(featuredCaseStudy.featuredImage, 1000)}
                             alt={featuredCaseStudy.title}
+                            loading="lazy"
+                            decoding="async"
                             className="relative z-10 w-full h-full max-h-[460px] object-contain rounded-xl p-2 transition-transform duration-300"
                           />
                         </>
@@ -305,14 +308,16 @@ export default function CaseStudyListingPage() {
                             {cs.featuredImage ? (
                               <div className="relative h-56 w-full overflow-hidden bg-slate-950 border-b border-slate-200 flex items-center justify-center p-2">
                                 <img
-                                  src={cs.featuredImage}
+                                  src={imageKitService.getLqipUrl(cs.featuredImage)}
                                   alt=""
                                   aria-hidden="true"
                                   className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
                                 />
                                 <img
-                                  src={cs.featuredImage}
+                                  src={imageKitService.getCardUrl(cs.featuredImage, 600)}
                                   alt={cs.title}
+                                  loading="lazy"
+                                  decoding="async"
                                   className="relative z-10 w-full h-full object-contain rounded-lg transition-transform duration-300"
                                   onError={(e) => {
                                     e.currentTarget.parentElement.style.display = 'none';

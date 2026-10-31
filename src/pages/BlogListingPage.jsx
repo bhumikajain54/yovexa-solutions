@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BlogCard from '../components/public/BlogCard';
 import { blogService } from '../services/blogService';
+import { imageKitService } from '../services/imageKitService';
 
 export default function BlogListingPage() {
   const [blogs, setBlogs] = useState([]);
@@ -173,14 +174,16 @@ export default function BlogListingPage() {
                       {featuredArticle.featuredImage ? (
                         <>
                           <img
-                            src={featuredArticle.featuredImage}
+                            src={imageKitService.getLqipUrl(featuredArticle.featuredImage)}
                             alt=""
                             aria-hidden="true"
                             className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-35 scale-110 pointer-events-none"
                           />
                           <img
-                            src={featuredArticle.featuredImage}
+                            src={imageKitService.getDetailUrl(featuredArticle.featuredImage, 1000)}
                             alt={featuredArticle.title}
+                            loading="lazy"
+                            decoding="async"
                             className="relative z-10 w-full h-full max-h-[440px] object-contain rounded-xl transition-transform duration-300"
                           />
                         </>

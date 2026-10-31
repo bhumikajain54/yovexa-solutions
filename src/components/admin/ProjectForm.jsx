@@ -402,6 +402,7 @@ export default function ProjectForm({ initialData = null, onSubmit, onCancel, lo
             <ImageUploader
               value={formData.featuredImage}
               onChange={handleImageChange}
+              folder="/portfolio"
             />
           </div>
         </div>

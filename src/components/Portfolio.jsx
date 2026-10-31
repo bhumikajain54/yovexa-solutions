@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, ArrowRight, ExternalLink, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { projectService } from '../services/projectService';
+import { imageKitService } from '../services/imageKitService';
 import DynamicIcon from './DynamicIcon';
 
 export default function Portfolio({ onSelectProject }) {
@@ -166,8 +167,10 @@ export default function Portfolio({ onSelectProject }) {
                   {projectImage ? (
                     <div className="relative h-52 w-full overflow-hidden bg-slate-100 border-b border-slate-200">
                       <img
-                        src={projectImage}
+                        src={imageKitService.getCardUrl(projectImage, 700)}
                         alt={projectTitle}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         onError={(e) => {
                           e.target.parentElement.style.display = 'none';

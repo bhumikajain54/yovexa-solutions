@@ -14,6 +14,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { caseStudyService } from '../../services/caseStudyService';
+import { imageKitService } from '../../services/imageKitService';
 import { useToast } from '../../context/ToastContext';
 import DeleteModal from '../../components/admin/DeleteModal';
 
@@ -255,8 +256,10 @@ export default function AdminCaseStudiesPage() {
                       <div className="flex items-center gap-3.5 max-w-md">
                         {cs.featuredImage ? (
                           <img
-                            src={cs.featuredImage}
+                            src={imageKitService.getThumbnailUrl(cs.featuredImage, 96, 96)}
                             alt={cs.title}
+                            loading="lazy"
+                            decoding="async"
                             className="w-12 h-12 rounded-lg object-cover shrink-0 border border-[#E2E8F0] bg-slate-100"
                             onError={(e) => {
                               e.currentTarget.style.display = 'none';

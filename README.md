@@ -21,8 +21,6 @@ A modern, high-converting corporate website and content management system for **
 The website includes a dedicated, secure Admin Panel with full CRUD capabilities for website content and dynamic lead collection:
 
 - **Admin Login Route**: `/login`
-- **Default Admin Email**: `admin@yovexa.com`
-- **Default Admin Password**: `admin123`
 - **Admin Dashboard**: `/admin/dashboard` (Live metrics for Projects, Services, Inquiries, and Blogs)
 
 ### 🎛️ Manageable Sections:

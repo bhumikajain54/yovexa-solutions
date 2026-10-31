@@ -357,6 +357,7 @@ export default function BlogForm({ initialData = null, onSubmit, onCancel, loadi
             <ImageUploader
               value={formData.featuredImage}
               onChange={handleImageChange}
+              folder="/blog"
             />
           </div>
 

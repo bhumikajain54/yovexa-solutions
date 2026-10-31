@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { X, CheckCircle2, ArrowRight, ExternalLink } from 'lucide-react';
+import { imageKitService } from '../services/imageKitService';
 
 function GithubIcon({ className = "w-3.5 h-3.5" }) {
   return (
@@ -82,14 +83,16 @@ export default function ProjectModal({ project, onClose, onDiscussProject }) {
           {projectImage && (
             <div className="rounded-xl overflow-hidden border border-slate-200/90 shadow-sm relative flex items-center justify-center bg-slate-950 p-2 max-h-88 w-full">
               <img
-                src={projectImage}
+                src={imageKitService.getLqipUrl(projectImage)}
                 alt=""
                 aria-hidden="true"
                 className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
               />
               <img
-                src={projectImage}
+                src={imageKitService.getDetailUrl(projectImage, 1000)}
                 alt={projectTitle}
+                loading="lazy"
+                decoding="async"
                 className="relative z-10 w-full h-full max-h-80 object-contain rounded-lg"
                 onError={(e) => { e.currentTarget.parentElement.style.display = 'none'; }}
               />

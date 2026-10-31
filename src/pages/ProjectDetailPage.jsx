@@ -12,6 +12,7 @@ import {
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { projectService } from '../services/projectService';
+import { imageKitService } from '../services/imageKitService';
 
 function GithubIcon({ className = "w-3.5 h-3.5" }) {
   return (
@@ -155,14 +156,16 @@ export default function ProjectDetailPage() {
           {project.featuredImage && (
             <div className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-slate-950 relative flex items-center justify-center p-2 sm:p-4">
               <img
-                src={project.featuredImage}
+                src={imageKitService.getLqipUrl(project.featuredImage)}
                 alt=""
                 aria-hidden="true"
                 className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-35 scale-110 pointer-events-none"
               />
               <img
-                src={project.featuredImage}
+                src={imageKitService.getDetailUrl(project.featuredImage, 1400)}
                 alt={projectTitle}
+                loading="lazy"
+                decoding="async"
                 className="relative z-10 w-full h-auto max-h-[560px] object-contain rounded-xl"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';

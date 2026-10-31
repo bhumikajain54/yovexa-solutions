@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Calendar, Clock, BookOpen } from 'lucide-react';
+import { imageKitService } from '../../services/imageKitService';
 
 export default function BlogCard({ blog, layout = 'grid' }) {
   const formattedDate = blog.publishedAt || blog.createdAt
@@ -21,16 +22,17 @@ export default function BlogCard({ blog, layout = 'grid' }) {
         {blog.featuredImage ? (
           <>
             <img
-              src={blog.featuredImage}
+              src={imageKitService.getLqipUrl(blog.featuredImage)}
               alt=""
               aria-hidden="true"
               className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
             />
             <img
-              src={blog.featuredImage}
+              src={imageKitService.getCardUrl(blog.featuredImage, 600)}
               alt={blog.title}
               className="relative z-10 w-full h-full object-contain rounded-lg transition-transform duration-300"
               loading="lazy"
+              decoding="async"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
               }}

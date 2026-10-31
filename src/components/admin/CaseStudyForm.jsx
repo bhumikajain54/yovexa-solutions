@@ -480,6 +480,7 @@ export default function CaseStudyForm({ initialData = null, onSubmit, onCancel, 
             <ImageUploader
               value={formData.featuredImage}
               onChange={handleImageChange}
+              folder="/case-studies"
             />
           </div>
         </div>
