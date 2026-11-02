@@ -14,6 +14,7 @@ export const COMPANY_INFO = {
 
   socials: [
     { platform: "LinkedIn", url: "https://www.linkedin.com/company/yovexa-solutions", icon: "Linkedin" },
+    { platform: "Instagram", url: "https://www.instagram.com/yovexaprime", icon: "Instagram" },
     { platform: "Email", url: "mailto:support@yovexasolutions.in", icon: "Mail" }
   ],
 
