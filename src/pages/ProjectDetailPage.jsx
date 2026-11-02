@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '../components/common/SEO';
 import { projectService } from '../services/projectService';
 import { imageKitService } from '../services/imageKitService';
 
@@ -45,9 +46,6 @@ export default function ProjectDetailPage() {
         if (!isMounted) return;
         setProject(data);
 
-        // Update document title for SEO
-        document.title = `${data.title || data.projectName} - Project | Yovexa Solutions`;
-
         // Fetch related projects
         const allPublished = await projectService.getProjects({ publishedOnly: true });
         const related = allPublished.filter(p => p.id !== data.id && p.slug !== data.slug).slice(0, 2);
@@ -63,13 +61,13 @@ export default function ProjectDetailPage() {
 
     return () => {
       isMounted = false;
-      document.title = 'Yovexa Solutions | Digital Solutions & Software Development';
     };
   }, [slug]);
 
   if (notFound) {
     return (
       <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
+        <SEO title="Project Not Found" noindex={true} />
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-32 px-4 text-center">
           <div className="max-w-md mx-auto space-y-4">
@@ -111,9 +109,38 @@ export default function ProjectDetailPage() {
   }
 
   const projectTitle = project.title || project.projectName || project.name || 'Untitled Project';
+  const projectSummary = project.summary || project.shortDescription || project.description || 'Project case study developed by Yovexa Solutions.';
+
+  const projectSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    'name': projectTitle,
+    'description': projectSummary,
+    'applicationCategory': 'BusinessApplication',
+    'operatingSystem': 'Web, Cloud',
+    'author': {
+      '@type': 'Organization',
+      'name': 'Yovexa Solutions',
+      'url': 'https://www.yovexasolutions.in'
+    },
+    ...(project.projectUrl ? { 'url': project.projectUrl } : {})
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
+      <SEO
+        title={`${projectTitle} — Project Case Study`}
+        description={projectSummary}
+        canonical={`/projects/${project.slug || project.id}`}
+        breadcrumbs={[
+          { name: 'Home', item: '/' },
+          { name: 'Portfolio', item: '/portfolio' },
+          { name: projectTitle, item: `/projects/${project.slug || project.id}` }
+        ]}
+        ogImage={project.featuredImage || '/og-image.png'}
+        schema={projectSchema}
+      />
+
       <Navbar />
 
       <main className="flex-1 pt-28 pb-24">

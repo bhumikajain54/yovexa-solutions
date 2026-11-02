@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Portfolio from '../components/Portfolio';
 import ProjectModal from '../components/ProjectModal';
 import Footer from '../components/Footer';
+import SEO from '../components/common/SEO';
 
 export default function PortfolioPage() {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -12,7 +13,6 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Portfolio & Selected Projects | Yovexa Solutions';
   }, []);
 
   const handleDiscussProject = (projectTitle) => {
@@ -20,8 +20,34 @@ export default function PortfolioPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const portfolioSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    'name': 'Yovexa Solutions Engineering Portfolio',
+    'url': 'https://www.yovexasolutions.in/portfolio',
+    'description': 'Production showcase of custom software solutions, enterprise web applications, and digital platforms built by Yovexa Solutions.'
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
+      <SEO
+        title="Software Engineering Portfolio & Client Work"
+        description="Explore real-world software implementations, full-stack web applications, REST API integrations, and scalable business systems engineered by Yovexa Solutions."
+        canonical="/portfolio"
+        breadcrumbs={[
+          { name: 'Home', item: '/' },
+          { name: 'Portfolio', item: '/portfolio' }
+        ]}
+        keywords={[
+          'software portfolio',
+          'web application projects',
+          'full-stack case studies',
+          'software engineering showcase',
+          'Yovexa portfolio'
+        ]}
+        schema={portfolioSchema}
+      />
+
       <Navbar />
 
       <main className="flex-1 pt-24 sm:pt-28">

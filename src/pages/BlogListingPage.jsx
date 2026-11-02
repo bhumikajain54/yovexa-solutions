@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Search, BookOpen, Calendar, Clock, ArrowRight, User } from 'lucide-react';
+import { Sparkles, Search, BookOpen, Clock, ArrowRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BlogCard from '../components/public/BlogCard';
+import SEO from '../components/common/SEO';
 import { blogService } from '../services/blogService';
 import { imageKitService } from '../services/imageKitService';
 
@@ -18,7 +19,6 @@ export default function BlogListingPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Insights, Articles & Engineering Perspectives | Yovexa Solutions';
   }, []);
 
   // Dynamically load categories from backend blog categories API
@@ -67,8 +67,35 @@ export default function BlogListingPage() {
     ? blogs.slice(1)
     : blogs;
 
+  const blogSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    'name': 'Yovexa Solutions Engineering Insights',
+    'url': 'https://www.yovexasolutions.in/blog',
+    'description': 'Practical engineering insights, software architecture breakdowns, and digital development methodologies by Yovexa Solutions.'
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
+      <SEO
+        title="Tech Insights, Engineering Blog & Perspectives"
+        description="Practical engineering insights, software architecture breakdowns, and digital development methodologies from the Yovexa Solutions engineering team."
+        canonical="/blog"
+        breadcrumbs={[
+          { name: 'Home', item: '/' },
+          { name: 'Blog', item: '/blog' }
+        ]}
+        keywords={[
+          'software engineering blog',
+          'tech insights',
+          'React development tutorials',
+          'Spring Boot architecture',
+          'web development articles',
+          'software development perspectives'
+        ]}
+        schema={blogSchema}
+      />
+
       <Navbar />
 
       <main className="flex-1 pt-20 sm:pt-24 pb-16">

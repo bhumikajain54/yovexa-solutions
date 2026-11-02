@@ -1,0 +1,34 @@
+# Robots.txt for Yovexa Solutions
+# Website: https://www.yovexasolutions.in
+
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /services
+Allow: /services/
+Allow: /portfolio
+Allow: /portfolio/
+Allow: /projects/
+Allow: /case-studies
+Allow: /case-studies/
+Allow: /blog
+Allow: /blog/
+Allow: /contact
+
+# Disallow private and administrative endpoints
+Disallow: /admin
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /api/
+Disallow: /*?*preview=
+
+# Crawl-delay for polite indexing
+Crawl-delay: 1
+
+# XML Sitemaps
+Sitemap: https://www.yovexasolutions.in/sitemap.xml
+
+# Host
+Host: https://www.yovexasolutions.in
+

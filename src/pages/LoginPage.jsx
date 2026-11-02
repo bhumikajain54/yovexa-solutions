@@ -4,6 +4,7 @@ import { Lock, Mail, Eye, EyeOff, ArrowRight, ShieldCheck, AlertCircle, CheckCir
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import Logo from '../components/Logo';
+import SEO from '../components/common/SEO';
 
 export default function LoginPage() {
   const { login, isAuthenticated } = useAuth();
@@ -58,6 +59,8 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#081A33] text-white flex flex-col justify-center py-12 sm:px-6 lg:px-8 tech-grid-dark relative overflow-hidden font-sans">
+      <SEO title="Admin Login" noindex={true} />
+
       {/* Background Ambience */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#0EA5E9]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -180,7 +183,6 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
-
 
         {/* Back to Public Site Link */}
         <div className="mt-6 text-center">

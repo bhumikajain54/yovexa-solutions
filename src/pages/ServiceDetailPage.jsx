@@ -4,6 +4,7 @@ import { Sparkles, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import DynamicIcon from '../components/DynamicIcon';
+import SEO from '../components/common/SEO';
 import { SERVICES_DATA } from '../data/services';
 import { projectService } from '../services/projectService';
 import { PROCESS_STEPS } from '../data/process';
@@ -26,7 +27,6 @@ export default function ServiceDetailPage() {
 
     setService(matched);
     setNotFound(false);
-    document.title = `${matched.title} | Yovexa Solutions`;
 
     let isMounted = true;
     projectService.getProjects({ publishedOnly: true })
@@ -41,13 +41,13 @@ export default function ServiceDetailPage() {
 
     return () => {
       isMounted = false;
-      document.title = 'Yovexa Solutions | Digital Solutions & Software Development';
     };
   }, [slug]);
 
   if (notFound) {
     return (
       <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
+        <SEO title="Service Not Found" noindex={true} />
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-32 px-4 text-center">
           <div className="max-w-md mx-auto space-y-4">
@@ -78,8 +78,54 @@ export default function ServiceDetailPage() {
     ? service.features
     : (typeof service.features === 'string' ? service.features.split('\n').filter(Boolean) : []);
 
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    'name': service.title,
+    'description': service.description || service.shortDescription,
+    'url': `https://www.yovexasolutions.in/services/${service.slug || service.id}`,
+    'provider': {
+      '@type': 'Organization',
+      'name': 'Yovexa Solutions',
+      'url': 'https://www.yovexasolutions.in'
+    },
+    'areaServed': {
+      '@type': 'Country',
+      'name': 'India'
+    },
+    'hasOfferCatalog': {
+      '@type': 'OfferCatalog',
+      'name': `${service.title} Deliverables`,
+      'itemListElement': featuresList.map(feat => ({
+        '@type': 'Offer',
+        'itemOffered': {
+          '@type': 'Service',
+          'name': feat
+        }
+      }))
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
+      <SEO
+        title={`${service.title} Services & Architecture`}
+        description={service.shortDescription || service.description}
+        canonical={`/services/${service.slug || service.id}`}
+        breadcrumbs={[
+          { name: 'Home', item: '/' },
+          { name: 'Services', item: '/services' },
+          { name: service.title, item: `/services/${service.slug || service.id}` }
+        ]}
+        keywords={[
+          service.title,
+          `${service.title} company`,
+          `${service.title} India`,
+          ...(service.technologies || [])
+        ]}
+        schema={serviceSchema}
+      />
+
       <Navbar />
 
       <main className="flex-1 pt-28 pb-24">
@@ -168,7 +214,7 @@ export default function ServiceDetailPage() {
             </div>
           </div>
 
-          {/* Related Case Studies or Projects (Dynamic) */}
+          {/* Related Case Studies or Projects */}
           {relatedProjects.length > 0 && (
             <div className="mt-12">
               <h3 className="text-xl font-bold text-slate-900 font-display mb-4">

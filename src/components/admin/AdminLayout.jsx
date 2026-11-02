@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import AdminSidebar from './AdminSidebar';
+import SEO from '../common/SEO';
 
 export default function AdminLayout() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -34,6 +35,8 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0B1B3A] flex">
+      <SEO title="Admin Portal" noindex={true} />
+
       {/* Sidebar */}
       <AdminSidebar
         isMobileOpen={mobileSidebarOpen}

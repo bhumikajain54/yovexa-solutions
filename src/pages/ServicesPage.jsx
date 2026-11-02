@@ -4,16 +4,54 @@ import { Sparkles, ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import DynamicIcon from '../components/DynamicIcon';
+import SEO from '../components/common/SEO';
 import { SERVICES_DATA } from '../data/services';
 
 export default function ServicesPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Services Directory & Technical Capabilities | Yovexa Solutions';
   }, []);
+
+  const servicesSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    'itemListElement': SERVICES_DATA.map((service, index) => ({
+      '@type': 'ListItem',
+      'position': index + 1,
+      'item': {
+        '@type': 'Service',
+        'name': service.title,
+        'description': service.shortDescription || service.description,
+        'url': `https://www.yovexasolutions.in/services/${service.slug || service.id}`,
+        'provider': {
+          '@type': 'Organization',
+          'name': 'Yovexa Solutions'
+        }
+      }
+    }))
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
+      <SEO
+        title="Software Engineering & Web Development Services"
+        description="Comprehensive software development services: high-converting websites, reactive web applications, secure Spring Boot REST APIs, and bespoke internal CMS dashboards."
+        canonical="/services"
+        breadcrumbs={[
+          { name: 'Home', item: '/' },
+          { name: 'Services', item: '/services' }
+        ]}
+        keywords={[
+          'website development services',
+          'web applications development',
+          'REST API development',
+          'Spring Boot API services',
+          'admin dashboard development',
+          'custom software services India'
+        ]}
+        schema={servicesSchema}
+      />
+
       <Navbar />
 
       <main className="flex-1 pt-24 sm:pt-28 pb-24">
@@ -34,7 +72,7 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Services Directory Content (Static & Instant) */}
+        {/* Services Directory Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {SERVICES_DATA.map((service, idx) => {

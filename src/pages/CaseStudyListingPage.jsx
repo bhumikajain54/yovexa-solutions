@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Sparkles, Search, BookOpen, ArrowRight, ExternalLink, Layers, CheckCircle2 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '../components/common/SEO';
 import { caseStudyService } from '../services/caseStudyService';
 import { imageKitService } from '../services/imageKitService';
 
@@ -15,7 +16,6 @@ export default function CaseStudyListingPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Case Studies & Architectural Breakdowns | Yovexa Solutions';
   }, []);
 
   useEffect(() => {
@@ -58,8 +58,34 @@ export default function CaseStudyListingPage() {
     ? caseStudies.filter(cs => (cs.id || cs.slug) !== (featuredCaseStudy.id || featuredCaseStudy.slug))
     : caseStudies;
 
+  const caseStudyCollectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    'name': 'Technical Case Studies & System Architecture Breakdowns',
+    'url': 'https://www.yovexasolutions.in/case-studies',
+    'description': 'Real-world software engineering case studies detailing architectural decisions, technology stacks, and performance outcomes by Yovexa Solutions.'
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
+      <SEO
+        title="Technical Case Studies & System Architecture Breakdowns"
+        description="Explore in-depth engineering breakdowns of real business challenges solved, architectural decisions, and verified production outcomes."
+        canonical="/case-studies"
+        breadcrumbs={[
+          { name: 'Home', item: '/' },
+          { name: 'Case Studies', item: '/case-studies' }
+        ]}
+        keywords={[
+          'software engineering case studies',
+          'technical case studies',
+          'software architecture breakdowns',
+          'full-stack case studies',
+          'Spring Boot and React case studies'
+        ]}
+        schema={caseStudyCollectionSchema}
+      />
+
       <Navbar />
 
       <main className="flex-1 pt-20 sm:pt-24 pb-16">
@@ -278,7 +304,7 @@ export default function CaseStudyListingPage() {
                 </div>
               )}
 
-              {/* Remaining Case Studies (Editorial 2-Column / Structured Cards) */}
+              {/* Remaining Case Studies */}
               {remainingCaseStudies.length > 0 && (
                 <div>
                   {featuredCaseStudy && (

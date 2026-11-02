@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Sparkles, Check, ArrowRight, ShieldCheck, Target, Users, Code2, Layers } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '../components/common/SEO';
 import { projectService } from '../services/projectService';
 
 export default function AboutPage() {
@@ -10,7 +11,6 @@ export default function AboutPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'About Us | Yovexa Solutions - Software Engineering & Digital Solutions';
 
     let isMounted = true;
     projectService.getProjects({ publishedOnly: true })
@@ -39,8 +39,32 @@ export default function AboutPage() {
     "Admin Dashboard & CMS Engineering"
   ];
 
+  const aboutSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    'name': 'About Yovexa Solutions',
+    'url': 'https://www.yovexasolutions.in/about',
+    'description': primaryDesc,
+    'mainEntity': {
+      '@type': 'Organization',
+      'name': 'Yovexa Solutions',
+      'url': 'https://www.yovexasolutions.in'
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
+      <SEO
+        title="About Us — Software Engineering & Digital Technology Partner"
+        description="Learn about Yovexa Solutions — an engineering-driven software company creating scalable web applications, REST APIs, and digital tools for businesses."
+        canonical="/about"
+        breadcrumbs={[
+          { name: 'Home', item: '/' },
+          { name: 'About Us', item: '/about' }
+        ]}
+        schema={aboutSchema}
+      />
+
       <Navbar />
 
       <main className="flex-1 pt-24 sm:pt-28 pb-24">

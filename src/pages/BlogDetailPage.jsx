@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BlogContent from '../components/public/BlogContent';
 import BlogCard from '../components/public/BlogCard';
+import SEO from '../components/common/SEO';
 import { blogService } from '../services/blogService';
 import { imageKitService } from '../services/imageKitService';
 import { useToast } from '../context/ToastContext';
@@ -35,9 +36,6 @@ export default function BlogDetailPage() {
 
         setBlog(article);
 
-        // Update document SEO Title
-        document.title = `${article.seoTitle || article.title} | Yovexa Insights`;
-
         // Fetch related articles
         const allPublished = await blogService.getPublicBlogs();
         const related = allPublished
@@ -55,7 +53,6 @@ export default function BlogDetailPage() {
 
     return () => {
       isMounted = false;
-      document.title = 'Yovexa Solutions | Digital Solutions & Software Development';
     };
   }, [slug]);
 
@@ -76,6 +73,7 @@ export default function BlogDetailPage() {
   if (notFound) {
     return (
       <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
+        <SEO title="Article Not Found" noindex={true} />
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-32 px-4 text-center">
           <div className="max-w-md mx-auto space-y-4">
@@ -123,9 +121,54 @@ export default function BlogDetailPage() {
 
   const readTime = blog.readTime || blog.readingTime || '4 min read';
   const categoryLabel = blog.category ? blog.category.replace(/_/g, ' ') : 'Engineering';
+  const articleDescription = blog.seoDescription || blog.excerpt || blog.title;
+
+  const blogPostSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    'headline': blog.title,
+    'description': articleDescription,
+    'image': blog.featuredImage || 'https://www.yovexasolutions.in/og-image.png',
+    'datePublished': blog.publishedAt || blog.createdAt,
+    'dateModified': blog.updatedAt || blog.publishedAt || blog.createdAt,
+    'author': {
+      '@type': 'Person',
+      'name': blog.author || 'Yovexa Engineering Team'
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Yovexa Solutions',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://www.yovexasolutions.in/og-image.png'
+      }
+    },
+    'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': `https://www.yovexasolutions.in/blog/${blog.slug}`
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
+      <SEO
+        title={blog.seoTitle || blog.title}
+        description={articleDescription}
+        canonical={`/blog/${blog.slug}`}
+        ogType="article"
+        ogImage={blog.featuredImage || '/og-image.png'}
+        publishedAt={blog.publishedAt || blog.createdAt}
+        modifiedAt={blog.updatedAt || blog.publishedAt || blog.createdAt}
+        author={blog.author || 'Yovexa Engineering Team'}
+        keywords={blog.tags || [categoryLabel, 'software engineering', 'tech insights']}
+        breadcrumbs={[
+          { name: 'Home', item: '/' },
+          { name: 'Blog', item: '/blog' },
+          { name: blog.title, item: `/blog/${blog.slug}` }
+        ]}
+        schema={blogPostSchema}
+      />
+
       <Navbar />
 
       <main className="flex-1 pt-28 pb-24">

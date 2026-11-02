@@ -1,16 +1,22 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Home, ArrowLeft, Layers, Sparkles } from 'lucide-react';
+import { Home, ArrowLeft } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '../components/common/SEO';
 
 export default function NotFoundPage() {
   useEffect(() => {
-    document.title = 'Page Not Found (404) | Yovexa Solutions';
+    window.scrollTo(0, 0);
   }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
+      <SEO
+        title="Page Not Found (404)"
+        description="The page you are looking for does not exist on Yovexa Solutions."
+        noindex={true}
+      />
       <Navbar />
 
       <main className="flex-1 flex items-center justify-center px-4 py-28 sm:py-36">

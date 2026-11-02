@@ -4,6 +4,7 @@ import { Lock, Mail, User, Eye, EyeOff, ArrowRight, UserPlus, AlertCircle } from
 import { useAuth } from '../context/AuthContext';
 import { authService } from '../services/authService';
 import Logo from '../components/Logo';
+import SEO from '../components/common/SEO';
 
 export default function RegisterPage() {
   const { isAuthenticated } = useAuth();
@@ -80,6 +81,8 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-[#081A33] text-white flex flex-col justify-center py-12 sm:px-6 lg:px-8 tech-grid-dark relative overflow-hidden font-sans">
+      <SEO title="Register Administrator" noindex={true} />
+
       {/* Background Ambience */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#0EA5E9]/10 rounded-full blur-3xl pointer-events-none" />
 

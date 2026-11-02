@@ -6,13 +6,11 @@ import {
   CheckCircle2,
   Sparkles,
   ArrowRight,
-  ShieldCheck,
-  Cpu,
-  Layers,
   ChevronRight
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '../components/common/SEO';
 import { caseStudyService } from '../services/caseStudyService';
 import { imageKitService } from '../services/imageKitService';
 
@@ -46,9 +44,6 @@ export default function CaseStudyDetailPage() {
         if (!isMounted) return;
         setCaseStudy(data);
 
-        // Update document title for SEO
-        document.title = `${data.title} — Case Study | Yovexa Solutions`;
-
         // Fetch related studies
         const allPublished = await caseStudyService.getCaseStudies({ publishedOnly: true });
         const related = allPublished.filter(cs => cs.id !== data.id && cs.slug !== data.slug).slice(0, 2);
@@ -64,13 +59,13 @@ export default function CaseStudyDetailPage() {
 
     return () => {
       isMounted = false;
-      document.title = 'Yovexa Solutions | Digital Solutions & Software Development';
     };
   }, [slug]);
 
   if (notFound) {
     return (
       <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
+        <SEO title="Case Study Not Found" noindex={true} />
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-32 px-4 text-center">
           <div className="max-w-md mx-auto space-y-4">
@@ -119,8 +114,47 @@ export default function CaseStudyDetailPage() {
     ? caseStudy.technologies
     : (typeof caseStudy.technologies === 'string' ? caseStudy.technologies.split(',').map(s => s.trim()).filter(Boolean) : []);
 
+  const studyDescription = caseStudy.summary || caseStudy.problem || caseStudy.subtitle || 'Technical case study by Yovexa Solutions.';
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    'headline': caseStudy.title,
+    'description': studyDescription,
+    'image': caseStudy.featuredImage || 'https://www.yovexasolutions.in/og-image.png',
+    'author': {
+      '@type': 'Organization',
+      'name': 'Yovexa Solutions'
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Yovexa Solutions',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://www.yovexasolutions.in/og-image.png'
+      }
+    },
+    'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': `https://www.yovexasolutions.in/case-studies/${caseStudy.slug || caseStudy.id}`
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans">
+      <SEO
+        title={`${caseStudy.title} — Architectural Case Study`}
+        description={studyDescription}
+        canonical={`/case-studies/${caseStudy.slug || caseStudy.id}`}
+        breadcrumbs={[
+          { name: 'Home', item: '/' },
+          { name: 'Case Studies', item: '/case-studies' },
+          { name: caseStudy.title, item: `/case-studies/${caseStudy.slug || caseStudy.id}` }
+        ]}
+        ogImage={caseStudy.featuredImage || '/og-image.png'}
+        schema={articleSchema}
+      />
+
       <Navbar />
 
       <main className="flex-1 pt-28 pb-24">
