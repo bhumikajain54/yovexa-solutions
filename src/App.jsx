@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 
-// Public Pages
+// Public Pages (Eagerly loaded for fast crawlability & zero LCP delay)
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
@@ -19,20 +19,33 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-// Admin Components & Pages
+// Protected Route Guard
 import ProtectedRoute from './components/common/ProtectedRoute';
-import AdminLayout from './components/admin/AdminLayout';
-import AdminDashboardPage from './pages/admin/AdminDashboardPage';
-import AdminBlogsPage from './pages/admin/AdminBlogsPage';
-import AdminCreateBlogPage from './pages/admin/AdminCreateBlogPage';
-import AdminEditBlogPage from './pages/admin/AdminEditBlogPage';
-import AdminProjectsPage from './pages/admin/AdminProjectsPage';
-import AdminCreateProjectPage from './pages/admin/AdminCreateProjectPage';
-import AdminEditProjectPage from './pages/admin/AdminEditProjectPage';
-import AdminCaseStudiesPage from './pages/admin/AdminCaseStudiesPage';
-import AdminCreateCaseStudyPage from './pages/admin/AdminCreateCaseStudyPage';
-import AdminEditCaseStudyPage from './pages/admin/AdminEditCaseStudyPage';
-import AdminInquiriesPage from './pages/admin/AdminInquiriesPage';
+
+// Admin Pages (Lazy loaded for massive bundle reduction for public visitors & search crawlers)
+const AdminLayout = lazy(() => import('./components/admin/AdminLayout'));
+const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'));
+const AdminBlogsPage = lazy(() => import('./pages/admin/AdminBlogsPage'));
+const AdminCreateBlogPage = lazy(() => import('./pages/admin/AdminCreateBlogPage'));
+const AdminEditBlogPage = lazy(() => import('./pages/admin/AdminEditBlogPage'));
+const AdminProjectsPage = lazy(() => import('./pages/admin/AdminProjectsPage'));
+const AdminCreateProjectPage = lazy(() => import('./pages/admin/AdminCreateProjectPage'));
+const AdminEditProjectPage = lazy(() => import('./pages/admin/AdminEditProjectPage'));
+const AdminCaseStudiesPage = lazy(() => import('./pages/admin/AdminCaseStudiesPage'));
+const AdminCreateCaseStudyPage = lazy(() => import('./pages/admin/AdminCreateCaseStudyPage'));
+const AdminEditCaseStudyPage = lazy(() => import('./pages/admin/AdminEditCaseStudyPage'));
+const AdminInquiriesPage = lazy(() => import('./pages/admin/AdminInquiriesPage'));
+
+function AdminLoadingFallback() {
+  return (
+    <div className="min-h-screen bg-[#081A33] flex items-center justify-center">
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-8 h-8 border-3 border-sky-400 border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs font-mono text-slate-300">Loading Portal...</span>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   return (
@@ -56,12 +69,14 @@ export default function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
 
-            {/* Protected Admin Routes */}
+            {/* Protected Admin Routes (Code-split with Suspense) */}
             <Route
               path="/admin"
               element={
                 <ProtectedRoute>
-                  <AdminLayout />
+                  <Suspense fallback={<AdminLoadingFallback />}>
+                    <AdminLayout />
+                  </Suspense>
                 </ProtectedRoute>
               }
             >

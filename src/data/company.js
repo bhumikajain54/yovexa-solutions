@@ -20,20 +20,20 @@ export const COMPANY_INFO = {
   ],
 
   navLinks: [
-    { label: "Home", href: "/#hero" },
-    { label: "About", href: "/#about" },
-    { label: "Services", href: "/#services" },
-    { label: "Portfolio", href: "/#portfolio" },
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Services", href: "/services" },
+    { label: "Portfolio", href: "/portfolio" },
     { label: "Case Studies", href: "/case-studies" },
     { label: "Blog", href: "/blog" },
     { label: "Contact", href: "/contact" },
   ],
 
   footerCompany: [
-    { label: "Home", href: "/#hero" },
-    { label: "About", href: "/#about" },
-    { label: "Services", href: "/#services" },
-    { label: "Portfolio", href: "/#portfolio" },
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Services", href: "/services" },
+    { label: "Portfolio", href: "/portfolio" },
     { label: "Case Studies", href: "/case-studies" },
     { label: "Blog", href: "/blog" },
     { label: "Contact", href: "/contact" },

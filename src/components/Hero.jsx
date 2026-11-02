@@ -10,7 +10,7 @@ export default function Hero() {
   const badge = "Digital Engineering & Software Solutions";
   const heading = "We Build Digital Solutions That Drive";
   const highlight = "Business Growth";
-  const description = "We design and develop modern websites, web applications, and custom software that help businesses streamline operations, serve customers, and scale with confidence.";
+  const description = "At Yovexa Solutions, we design and develop modern websites, web applications, and custom software that help businesses streamline operations, serve customers, and scale with confidence.";
   const primaryCta = "Discuss Your Project";
   const secondaryCta = "Explore Our Work";
 

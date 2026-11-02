@@ -96,6 +96,33 @@ export default function Navbar({ onOpenContact }) {
     setServicesDropdownOpen(false);
 
     // Direct standalone routes
+    if (href === '/' || href === '/#hero') {
+      if (location.pathname === '/') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setActiveSection('hero');
+      } else {
+        navigate('/');
+      }
+      return;
+    }
+    if (href === '/about' || href === '/about/') {
+      if (location.pathname === '/') {
+        const el = document.getElementById('about');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          setActiveSection('about');
+          return;
+        }
+      }
+      navigate('/about');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (href === '/services' || href === '/services/') {
+      navigate('/services');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (href === '/blog' || href === '/blog/') {
       navigate('/blog');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -202,9 +229,9 @@ export default function Navbar({ onOpenContact }) {
                           Core Capabilities
                         </div>
                         <div className="space-y-1 pt-1">
-                          <a
-                            href="/#services"
-                            onClick={(e) => handleNavClick(e, '#services')}
+                          <Link
+                            to="/services/website-development"
+                            onClick={() => setServicesDropdownOpen(false)}
                             className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition-colors text-left"
                           >
                             <div className="w-7 h-7 rounded-lg bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
@@ -214,25 +241,25 @@ export default function Navbar({ onOpenContact }) {
                               <div className="text-xs font-bold text-slate-900">Website Development</div>
                               <div className="text-[11px] text-slate-500">Business & brand platforms</div>
                             </div>
-                          </a>
+                          </Link>
 
-                          <a
-                            href="/#services"
-                            onClick={(e) => handleNavClick(e, '#services')}
+                          <Link
+                            to="/services/web-applications"
+                            onClick={() => setServicesDropdownOpen(false)}
                             className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition-colors text-left"
                           >
                             <div className="w-7 h-7 rounded-lg bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
                               <Cpu className="w-4 h-4" />
                             </div>
                             <div>
-                              <div className="text-xs font-bold text-slate-900">Web Applications</div>
+                              <div className="text-xs font-bold text-slate-900">Web Applications & SaaS</div>
                               <div className="text-[11px] text-slate-500">React + Spring Boot systems</div>
                             </div>
-                          </a>
+                          </Link>
 
-                          <a
-                            href="/#services"
-                            onClick={(e) => handleNavClick(e, '#services')}
+                          <Link
+                            to="/services/rest-apis"
+                            onClick={() => setServicesDropdownOpen(false)}
                             className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition-colors text-left"
                           >
                             <div className="w-7 h-7 rounded-lg bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
@@ -242,7 +269,21 @@ export default function Navbar({ onOpenContact }) {
                               <div className="text-xs font-bold text-slate-900">REST APIs & Integrations</div>
                               <div className="text-[11px] text-slate-500">Scalable data exchange</div>
                             </div>
-                          </a>
+                          </Link>
+
+                          <Link
+                            to="/services/admin-dashboards"
+                            onClick={() => setServicesDropdownOpen(false)}
+                            className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition-colors text-left"
+                          >
+                            <div className="w-7 h-7 rounded-lg bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
+                              <ShieldCheck className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <div className="text-xs font-bold text-slate-900">Admin Dashboards & CMS</div>
+                              <div className="text-[11px] text-slate-500">Internal backoffice tools</div>
+                            </div>
+                          </Link>
 
                           <Link
                             to="/services"

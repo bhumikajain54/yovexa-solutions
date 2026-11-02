@@ -21,6 +21,24 @@ export default function Footer() {
   const handleNavClick = (e, href) => {
     e.preventDefault();
 
+    if (href === '/' || href === '/#hero') {
+      if (location.pathname === '/') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        navigate('/');
+      }
+      return;
+    }
+    if (href === '/about' || href === '/about/' || href === '/#about') {
+      navigate('/about');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (href === '/services' || href === '/services/' || href === '/#services') {
+      navigate('/services');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (href === '/blog' || href === '/blog/') {
       navigate('/blog');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -31,7 +49,7 @@ export default function Footer() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    if (href === '/portfolio' || href === '/portfolio/') {
+    if (href === '/portfolio' || href === '/portfolio/' || href === '/#portfolio') {
       navigate('/portfolio');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;

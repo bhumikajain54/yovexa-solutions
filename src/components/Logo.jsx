@@ -58,7 +58,7 @@ export default function Logo({
     <div className={`flex items-center select-none ${className}`}>
       <img
         src={logoSrc}
-        alt="Yovexa Solutions"
+        alt="Yovexa Solutions — Digital Engineering & Software Development"
         className={`${sizeClass} w-auto max-w-full object-contain rounded-md transition-all duration-300 hover:brightness-105 hover:scale-[1.02]`}
         loading="eager"
       />
