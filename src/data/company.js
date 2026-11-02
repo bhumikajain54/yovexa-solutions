@@ -13,7 +13,7 @@ export const COMPANY_INFO = {
   copyright: `© ${new Date().getFullYear()} Yovexa Solutions. All rights reserved.`,
 
   socials: [
-    { platform: "LinkedIn", url: "https://linkedin.com", icon: "Linkedin" },
+    { platform: "LinkedIn", url: "https://www.linkedin.com/company/yovexa-solutions", icon: "Linkedin" },
     { platform: "GitHub", url: "https://github.com", icon: "Github" },
     { platform: "Twitter", url: "https://twitter.com", icon: "Twitter" },
     { platform: "Email", url: "mailto:support@yovexasolutions.in", icon: "Mail" }

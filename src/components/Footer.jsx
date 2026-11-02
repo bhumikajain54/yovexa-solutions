@@ -87,10 +87,10 @@ export default function Footer() {
   return (
     <footer className="bg-[#081A33] text-white border-t border-slate-800 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-slate-800">
-          
+
           {/* Col 1: Brand & Bio (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <Link to="/#hero" onClick={(e) => handleNavClick(e, '#hero')} className="inline-block">
@@ -104,7 +104,7 @@ export default function Footer() {
             {/* Social Links */}
             <div className="pt-2 flex items-center gap-2.5">
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/company/yovexa-solutions"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:bg-[#0284C7] hover:text-white hover:border-[#0284C7] transition-all duration-150"
