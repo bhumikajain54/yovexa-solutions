@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Target, Cpu, Sparkles, ShieldCheck, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { VALUES_DATA } from '../data/values';
 
@@ -21,22 +22,17 @@ export default function WhyYovexa() {
     }
   };
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
-    <section id="why-us" className="py-28 sm:py-32 bg-[#F8FAFC] text-slate-900 border-b border-slate-200 scroll-mt-20 tech-grid-bg">
+    <section id="why-us" className="py-20 sm:py-28 bg-[#F8FAFC] text-slate-900 border-b border-slate-200 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
             <span>ENGINEERING PRINCIPLES</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1B3A] tracking-tight font-display">
             Why Work With <span className="text-[#0284C7]">Yovexa Solutions?</span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
@@ -49,10 +45,10 @@ export default function WhyYovexa() {
           {VALUES_DATA.map((value) => (
             <div
               key={value.id}
-              className="group relative flex flex-col justify-between p-7 rounded-2xl bg-white border border-slate-200/90 hover:border-sky-300 shadow-card hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1"
+              className="group relative flex flex-col justify-between p-7 rounded-2xl bg-white border border-slate-200/90 hover:border-sky-300 shadow-xs hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
             >
               <div>
-                <div className="w-12 h-12 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center mb-6 group-hover:bg-sky-100 transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center mb-6 group-hover:bg-[#0284C7] group-hover:text-white transition-colors duration-200">
                   {getIcon(value.id)}
                 </div>
 
@@ -60,7 +56,7 @@ export default function WhyYovexa() {
                   {value.highlight}
                 </div>
 
-                <h3 className="text-lg font-bold text-slate-900 font-display leading-snug">
+                <h3 className="text-lg font-bold text-[#0B1B3A] font-display leading-snug">
                   {value.title}
                 </h3>
 
@@ -75,7 +71,7 @@ export default function WhyYovexa() {
 
               <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-1.5 text-xs font-semibold text-slate-500 group-hover:text-[#0284C7] transition-colors">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#0284C7]" />
-                <span>Engineered for long-term maintainability</span>
+                <span>Engineered for long-term reliability</span>
               </div>
             </div>
           ))}
@@ -83,13 +79,14 @@ export default function WhyYovexa() {
 
         {/* Bottom CTA Banner */}
         <div className="mt-16 text-center">
-          <button
-            onClick={() => scrollTo('contact')}
-            className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl text-sm font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm transform hover:-translate-y-0.5 active:translate-y-0"
+          <Link
+            to="/contact"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl text-sm font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-xs hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0"
           >
             <span>Partner With Yovexa On Your Next Project</span>
             <ArrowRight className="w-4 h-4 text-white" />
-          </button>
+          </Link>
         </div>
 
       </div>

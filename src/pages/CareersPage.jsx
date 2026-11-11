@@ -216,7 +216,7 @@ export default function CareersPage() {
   const ActiveIcon = activeCulture.icon;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-[#111827] font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900 font-sans antialiased selection:bg-sky-100 selection:text-sky-900">
       <SEO
         title="Careers — Build Your Future With Us | Yovexa Solutions"
         description="Join Yovexa Solutions. Explore our engineering culture, core values, continuous learning, and future career opportunities in software development."
@@ -234,33 +234,33 @@ export default function CareersPage() {
         {/* =========================================================================
             SECTION A: HERO SECTION
         ========================================================================== */}
-        <section className="relative overflow-hidden bg-white border-b border-[#E5E7EB] pt-16 pb-20 sm:pt-20 sm:pb-28">
+        <section className="relative overflow-hidden bg-white border-b border-slate-200 pt-16 pb-20 sm:pt-20 sm:pb-28">
           {/* Subtle Ambient Background Lighting */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none overflow-hidden">
-            <div className="absolute -top-32 left-1/4 w-96 h-96 bg-blue-100/60 rounded-full blur-3xl" />
-            <div className="absolute top-20 right-1/4 w-80 h-80 bg-sky-100/50 rounded-full blur-3xl" />
-            <div className="absolute inset-0 tech-grid-bg opacity-40" />
+            <div className="absolute -top-32 left-1/4 w-96 h-96 bg-sky-100/60 rounded-full blur-3xl" />
+            <div className="absolute top-20 right-1/4 w-80 h-80 bg-blue-100/50 rounded-full blur-3xl" />
+            <div className="absolute inset-0 tech-grid-bg opacity-30" />
           </div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center max-w-4xl mx-auto">
               
               {/* Eyebrow Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 text-[#2563EB] text-xs font-bold tracking-wide uppercase mb-6 shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 border border-sky-200/80 text-[#0284C7] text-xs font-bold tracking-wide uppercase mb-6 shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
                 <span>Careers at Yovexa Solutions</span>
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#111827] tracking-tight leading-[1.12] font-display">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0B1B3A] tracking-tight leading-[1.12] font-display">
                 Build Your Future With{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] via-[#0284C7] to-[#1D4ED8]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0B1B3A] via-[#0284C7] to-[#0369A1]">
                   Yovexa.
                 </span>
               </h1>
 
               {/* Hero Description */}
-              <p className="mt-6 text-base sm:text-lg lg:text-xl text-[#64748B] max-w-3xl mx-auto leading-relaxed font-normal">
+              <p className="mt-6 text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-normal">
                 Join a team of passionate innovators, developers, and creative thinkers building meaningful digital experiences. At Yovexa Solutions, we believe in innovation, collaboration, continuous learning, and creating technology that makes a difference.
               </p>
 
@@ -269,16 +269,16 @@ export default function CareersPage() {
                 <a
                   href="#openings"
                   onClick={scrollToOpenings}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold text-white bg-[#2563EB] hover:bg-blue-700 shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold text-white bg-[#0B1B3A] hover:bg-[#183B75] shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0284C7]"
                 >
                   <span>Explore Opportunities</span>
-                  <ArrowDown className="w-4 h-4 text-white" />
+                  <ArrowDown className="w-4 h-4 text-sky-400" />
                 </a>
 
                 <a
                   href="#culture"
                   onClick={scrollToCulture}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold text-slate-700 hover:text-[#111827] bg-white hover:bg-slate-50 border border-[#E5E7EB] hover:border-slate-300 shadow-xs transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-bold text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 shadow-xs transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0"
                 >
                   <span>Our Work Culture</span>
                   <ArrowRight className="w-4 h-4 text-slate-500" />
@@ -286,22 +286,22 @@ export default function CareersPage() {
               </div>
 
               {/* Trust & Craft Highlights Strip */}
-              <div className="mt-14 pt-8 border-t border-[#E5E7EB]/80 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto text-left">
-                <div className="p-3 rounded-xl bg-slate-50/70 border border-[#E5E7EB]/80">
-                  <div className="text-xs font-bold text-[#2563EB] uppercase tracking-wider">Mindset</div>
-                  <div className="text-xs sm:text-sm font-bold text-[#111827] mt-0.5">Engineering-First</div>
+              <div className="mt-14 pt-8 border-t border-slate-200/80 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto text-left">
+                <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80">
+                  <div className="text-xs font-bold text-[#0284C7] uppercase tracking-wider">Mindset</div>
+                  <div className="text-xs sm:text-sm font-bold text-[#0B1B3A] mt-0.5">Engineering-First</div>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-50/70 border border-[#E5E7EB]/80">
-                  <div className="text-xs font-bold text-[#2563EB] uppercase tracking-wider">Environment</div>
-                  <div className="text-xs sm:text-sm font-bold text-[#111827] mt-0.5">Ego-Free & Open</div>
+                <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80">
+                  <div className="text-xs font-bold text-[#0284C7] uppercase tracking-wider">Environment</div>
+                  <div className="text-xs sm:text-sm font-bold text-[#0B1B3A] mt-0.5">Ego-Free & Open</div>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-50/70 border border-[#E5E7EB]/80">
-                  <div className="text-xs font-bold text-[#2563EB] uppercase tracking-wider">Growth</div>
-                  <div className="text-xs sm:text-sm font-bold text-[#111827] mt-0.5">Continuous Learning</div>
+                <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80">
+                  <div className="text-xs font-bold text-[#0284C7] uppercase tracking-wider">Growth</div>
+                  <div className="text-xs sm:text-sm font-bold text-[#0B1B3A] mt-0.5">Continuous Learning</div>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-50/70 border border-[#E5E7EB]/80">
-                  <div className="text-xs font-bold text-[#2563EB] uppercase tracking-wider">Delivery</div>
-                  <div className="text-xs sm:text-sm font-bold text-[#111827] mt-0.5">Real-World Impact</div>
+                <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/80">
+                  <div className="text-xs font-bold text-[#0284C7] uppercase tracking-wider">Delivery</div>
+                  <div className="text-xs sm:text-sm font-bold text-[#0B1B3A] mt-0.5">Real-World Impact</div>
                 </div>
               </div>
 
@@ -312,19 +312,19 @@ export default function CareersPage() {
         {/* =========================================================================
             SECTION B: WHY WORK WITH US
         ========================================================================== */}
-        <section className="py-20 bg-[#F8FAFC] border-b border-[#E5E7EB]">
+        <section className="py-20 bg-[#F8FAFC] border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Section Header */}
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100/70 border border-blue-200 text-[#2563EB] text-xs font-bold tracking-wider uppercase mb-3">
-                <Rocket className="w-3.5 h-3.5 text-[#2563EB]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-bold tracking-wider uppercase mb-3">
+                <Rocket className="w-3.5 h-3.5 text-[#0284C7]" />
                 <span>Why Work With Us</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#111827] tracking-tight font-display">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1B3A] tracking-tight font-display">
                 Built for People Who Care About Craft
               </h2>
-              <p className="mt-4 text-base text-[#64748B] leading-relaxed">
+              <p className="mt-4 text-base text-slate-600 leading-relaxed">
                 We combine modern engineering practices with an empowering, respectful team culture designed to help passionate individuals thrive and build lasting technical capabilities.
               </p>
             </div>
@@ -336,12 +336,12 @@ export default function CareersPage() {
                 return (
                   <div
                     key={item.id}
-                    className="group p-7 rounded-2xl bg-white border border-[#E5E7EB] hover:border-blue-300 hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between"
+                    className="group p-7 rounded-2xl bg-white border border-slate-200 hover:border-sky-300 hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between"
                   >
                     <div>
                       {/* Top icon and tag */}
                       <div className="flex items-center justify-between mb-5">
-                        <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#2563EB] group-hover:bg-[#2563EB] group-hover:text-white transition-colors duration-200">
+                        <div className="w-12 h-12 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center text-[#0284C7] group-hover:bg-[#0B1B3A] group-hover:text-white transition-colors duration-200">
                           <ItemIcon className="w-6 h-6" />
                         </div>
                         <span className="text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
@@ -350,18 +350,18 @@ export default function CareersPage() {
                       </div>
 
                       {/* Heading */}
-                      <h3 className="text-xl font-bold text-[#111827] font-display tracking-tight group-hover:text-[#2563EB] transition-colors duration-150">
+                      <h3 className="text-xl font-bold text-[#0B1B3A] font-display tracking-tight group-hover:text-[#0284C7] transition-colors duration-150">
                         {item.title}
                       </h3>
 
                       {/* Description */}
-                      <p className="mt-3 text-sm text-[#64748B] leading-relaxed font-normal">
+                      <p className="mt-3 text-sm text-slate-600 leading-relaxed font-normal">
                         {item.desc}
                       </p>
                     </div>
 
                     {/* Bottom subtle indicator */}
-                    <div className="pt-6 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-semibold text-[#2563EB]">
+                    <div className="pt-6 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-semibold text-[#0284C7]">
                       <span>Learn more about our standards</span>
                       <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -376,28 +376,28 @@ export default function CareersPage() {
         {/* =========================================================================
             SECTION C: OUR WORK CULTURE
         ========================================================================== */}
-        <section id="culture" className="py-20 bg-white border-b border-[#E5E7EB] relative">
+        <section id="culture" className="py-20 bg-white border-b border-slate-200 relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Section Header */}
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100/70 border border-blue-200 text-[#2563EB] text-xs font-bold tracking-wider uppercase mb-3">
-                <Users className="w-3.5 h-3.5 text-[#2563EB]" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-bold tracking-wider uppercase mb-3">
+                <Users className="w-3.5 h-3.5 text-[#0284C7]" />
                 <span>Our Work Culture</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#111827] tracking-tight font-display">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1B3A] tracking-tight font-display">
                 Core Values That Guide How We Build
               </h2>
-              <p className="mt-4 text-base text-[#64748B] leading-relaxed">
+              <p className="mt-4 text-base text-slate-600 leading-relaxed">
                 Culture is not a poster on the wall—it is the sum of our everyday decisions, coding standards, and how we treat one another when designing solutions.
               </p>
             </div>
 
             {/* Interactive Value Tabs & Detail Panel */}
-            <div className="bg-[#F8FAFC] border border-[#E5E7EB] rounded-3xl p-6 sm:p-10 shadow-xs">
+            <div className="bg-[#F8FAFC] border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xs">
               
               {/* Tab Navigation */}
-              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pb-8 border-b border-[#E5E7EB]">
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pb-8 border-b border-slate-200">
                 {CULTURE_VALUES.map((val) => {
                   const ValIcon = val.icon;
                   const isActive = activeCultureTab === val.id;
@@ -407,11 +407,11 @@ export default function CareersPage() {
                       onClick={() => setActiveCultureTab(val.id)}
                       className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer ${
                         isActive
-                          ? 'bg-[#2563EB] text-white shadow-sm scale-102'
-                          : 'bg-white text-slate-700 hover:text-slate-900 border border-[#E5E7EB] hover:bg-slate-100/80'
+                          ? 'bg-[#0B1B3A] text-white shadow-sm scale-102'
+                          : 'bg-white text-slate-700 hover:text-slate-900 border border-slate-200 hover:bg-slate-100/80'
                       }`}
                     >
-                      <ValIcon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-[#2563EB]'}`} />
+                      <ValIcon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-[#0284C7]'}`} />
                       <span>{val.title}</span>
                     </button>
                   );
@@ -423,17 +423,17 @@ export default function CareersPage() {
                 
                 {/* Left Description (7 cols) */}
                 <div className="lg:col-span-7 space-y-5">
-                  <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#2563EB] uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-md border border-blue-200/60">
+                  <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#0284C7] uppercase tracking-wider bg-sky-50 px-3 py-1 rounded-md border border-sky-200/60">
                     <span>{activeCulture.badge}</span>
                     <span>•</span>
                     <span>{activeCulture.subtitle}</span>
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#111827] font-display">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0B1B3A] font-display">
                     {activeCulture.title} in Action
                   </h3>
 
-                  <p className="text-base text-[#64748B] leading-relaxed font-normal">
+                  <p className="text-base text-slate-600 leading-relaxed font-normal">
                     {activeCulture.description}
                   </p>
 
@@ -443,8 +443,8 @@ export default function CareersPage() {
                     </div>
                     <ul className="space-y-2.5">
                       {activeCulture.practices.map((practice, index) => (
-                        <li key={index} className="flex items-start gap-3 text-sm text-[#111827]">
-                          <CheckCircle2 className="w-4 h-4 text-[#2563EB] shrink-0 mt-0.5" />
+                        <li key={index} className="flex items-start gap-3 text-sm text-slate-800">
+                          <CheckCircle2 className="w-4 h-4 text-[#0284C7] shrink-0 mt-0.5" />
                           <span className="font-medium">{practice}</span>
                         </li>
                       ))}
@@ -454,27 +454,27 @@ export default function CareersPage() {
 
                 {/* Right Visual Highlight (5 cols) */}
                 <div className="lg:col-span-5">
-                  <div className="p-8 rounded-2xl bg-white border border-[#E5E7EB] shadow-card relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-2xl pointer-events-none" />
+                  <div className="p-8 rounded-2xl bg-white border border-slate-200 shadow-card relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-sky-50 rounded-full blur-2xl pointer-events-none" />
                     
-                    <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200/80 text-[#2563EB] flex items-center justify-center mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-200/80 text-[#0284C7] flex items-center justify-center mb-6">
                       <ActiveIcon className="w-7 h-7" />
                     </div>
 
                     <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">
                       Philosophy Standard
                     </div>
-                    <div className="text-lg font-bold text-[#111827] mt-1 font-display">
+                    <div className="text-lg font-bold text-[#0B1B3A] mt-1 font-display">
                       "{activeCulture.subtitle}"
                     </div>
 
-                    <p className="mt-3 text-xs sm:text-sm text-[#64748B] leading-relaxed">
+                    <p className="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
                       At Yovexa Solutions, every digital asset we engineer embodies this standard. We hold ourselves accountable to exceptional code hygiene and user-centric clarity.
                     </p>
 
                     <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-mono">
                       <span>Standard ID</span>
-                      <span className="font-bold text-[#2563EB]">YVX-CUL-{activeCulture.id.toUpperCase()}</span>
+                      <span className="font-bold text-[#0284C7]">YVX-CUL-{activeCulture.id.toUpperCase()}</span>
                     </div>
                   </div>
                 </div>
@@ -489,7 +489,7 @@ export default function CareersPage() {
         {/* =========================================================================
             SECTION D: CURRENT JOB OPENINGS (STRICTLY EMPTY STATE)
         ========================================================================== */}
-        <section id="openings" className="py-20 bg-[#F8FAFC] border-b border-[#E5E7EB]">
+        <section id="openings" className="py-20 bg-[#F8FAFC] border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Section Header */}
@@ -498,19 +498,19 @@ export default function CareersPage() {
                 <Briefcase className="w-3.5 h-3.5 text-slate-600" />
                 <span>Job Openings</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#111827] tracking-tight font-display">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1B3A] tracking-tight font-display">
                 Current Opportunities
               </h2>
-              <p className="mt-4 text-base text-[#64748B] leading-relaxed">
+              <p className="mt-4 text-base text-slate-600 leading-relaxed">
                 Discover your next career chapter at Yovexa Solutions. Review our current openings below.
               </p>
             </div>
 
             {/* Empty State Card */}
-            <div className="max-w-3xl mx-auto bg-white rounded-3xl border border-[#E5E7EB] p-8 sm:p-14 text-center shadow-card relative overflow-hidden">
+            <div className="max-w-3xl mx-auto bg-white rounded-3xl border border-slate-200 p-8 sm:p-14 text-center shadow-card relative overflow-hidden">
               
               {/* Subtle Ambient Radial Lighting */}
-              <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-80 bg-blue-50 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-80 bg-sky-50 rounded-full blur-3xl pointer-events-none" />
 
               {/* Status Badge */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-xs font-mono font-semibold mb-8">
@@ -521,20 +521,20 @@ export default function CareersPage() {
               {/* Custom Modern Empty-State SVG Illustration */}
               <div className="relative mx-auto w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center mb-8">
                 {/* Decorative radar rings */}
-                <div className="absolute inset-0 rounded-full border border-blue-200/80 animate-ping opacity-25" />
-                <div className="absolute -inset-3 rounded-full border border-blue-100" />
-                <div className="w-full h-full rounded-2xl bg-gradient-to-br from-blue-50 to-slate-50 border border-blue-200/90 flex items-center justify-center shadow-xs">
-                  <Search className="w-10 h-10 sm:w-12 sm:h-12 text-[#2563EB]" />
+                <div className="absolute inset-0 rounded-full border border-sky-200/80 animate-ping opacity-25" />
+                <div className="absolute -inset-3 rounded-full border border-sky-100" />
+                <div className="w-full h-full rounded-2xl bg-gradient-to-br from-sky-50 to-slate-50 border border-sky-200/90 flex items-center justify-center shadow-xs">
+                  <Search className="w-10 h-10 sm:w-12 sm:h-12 text-[#0284C7]" />
                 </div>
               </div>
 
               {/* Required Exact Heading */}
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#111827] font-display tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0B1B3A] font-display tracking-tight">
                 No Current Openings
               </h3>
 
               {/* Required Exact Description */}
-              <div className="mt-4 space-y-3 max-w-xl mx-auto text-base text-[#64748B] leading-relaxed font-normal">
+              <div className="mt-4 space-y-3 max-w-xl mx-auto text-base text-slate-600 leading-relaxed font-normal">
                 <p>
                   We're not actively hiring at the moment, but we're always interested in connecting with talented and passionate individuals.
                 </p>
@@ -546,7 +546,7 @@ export default function CareersPage() {
               {/* Helpful Information Box regarding future recruitment */}
               <div className="mt-10 pt-8 border-t border-slate-100 text-left">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-slate-500 uppercase tracking-wider mb-4">
-                  <Clock className="w-3.5 h-3.5 text-[#2563EB]" />
+                  <Clock className="w-3.5 h-3.5 text-[#0284C7]" />
                   <span>Disciplines We Regularly Build Teams In:</span>
                 </div>
 
@@ -554,18 +554,18 @@ export default function CareersPage() {
                   {FUTURE_DISCIPLINES.map((discipline, idx) => (
                     <div
                       key={idx}
-                      className="p-3.5 rounded-xl bg-slate-50/80 border border-[#E5E7EB] hover:border-slate-300 transition-colors"
+                      className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200 hover:border-slate-300 transition-colors"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-[#111827]">{discipline.role}</span>
+                        <span className="text-xs font-bold text-[#0B1B3A]">{discipline.role}</span>
                         <span className="text-[10px] font-mono text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-200">
                           Future Role
                         </span>
                       </div>
-                      <div className="text-[11px] font-mono text-[#2563EB] mt-1 truncate">
+                      <div className="text-[11px] font-mono text-[#0284C7] mt-1 truncate">
                         {discipline.stack}
                       </div>
-                      <p className="text-xs text-[#64748B] mt-1 line-clamp-2">
+                      <p className="text-xs text-slate-600 mt-1 line-clamp-2">
                         {discipline.description}
                       </p>
                     </div>
@@ -583,27 +583,27 @@ export default function CareersPage() {
         ========================================================================== */}
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto rounded-3xl bg-gradient-to-b from-blue-50/60 to-slate-50/90 border border-blue-200/70 p-8 sm:p-14 text-center shadow-card relative overflow-hidden">
+            <div className="max-w-4xl mx-auto rounded-3xl bg-gradient-to-b from-sky-50/60 to-slate-50/90 border border-sky-200/70 p-8 sm:p-14 text-center shadow-card relative overflow-hidden">
               
               {/* Subtle Corner Accents */}
-              <div className="absolute top-0 right-0 w-48 h-48 bg-blue-100/40 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-sky-100/40 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-48 h-48 bg-sky-100/40 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-100/40 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10 max-w-2xl mx-auto">
                 
                 {/* Eyebrow */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-blue-200 text-[#2563EB] text-xs font-bold tracking-wider uppercase mb-4 shadow-xs">
-                  <Compass className="w-3.5 h-3.5 text-[#2563EB]" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-sky-200 text-[#0284C7] text-xs font-bold tracking-wider uppercase mb-4 shadow-xs">
+                  <Compass className="w-3.5 h-3.5 text-[#0284C7]" />
                   <span>Network & Community</span>
                 </div>
 
                 {/* Required Heading */}
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-[#111827] tracking-tight font-display">
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1B3A] tracking-tight font-display">
                   Stay Connected With Yovexa
                 </h2>
 
                 {/* Required Description */}
-                <p className="mt-4 text-base sm:text-lg text-[#64748B] leading-relaxed font-normal">
+                <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
                   Although we don't have any open positions right now, new opportunities may arise in the future. Follow us to stay updated on our latest announcements and career opportunities.
                 </p>
 
@@ -627,9 +627,9 @@ export default function CareersPage() {
                   {/* General Email Outreach */}
                   <a
                     href="mailto:support@yovexasolutions.in?subject=Future%20Talent%20Inquiry%20-%20Yovexa%20Solutions"
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold text-slate-700 hover:text-[#111827] bg-white hover:bg-slate-50 border border-[#E5E7EB] hover:border-slate-300 shadow-xs transition-all duration-200"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 shadow-xs transition-all duration-200"
                   >
-                    <Mail className="w-4 h-4 text-[#2563EB]" />
+                    <Mail className="w-4 h-4 text-[#0284C7]" />
                     <span>Send Talent Introduction</span>
                   </a>
                 </div>

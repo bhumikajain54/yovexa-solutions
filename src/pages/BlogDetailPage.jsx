@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowLeft, ArrowRight, Share2, Sparkles, ChevronRight, Check } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -12,7 +12,6 @@ import { useToast } from '../context/ToastContext';
 
 export default function BlogDetailPage() {
   const { slug } = useParams();
-  const navigate = useNavigate();
   const { addToast } = useToast();
 
   const [blog, setBlog] = useState(null);
@@ -43,6 +42,7 @@ export default function BlogDetailPage() {
           .slice(0, 2);
         if (isMounted) setRelatedBlogs(related);
       } catch (err) {
+        console.warn('Failed to fetch article:', err);
         if (isMounted) setNotFound(true);
       } finally {
         if (isMounted) setLoading(false);
@@ -254,19 +254,13 @@ export default function BlogDetailPage() {
 
           {/* Featured Large Article Image */}
           {blog.featuredImage && (
-            <div className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-lg bg-slate-950 relative flex items-center justify-center p-2 sm:p-4">
-              <img
-                src={imageKitService.getLqipUrl(blog.featuredImage)}
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-35 scale-110 pointer-events-none"
-              />
+            <div className="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-50 relative flex items-center justify-center p-3 sm:p-6">
               <img
                 src={imageKitService.getDetailUrl(blog.featuredImage, 1400)}
                 alt={blog.title}
                 loading="lazy"
                 decoding="async"
-                className="relative z-10 w-full h-auto max-h-[560px] object-contain rounded-xl"
+                className="relative z-10 w-full h-auto max-h-[560px] object-contain rounded-xl border border-slate-200/80 bg-white shadow-xs"
                 onError={(e) => {
                   e.currentTarget.parentElement.style.display = 'none';
                 }}
@@ -319,27 +313,26 @@ export default function BlogDetailPage() {
           </div>
 
           {/* In-Article Conversion Prompt */}
-          <div className="mt-10 p-8 rounded-2xl bg-slate-900 text-white shadow-xl relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="mt-10 p-8 rounded-2xl bg-sky-50/70 border border-sky-200/80 shadow-xs relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-[#0284C7]/20 text-sky-400 text-xs font-mono font-bold mb-2">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-sky-100 text-[#0284C7] text-xs font-mono font-bold mb-2 border border-sky-200/60">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Custom Engineering</span>
               </div>
-              <h3 className="text-xl font-bold font-display text-white">
+              <h3 className="text-xl font-bold font-display text-[#0B1B3A]">
                 Have a project or challenge in mind?
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-md">
+              <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-md">
                 Let's discuss requirements, architecture approach, and timelines with our senior engineers.
               </p>
             </div>
 
             <Link
               to="/contact"
-              className="shrink-0 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm relative z-10"
+              className="shrink-0 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0B1B3A] hover:bg-[#183B75] transition-all shadow-xs relative z-10"
             >
               Discuss Your Project
             </Link>
-            <div className="absolute top-0 right-0 w-36 h-36 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
           </div>
 
           {/* Related Articles Section */}

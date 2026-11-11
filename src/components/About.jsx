@@ -1,14 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, Sparkles } from 'lucide-react';
+import { ArrowRight, Check, Sparkles, ArrowUpRight } from 'lucide-react';
 
 export default function About() {
-  const scrollTo = (target) => {
-    const id = target?.replace('#', '') || 'contact';
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const title = "Engineering Pragmatic Digital Solutions";
   const titleHighlight = "For Modern Businesses";
   const sectionLabel = "WHO WE ARE";
@@ -25,18 +19,18 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-20 sm:py-24 bg-white text-slate-900 border-b border-slate-200 scroll-mt-20">
+    <section id="about" className="py-20 sm:py-28 bg-white text-slate-900 border-b border-slate-200 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
           {/* Left Column: Brand Narrative & Action */}
           <div className="lg:col-span-6 space-y-6 text-left">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
                 <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
                 <span>{sectionLabel}</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display leading-[1.15]">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1B3A] tracking-tight font-display leading-[1.15]">
                 {title}{' '}
                 <span className="text-[#0284C7]">
                   {titleHighlight}
@@ -53,44 +47,46 @@ export default function About() {
               </p>
             </div>
 
-            {/* CTA Buttons */}
+            {/* Direct Page Link Actions */}
             <div className="pt-2 flex flex-wrap items-center gap-3.5">
-              <button
-                onClick={() => scrollTo('contact')}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-[#0B1B3A] hover:bg-[#183B75] transition-all duration-200 shadow-sm transform hover:-translate-y-0.5 cursor-pointer"
+              <Link
+                to="/contact"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0"
               >
                 <span>Start A Conversation</span>
-                <ArrowRight className="w-4 h-4 text-[#38BDF8]" />
-              </button>
+                <ArrowRight className="w-4 h-4 text-white" />
+              </Link>
 
-              <button
-                onClick={() => scrollTo('services')}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-slate-800 hover:text-[#0284C7] hover:bg-slate-50 border border-slate-200 transition-colors cursor-pointer"
+              <Link
+                to="/services"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-[#0B1B3A] hover:text-[#0284C7] bg-white border border-slate-200 hover:bg-slate-50 transition-colors shadow-xs"
               >
                 <span>Explore Services</span>
-              </button>
+              </Link>
 
               <Link
                 to="/about"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="inline-flex items-center gap-1.5 px-3 py-3.5 text-sm font-semibold text-[#0284C7] hover:text-[#0369A1] transition-colors"
               >
                 <span>Read Full Company Story</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowUpRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
 
-          {/* Right Column: What We Deliver Capability Matrix Card */}
+          {/* Right Column: Deliverables Matrix Card */}
           <div className="lg:col-span-6">
-            <div className="rounded-3xl bg-slate-50/80 border border-slate-200/90 p-6 sm:p-8 shadow-card relative overflow-hidden">
-              {/* Subtle decorative background gradient glow */}
-              <div className="absolute -top-12 -right-12 w-64 h-64 bg-sky-200/30 rounded-full blur-3xl pointer-events-none" />
+            <div className="rounded-3xl bg-[#F8FAFC] border border-slate-200 p-6 sm:p-8 shadow-xs relative overflow-hidden">
+              <div className="absolute -top-12 -right-12 w-64 h-64 bg-sky-100/40 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative z-10 mb-6">
                 <span className="text-[11px] uppercase tracking-wider font-extrabold text-[#0284C7] font-mono block mb-1">
                   Core Deliverables
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 font-display">
+                <h3 className="text-xl sm:text-2xl font-bold text-[#0B1B3A] font-display">
                   What We Deliver For Our Clients:
                 </h3>
               </div>
@@ -99,13 +95,13 @@ export default function About() {
                 {focusAreas.map((area, i) => (
                   <div
                     key={i}
-                    className="group flex items-start gap-3 p-3.5 rounded-xl bg-white border border-slate-200/80 hover:border-sky-400 hover:shadow-card-hover transition-all duration-200"
+                    className="group flex items-start gap-3 p-3.5 rounded-xl bg-white border border-slate-200/90 hover:border-sky-300 hover:shadow-xs transition-all duration-200"
                   >
                     <div className="w-6 h-6 rounded-lg bg-sky-50 border border-sky-100 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0284C7] group-hover:text-white transition-colors duration-200">
                       <Check className="w-3.5 h-3.5 stroke-[3]" />
                     </div>
                     <div className="min-w-0">
-                      <span className="text-xs font-bold text-slate-800 leading-snug block group-hover:text-slate-900 transition-colors">
+                      <span className="text-xs font-bold text-slate-800 leading-snug block group-hover:text-[#0284C7] transition-colors">
                         {area}
                       </span>
                     </div>
@@ -113,7 +109,7 @@ export default function About() {
                 ))}
               </div>
 
-              <div className="relative z-10 mt-6 pt-5 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500 font-mono">
+              <div className="relative z-10 mt-6 pt-5 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500 font-mono">
                 <span className="flex items-center gap-1.5 text-slate-600 font-medium">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   Production Standards

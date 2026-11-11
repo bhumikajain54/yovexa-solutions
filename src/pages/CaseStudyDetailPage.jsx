@@ -4,7 +4,6 @@ import {
   ArrowLeft,
   ExternalLink,
   CheckCircle2,
-  Sparkles,
   ArrowRight,
   ChevronRight
 } from 'lucide-react';
@@ -49,6 +48,7 @@ export default function CaseStudyDetailPage() {
         const related = allPublished.filter(cs => cs.id !== data.id && cs.slug !== data.slug).slice(0, 2);
         if (isMounted) setRelatedStudies(related);
       } catch (err) {
+        console.warn('Failed to fetch case study:', err);
         if (isMounted) setNotFound(true);
       } finally {
         if (isMounted) setLoading(false);
@@ -200,19 +200,13 @@ export default function CaseStudyDetailPage() {
 
           {/* Featured Large Project Screenshot Display */}
           {caseStudy.featuredImage && (
-            <div className="my-8 rounded-2xl overflow-hidden border border-slate-200/90 shadow-lg bg-slate-950 relative flex items-center justify-center p-2 sm:p-4">
-              <img
-                src={imageKitService.getLqipUrl(caseStudy.featuredImage)}
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-35 scale-110 pointer-events-none"
-              />
+            <div className="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-50 relative flex items-center justify-center p-3 sm:p-6">
               <img
                 src={imageKitService.getDetailUrl(caseStudy.featuredImage, 1400)}
                 alt={caseStudy.title}
                 loading="lazy"
                 decoding="async"
-                className="relative z-10 w-full h-auto max-h-[560px] object-contain rounded-xl"
+                className="relative z-10 w-full h-auto max-h-[560px] object-contain rounded-xl shadow-xs border border-slate-200/80 bg-white"
                 onError={(e) => {
                   e.currentTarget.parentElement.style.display = 'none';
                 }}
@@ -370,26 +364,25 @@ export default function CaseStudyDetailPage() {
               )}
 
               {/* Contextual Consultation Card */}
-              <div className="p-6 rounded-2xl bg-slate-900 text-white shadow-xl relative overflow-hidden">
+              <div className="p-6 rounded-2xl bg-sky-50/70 border border-sky-200/80 shadow-xs relative overflow-hidden">
                 <div className="relative z-10 space-y-3">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-sky-400">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0284C7]">
                     Custom Development
                   </span>
-                  <h4 className="text-base font-bold font-display text-white">
+                  <h4 className="text-base font-bold font-display text-[#0B1B3A]">
                     Need a Similar Solution?
                   </h4>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-slate-600 leading-relaxed">
                     Our engineering team designs and delivers robust digital solutions tailored to your workflows.
                   </p>
                   <Link
                     to={`/contact?project=${encodeURIComponent(caseStudy.title)}`}
-                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold transition-colors"
+                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0B1B3A] hover:bg-[#183B75] text-white text-xs font-bold transition-colors shadow-xs"
                   >
                     <span>Discuss Your Project</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-sky-400" />
                   </Link>
                 </div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl pointer-events-none" />
               </div>
 
             </aside>

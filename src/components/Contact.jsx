@@ -20,7 +20,6 @@ export default function Contact({ preselectedService, preselectedProject, isStan
 
   const contactInfo = {
     email: COMPANY_INFO.email,
-    phone: COMPANY_INFO.phone,
     location: COMPANY_INFO.location,
     turnaroundTime: COMPANY_INFO.turnaroundTime || "Within 24 Hours",
     heading: "Have a Project in Mind?",
@@ -123,19 +122,19 @@ export default function Contact({ preselectedService, preselectedProject, isStan
       id="contact" 
       className={`${
         isStandalone 
-          ? 'py-8 sm:py-12' 
-          : 'py-24 sm:py-28 border-t border-slate-200 scroll-mt-24'
-      } bg-[#F8FAFC] text-slate-900 relative tech-grid-bg overflow-hidden`}
+          ? 'py-8 sm:py-16' 
+          : 'py-20 sm:py-28 border-t border-slate-200'
+      } bg-[#F8FAFC] text-slate-900 font-sans`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
             <span>START A PROJECT</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1B3A] tracking-tight font-display">
             {contactInfo.heading}
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
@@ -148,8 +147,8 @@ export default function Contact({ preselectedService, preselectedProject, isStan
 
           {/* Left Column: Direct Consultation Expectation & Details */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-card">
-              <h3 className="text-xl font-bold text-slate-900 font-display mb-6">
+            <div className="p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs">
+              <h3 className="text-xl font-bold text-[#0B1B3A] font-display mb-6">
                 What to Expect
               </h3>
 
@@ -159,8 +158,8 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                     1
                   </div>
                   <div>
-                    <strong className="text-slate-900 text-sm block">Requirements & Feasibility</strong>
-                    <p className="text-slate-600 mt-0.5 text-xs sm:text-sm leading-relaxed">
+                    <strong className="text-[#0B1B3A] text-sm block">Requirements & Feasibility</strong>
+                    <p className="text-slate-600 mt-0.5 text-xs sm:text-sm leading-relaxed font-normal">
                       We review your specification and evaluate architecture, data model, and API considerations.
                     </p>
                   </div>
@@ -171,8 +170,8 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                     2
                   </div>
                   <div>
-                    <strong className="text-slate-900 text-sm block">Direct Engineering Consultation</strong>
-                    <p className="text-slate-600 mt-0.5 text-xs sm:text-sm leading-relaxed">
+                    <strong className="text-[#0B1B3A] text-sm block">Direct Engineering Consultation</strong>
+                    <p className="text-slate-600 mt-0.5 text-xs sm:text-sm leading-relaxed font-normal">
                       Speak directly with our senior developers to clarify technical milestones and dependencies.
                     </p>
                   </div>
@@ -183,8 +182,8 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                     3
                   </div>
                   <div>
-                    <strong className="text-slate-900 text-sm block">Transparent Milestone Roadmap</strong>
-                    <p className="text-slate-600 mt-0.5 text-xs sm:text-sm leading-relaxed">
+                    <strong className="text-[#0B1B3A] text-sm block">Transparent Milestone Roadmap</strong>
+                    <p className="text-slate-600 mt-0.5 text-xs sm:text-sm leading-relaxed font-normal">
                       Clear deliverable schedules with realistic estimates, clean milestones, and continuous communication.
                     </p>
                   </div>
@@ -192,16 +191,16 @@ export default function Contact({ preselectedService, preselectedProject, isStan
               </div>
             </div>
 
-            {/* Direct Contact Coordinates */}
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-card space-y-4 text-xs sm:text-sm">
+            {/* Direct Verified Contact Coordinates */}
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4 text-xs sm:text-sm">
               {contactInfo.email && (
                 <div className="flex items-center gap-3.5">
                   <div className="w-10 h-10 rounded-xl bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 border border-sky-100">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider">Direct Email</div>
-                    <a href={`mailto:${contactInfo.email}`} className="text-slate-900 font-semibold hover:text-[#0284C7] transition-colors">
+                    <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider font-mono">Direct Email</div>
+                    <a href={`mailto:${contactInfo.email}`} className="text-[#0B1B3A] font-semibold hover:text-[#0284C7] transition-colors">
                       {contactInfo.email}
                     </a>
                   </div>
@@ -214,8 +213,8 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                     <Clock className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider">Turnaround Time</div>
-                    <div className="text-slate-900 font-semibold">{contactInfo.turnaroundTime}</div>
+                    <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider font-mono">Turnaround Time</div>
+                    <div className="text-[#0B1B3A] font-semibold">{contactInfo.turnaroundTime}</div>
                   </div>
                 </div>
               )}
@@ -226,8 +225,8 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider">Location</div>
-                    <div className="text-slate-900 font-semibold">{contactInfo.location}</div>
+                    <div className="text-[11px] text-[#0284C7] uppercase font-bold tracking-wider font-mono">Location</div>
+                    <div className="text-[#0B1B3A] font-semibold">{contactInfo.location}</div>
                   </div>
                 </div>
               )}
@@ -235,22 +234,23 @@ export default function Contact({ preselectedService, preselectedProject, isStan
 
           </div>
 
-          {/* Right Column: Accessible High-Contrast Form (Kept fully dynamic for inquiries) */}
+          {/* Right Column: Accessible High-Contrast Form */}
           <div className="lg:col-span-7">
-            <div className="p-7 sm:p-9 rounded-2xl bg-white border border-slate-200 shadow-card">
+            <div className="p-7 sm:p-9 rounded-2xl bg-white border border-slate-200 shadow-xs">
 
               {isSubmitted ? (
                 <div className="py-12 px-4 text-center space-y-4">
                   <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 font-display">Inquiry Received</h3>
+                  <h3 className="text-2xl font-bold text-[#0B1B3A] font-display">Inquiry Received</h3>
                   <p className="text-slate-600 text-sm max-w-md mx-auto leading-relaxed">
-                    Thank you for contacting <strong className="text-slate-900">Yovexa Solutions</strong>. We have received your project details and our engineering team will get back to you within 24 business hours.
+                    Thank you for contacting <strong className="text-[#0B1B3A]">Yovexa Solutions</strong>. We have received your project details and our engineering team will get back to you within 24 business hours.
                   </p>
                   <button
+                    type="button"
                     onClick={() => setIsSubmitted(false)}
-                    className="mt-6 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#0B1B3A] hover:bg-[#183B75] transition-colors shadow-xs cursor-pointer"
+                    className="mt-6 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-colors shadow-xs cursor-pointer"
                   >
                     Send Another Message
                   </button>
@@ -261,7 +261,7 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                   {/* Row 1: Name & Email */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="fullName">
+                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="fullName">
                         Full Name <span className="text-[#0284C7]">*</span>
                       </label>
                       <input
@@ -283,7 +283,7 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                     </div>
 
                     <div>
-                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="email">
+                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="email">
                         Work Email <span className="text-[#0284C7]">*</span>
                       </label>
                       <input
@@ -308,7 +308,7 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                   {/* Row 2: Phone & Company */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="phone">
+                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="phone">
                         Phone Number <span className="text-slate-400 font-normal">(Optional)</span>
                       </label>
                       <input
@@ -323,7 +323,7 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                     </div>
 
                     <div>
-                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="company">
+                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="company">
                         Company / Business <span className="text-slate-400 font-normal">(Optional)</span>
                       </label>
                       <input
@@ -341,7 +341,7 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                   {/* Row 3: Service & Estimated Budget */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="serviceRequired">
+                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="serviceRequired">
                         Service of Interest
                       </label>
                       <select
@@ -349,7 +349,7 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                         name="serviceRequired"
                         value={formData.serviceRequired}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium cursor-pointer"
                       >
                         {serviceOptions.map((opt) => (
                           <option key={opt} value={opt} className="bg-white text-slate-900">
@@ -360,7 +360,7 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                     </div>
 
                     <div>
-                      <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="projectBudget">
+                      <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="projectBudget">
                         Estimated Budget
                       </label>
                       <select
@@ -368,7 +368,7 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                         name="projectBudget"
                         value={formData.projectBudget}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium"
+                        className="w-full px-4 py-3 rounded-xl bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0284C7] focus:border-[#0284C7] transition-all font-medium cursor-pointer"
                       >
                         {budgetOptions.map((opt) => (
                           <option key={opt} value={opt} className="bg-white text-slate-900">
@@ -381,7 +381,7 @@ export default function Contact({ preselectedService, preselectedProject, isStan
 
                   {/* Row 4: Message */}
                   <div>
-                    <label className="block text-xs font-extrabold text-slate-900 mb-1.5" htmlFor="message">
+                    <label className="block text-xs font-extrabold text-[#0B1B3A] mb-1.5" htmlFor="message">
                       Project Requirements & Context <span className="text-[#0284C7]">*</span>
                     </label>
                     <textarea
@@ -415,7 +415,7 @@ export default function Contact({ preselectedService, preselectedProject, isStan
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all duration-200 shadow-sm text-sm disabled:opacity-60 disabled:cursor-not-allowed transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all duration-200 shadow-sm hover:shadow-md text-sm disabled:opacity-60 disabled:cursor-not-allowed transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                     >
                       {isSubmitting ? (
                         <>

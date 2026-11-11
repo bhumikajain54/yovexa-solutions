@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, ArrowRight, ExternalLink, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { Sparkles, ArrowRight, ExternalLink } from 'lucide-react';
 import { projectService } from '../services/projectService';
 import { imageKitService } from '../services/imageKitService';
-import DynamicIcon from './DynamicIcon';
 
 export default function Portfolio({ onSelectProject }) {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -24,10 +23,16 @@ export default function Portfolio({ onSelectProject }) {
     return () => { isMounted = false; };
   }, []);
 
+  // Track category changes to adjust loading state before fetching
+  const [prevCategory, setPrevCategory] = useState(activeCategory);
+  if (prevCategory !== activeCategory) {
+    setPrevCategory(activeCategory);
+    setLoading(true);
+  }
+
   // Fetch projects from backend whenever activeCategory changes
   useEffect(() => {
     let isMounted = true;
-    setLoading(true);
 
     const filterCategory = activeCategory !== 'all' ? activeCategory : undefined;
     projectService.getProjects({ publishedOnly: true, category: filterCategory })
@@ -72,27 +77,28 @@ export default function Portfolio({ onSelectProject }) {
       });
 
   return (
-    <section id="portfolio" className="py-28 sm:py-32 bg-white text-slate-900 border-b border-slate-200 scroll-mt-20">
+    <section id="portfolio" className="py-20 sm:py-28 bg-white text-slate-900 border-b border-slate-200 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
-              <span>ENGINEERED WORK</span>
+              <span>FEATURED WORK</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1B3A] tracking-tight font-display">
               Selected Projects & Case Work
             </h2>
             <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl font-normal">
-              A curated look at production applications, e-commerce stores, and enterprise management platforms engineered by Yovexa Solutions.
+              A curated look at production web applications, digital systems, and custom software engineered by Yovexa Solutions.
             </p>
           </div>
 
           <div className="mt-6 md:mt-0">
             <Link
               to="/portfolio"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0284C7] hover:text-[#0369A1] transition-colors"
             >
               <span>Explore All Projects</span>
@@ -101,7 +107,7 @@ export default function Portfolio({ onSelectProject }) {
           </div>
         </div>
 
-        {/* Category Filters */}
+        {/* Category Filter Pills */}
         {categories.length > 0 && (
           <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
             {categories.map((cat) => {
@@ -109,10 +115,11 @@ export default function Portfolio({ onSelectProject }) {
               return (
                 <button
                   key={cat.id}
+                  type="button"
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 shrink-0 ${
+                  className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 shrink-0 cursor-pointer ${
                     isActive
-                      ? 'bg-[#0B1B3A] text-white shadow-xs ring-2 ring-[#0284C7]'
+                      ? 'bg-[#0B1B3A] text-white shadow-xs'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 border border-slate-200'
                   }`}
                 >
@@ -123,7 +130,7 @@ export default function Portfolio({ onSelectProject }) {
           </div>
         )}
 
-        {/* Projects Showcase */}
+        {/* Projects Grid */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3].map(n => (
@@ -136,8 +143,8 @@ export default function Portfolio({ onSelectProject }) {
             ))}
           </div>
         ) : filteredProjects.length === 0 ? (
-          <div className="bg-slate-50 rounded-2xl border border-slate-200 p-12 text-center">
-            <h3 className="text-base font-bold text-slate-900">
+          <div className="bg-[#F8FAFC] rounded-2xl border border-slate-200 p-12 text-center">
+            <h3 className="text-base font-bold text-[#0B1B3A]">
               {projects.length === 0 ? 'No projects published yet' : 'No projects found in this category'}
             </h3>
             <p className="text-xs text-slate-500 mt-1">
@@ -161,7 +168,7 @@ export default function Portfolio({ onSelectProject }) {
                 <div
                   key={project.id || project._id || project.slug}
                   onClick={() => onSelectProject && onSelectProject(project)}
-                  className="group relative flex flex-col justify-between rounded-2xl bg-white border border-slate-200/90 hover:border-sky-300 shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden transform hover:-translate-y-1 cursor-pointer"
+                  className="group relative flex flex-col justify-between rounded-2xl bg-white border border-slate-200/90 hover:border-sky-300 shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden transform hover:-translate-y-1 cursor-pointer"
                 >
                   {/* Thumbnail Banner */}
                   {projectImage ? (
@@ -176,12 +183,11 @@ export default function Portfolio({ onSelectProject }) {
                           e.target.parentElement.style.display = 'none';
                         }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B3A]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
                   ) : null}
 
                   {/* Card Content Header */}
-                  <div className="p-6 border-b border-slate-100 bg-gradient-to-b from-slate-50/60 to-white">
+                  <div className="p-6 border-b border-slate-100 bg-white">
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <span className="text-xs font-bold uppercase tracking-wider text-[#0284C7] bg-sky-50 px-2.5 py-1 rounded-md border border-sky-200">
                         {project.projectType || (project.category ? project.category.replace(/_/g, ' ') : 'Project')}
@@ -194,7 +200,7 @@ export default function Portfolio({ onSelectProject }) {
                       )}
                     </div>
 
-                    <h3 className="text-lg font-bold text-slate-900 font-display leading-snug group-hover:text-[#0284C7] transition-colors line-clamp-1">
+                    <h3 className="text-lg font-bold text-[#0B1B3A] font-display leading-snug group-hover:text-[#0284C7] transition-colors line-clamp-1">
                       {projectTitle}
                     </h3>
                     <p className="text-xs font-medium text-slate-500 mt-0.5 line-clamp-1">
@@ -231,18 +237,21 @@ export default function Portfolio({ onSelectProject }) {
 
                     {/* Actions Footer */}
                     <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 group-hover:text-[#0284C7] transition-colors">
-                        <span>View Details</span>
+                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0B1B3A] group-hover:text-[#0284C7] transition-colors">
+                        <span>Quick View</span>
                         <ArrowRight className="w-3.5 h-3.5 text-[#0284C7] transition-transform group-hover:translate-x-1" />
                       </span>
 
                       <div className="flex items-center gap-3">
                         <Link
                           to={`/projects/${project.slug || project.id}`}
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
                           className="text-xs font-semibold text-slate-500 hover:text-[#0284C7] transition-colors"
                         >
-                          Full Case
+                          Full Details
                         </Link>
                         {liveLink && (
                           <a

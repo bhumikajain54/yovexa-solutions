@@ -37,41 +37,42 @@ export default function ProjectModal({ project, onClose, onDiscussProject }) {
     : (typeof project.technologies === 'string' ? project.technologies.split(',').map(s => s.trim()).filter(Boolean) : []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans">
       {/* Backdrop */}
       <div 
         onClick={onClose}
-        className="fixed inset-0 bg-[#061225]/80 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
       />
 
-      {/* Modal Dialog */}
+      {/* Modal Dialog (Pure Light Mode) */}
       <div className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-10 max-h-[90vh] flex flex-col my-auto animate-in zoom-in-95 duration-150">
         
         {/* Modal Header */}
-        <div className="relative bg-[#061225] text-white p-6 sm:p-8 border-b border-slate-800 tech-grid-dark">
+        <div className="relative bg-white text-[#0B1B3A] p-6 sm:p-8 border-b border-slate-200">
           <button
+            type="button"
             onClick={onClose}
-            className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#0284C7]"
+            className="absolute top-5 right-5 p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0284C7] cursor-pointer"
             aria-label="Close modal"
           >
-            <X className="w-5 h-5 text-white" />
+            <X className="w-5 h-5" />
           </button>
 
           <div className="flex flex-wrap items-center gap-2 mb-3">
-            <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-[#0284C7]/20 text-sky-400 border border-[#0284C7]/30">
+            <span className="px-2.5 py-0.5 rounded-md text-xs font-bold bg-sky-50 text-[#0284C7] border border-sky-200">
               {project.projectType || (project.category ? project.category.replace(/_/g, ' ') : 'Project')}
             </span>
             {liveLink && (
-              <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                 Live Deployment
               </span>
             )}
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-display">
+          <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0B1B3A] font-display">
             {projectTitle}
           </h3>
-          <p className="mt-1 text-xs sm:text-sm text-slate-300 font-normal">
+          <p className="mt-1 text-xs sm:text-sm text-slate-500 font-normal">
             {project.subtitle || project.clientLabel || 'Engineered Digital Solution'}
           </p>
         </div>
@@ -81,13 +82,7 @@ export default function ProjectModal({ project, onClose, onDiscussProject }) {
           
           {/* Project Image Banner */}
           {projectImage && (
-            <div className="rounded-xl overflow-hidden border border-slate-200/90 shadow-sm relative flex items-center justify-center bg-slate-950 p-2 max-h-88 w-full">
-              <img
-                src={imageKitService.getLqipUrl(projectImage)}
-                alt=""
-                aria-hidden="true"
-                className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
-              />
+            <div className="rounded-xl overflow-hidden border border-slate-200 shadow-xs relative flex items-center justify-center bg-slate-50 p-2 max-h-88 w-full">
               <img
                 src={imageKitService.getDetailUrl(projectImage, 1000)}
                 alt={projectTitle}
@@ -118,7 +113,7 @@ export default function ProjectModal({ project, onClose, onDiscussProject }) {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0B1B3A] hover:bg-[#183B75] text-white text-xs font-bold shadow-xs transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0B1B3A] hover:bg-slate-800 text-white text-xs font-bold shadow-xs transition-all"
                 >
                   <GithubIcon className="w-3.5 h-3.5 text-sky-400" />
                   <span>View Repository</span>
@@ -130,7 +125,7 @@ export default function ProjectModal({ project, onClose, onDiscussProject }) {
           {/* Project Description */}
           {projectDesc && (
             <div>
-              <h4 className="text-xs uppercase tracking-wider font-extrabold text-slate-900 mb-2.5">
+              <h4 className="text-xs uppercase tracking-wider font-extrabold text-[#0B1B3A] mb-2.5 font-mono">
                 About The Solution
               </h4>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal whitespace-pre-line">
@@ -142,12 +137,12 @@ export default function ProjectModal({ project, onClose, onDiscussProject }) {
           {/* Key Features */}
           {features.length > 0 && (
             <div>
-              <h4 className="text-xs uppercase tracking-wider font-extrabold text-slate-900 mb-3">
+              <h4 className="text-xs uppercase tracking-wider font-extrabold text-[#0B1B3A] mb-3 font-mono">
                 Key System Capabilities
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {features.map((feat, idx) => (
-                  <div key={idx} className="flex items-start gap-2.5 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                  <div key={idx} className="flex items-start gap-2.5 p-3 rounded-xl bg-[#F8FAFC] border border-slate-200">
                     <CheckCircle2 className="w-4 h-4 text-[#0284C7] shrink-0 mt-0.5" />
                     <span className="text-xs font-semibold text-slate-800 leading-snug">{feat}</span>
                   </div>
@@ -159,7 +154,7 @@ export default function ProjectModal({ project, onClose, onDiscussProject }) {
           {/* Tech Stack Badges */}
           {technologies.length > 0 && (
             <div>
-              <h4 className="text-xs uppercase tracking-wider font-extrabold text-slate-900 mb-3">
+              <h4 className="text-xs uppercase tracking-wider font-extrabold text-[#0B1B3A] mb-3 font-mono">
                 Technologies & Architecture Stack
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -180,22 +175,24 @@ export default function ProjectModal({ project, onClose, onDiscussProject }) {
         {/* Modal Footer */}
         <div className="p-6 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-xs text-slate-600 font-medium text-center sm:text-left">
-            Interested in building a platform like <strong className="text-slate-900">{projectTitle}</strong>?
+            Interested in building a platform like <strong className="text-[#0B1B3A]">{projectTitle}</strong>?
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
+              type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-200 transition-colors w-full sm:w-auto text-center border border-slate-200"
+              className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-200 transition-colors w-full sm:w-auto text-center border border-slate-200 cursor-pointer"
             >
               Close
             </button>
             <button
+              type="button"
               onClick={() => {
                 onClose();
                 if (onDiscussProject) onDiscussProject(projectTitle);
               }}
-              className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-xs flex items-center justify-center gap-2 w-full sm:w-auto"
+              className="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-2 w-full sm:w-auto cursor-pointer"
             >
               <span>Discuss Similar Architecture</span>
               <ArrowRight className="w-3.5 h-3.5 text-white" />

@@ -72,11 +72,11 @@ export default function AboutPage() {
         {/* Page Hero Header */}
         <section className="bg-white border-b border-slate-200 py-16 sm:py-20 relative tech-grid-bg overflow-hidden shadow-xs">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
               <span>COMPANY STORY & CAPABILITIES</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight font-display max-w-4xl mx-auto leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0B1B3A] tracking-tight font-display max-w-4xl mx-auto leading-tight">
               {title}{' '}
               <span className="text-[#0284C7]">{titleHighlight}</span>
             </h1>
@@ -90,21 +90,21 @@ export default function AboutPage() {
           
           {/* Mission & Purpose Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="p-8 rounded-2xl bg-white border border-slate-200 shadow-card space-y-4">
+            <div className="p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
               <div className="w-12 h-12 rounded-xl bg-sky-50 text-[#0284C7] flex items-center justify-center font-bold">
                 <Target className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 font-display">Our Purpose</h3>
+              <h3 className="text-2xl font-bold text-[#0B1B3A] font-display">Our Purpose</h3>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
                 To engineer modern digital tools, web platforms, and custom software that solve genuine business friction. We believe great software should be intuitive, dependable under load, and built without unnecessary technical debt.
               </p>
             </div>
 
-            <div className="p-8 rounded-2xl bg-white border border-slate-200 shadow-card space-y-4">
+            <div className="p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
               <div className="w-12 h-12 rounded-xl bg-sky-50 text-[#0284C7] flex items-center justify-center font-bold">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 font-display">Engineering Quality</h3>
+              <h3 className="text-2xl font-bold text-[#0B1B3A] font-display">Engineering Quality</h3>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
                 We combine strictly typed backend APIs in Java Spring Boot with reactive frontends in React. Our systems are backed by optimized MongoDB schemas and standardized deployment configurations.
               </p>
@@ -112,12 +112,12 @@ export default function AboutPage() {
           </div>
 
           {/* Core Capabilities */}
-          <div className="p-8 sm:p-12 rounded-2xl bg-white border border-slate-200 shadow-card">
+          <div className="p-8 sm:p-12 rounded-2xl bg-white border border-slate-200 shadow-xs">
             <div className="max-w-3xl mb-8">
               <h3 className="text-xs font-mono font-bold uppercase text-[#0284C7] tracking-wider mb-2">
                 Technical Capabilities
               </h3>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B1B3A] font-display">
                 What We Engineer For Our Clients
               </h2>
               <p className="mt-2 text-sm sm:text-base text-slate-600">
@@ -127,7 +127,7 @@ export default function AboutPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {focusAreas.map((area, idx) => (
-                <div key={idx} className="flex items-start gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                <div key={idx} className="flex items-start gap-3 p-4 rounded-xl bg-[#F8FAFC] border border-slate-200/90 hover:border-sky-300 transition-colors">
                   <div className="w-5 h-5 rounded-full bg-sky-100 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5">
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
@@ -143,51 +143,52 @@ export default function AboutPage() {
               <h3 className="text-xs font-mono font-bold uppercase text-[#0284C7] tracking-wider mb-2">
                 How We Collaborate
               </h3>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B1B3A] font-display">
                 Our Working Principles
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-card">
+              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">
                 <Code2 className="w-6 h-6 text-[#0284C7] mb-3" />
-                <h4 className="text-base font-bold text-slate-900 mb-2 font-display">Maintainable Codebases</h4>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                <h4 className="text-base font-bold text-[#0B1B3A] mb-2 font-display">Maintainable Codebases</h4>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                   Clean modular structures, comprehensive documentation, and predictable interfaces so your systems can be maintained for years.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-card">
+              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">
                 <Users className="w-6 h-6 text-[#0284C7] mb-3" />
-                <h4 className="text-base font-bold text-slate-900 mb-2 font-display">Direct Engineer Access</h4>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                <h4 className="text-base font-bold text-[#0B1B3A] mb-2 font-display">Direct Engineer Access</h4>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                   Clear, timely communication without confusing sales jargon. You work directly with technical specialists who understand the code.
                 </p>
               </div>
 
-              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-card">
+              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs">
                 <Layers className="w-6 h-6 text-[#0284C7] mb-3" />
-                <h4 className="text-base font-bold text-slate-900 mb-2 font-display">Phased Milestones</h4>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                <h4 className="text-base font-bold text-[#0B1B3A] mb-2 font-display">Phased Milestones</h4>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                   Transparent deliverable schedules and staging previews at every phase so you always see exactly what is being built.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Featured Works Link (Dynamic projects preserved) */}
+          {/* Featured Works Link (Dynamic projects preserved, Pure Light Mode) */}
           {featuredProjects.length > 0 && (
-            <div className="p-8 sm:p-10 rounded-2xl bg-slate-900 text-white border border-slate-800 shadow-xl tech-grid-dark">
+            <div className="p-8 sm:p-10 rounded-2xl bg-white text-[#0B1B3A] border border-slate-200 shadow-xs">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                 <div>
-                  <span className="text-xs font-mono text-sky-400 font-bold uppercase tracking-wider block mb-1">
+                  <span className="text-xs font-mono text-[#0284C7] font-bold uppercase tracking-wider block mb-1">
                     Verified Work
                   </span>
-                  <h3 className="text-2xl font-bold font-display text-white">See Our Engineering In Action</h3>
+                  <h3 className="text-2xl font-bold font-display text-[#0B1B3A]">See Our Engineering In Action</h3>
                 </div>
                 <Link
                   to="/portfolio"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284C7] text-white text-xs font-bold hover:bg-[#0369A1] transition-colors shrink-0"
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284C7] text-white text-xs font-bold hover:bg-[#0369A1] transition-colors shrink-0 shadow-xs"
                 >
                   <span>Explore Full Portfolio</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -199,15 +200,16 @@ export default function AboutPage() {
                   <Link
                     key={p.id}
                     to={`/projects/${p.slug || p.id}`}
-                    className="p-5 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-sky-400 transition-colors group block"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="p-5 rounded-xl bg-[#F8FAFC] border border-slate-200 hover:border-sky-300 transition-colors group block"
                   >
-                    <span className="text-[10px] font-mono text-sky-400 uppercase tracking-wider">
+                    <span className="text-[10px] font-mono text-[#0284C7] font-bold uppercase tracking-wider">
                       {p.category ? p.category.replace(/_/g, ' ') : 'Project'}
                     </span>
-                    <h4 className="text-base font-bold text-white group-hover:text-sky-300 transition-colors mt-1">
+                    <h4 className="text-base font-bold text-[#0B1B3A] group-hover:text-[#0284C7] transition-colors mt-1 font-display">
                       {p.title || p.projectName}
                     </h4>
-                    <p className="text-xs text-slate-300 mt-1 line-clamp-2">
+                    <p className="text-xs text-slate-600 mt-1 line-clamp-2">
                       {p.summary || p.shortDescription}
                     </p>
                   </Link>
@@ -217,26 +219,26 @@ export default function AboutPage() {
           )}
 
           {/* Contact CTA */}
-          <div className="p-8 sm:p-12 rounded-2xl bg-white text-slate-900 border border-slate-200 shadow-card flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+          <div className="p-8 sm:p-12 rounded-2xl bg-sky-50/70 text-slate-900 border border-sky-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
             <div>
-              <h3 className="text-2xl font-bold font-display text-slate-900">Ready to build your digital product?</h3>
+              <h3 className="text-2xl font-bold font-display text-[#0B1B3A]">Ready to build your digital product?</h3>
               <p className="text-sm text-slate-600 mt-1 max-w-xl">
                 Let's discuss your project requirements, technical architecture, and implementation timeline.
               </p>
             </div>
             <Link
-              to="/#contact"
-              className="shrink-0 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm"
+              to="/contact"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="shrink-0 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-xs hover:shadow-md"
             >
               Start a Conversation
             </Link>
           </div>
-
         </div>
-
       </main>
 
       <Footer />
     </div>
   );
 }
+

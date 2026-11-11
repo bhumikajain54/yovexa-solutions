@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Home, ArrowLeft } from 'lucide-react';
+import { Home } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import SEO from '../components/common/SEO';
@@ -37,16 +37,21 @@ export default function NotFoundPage() {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               to="/"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white font-bold text-xs shadow-xs transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#0B1B3A] hover:bg-[#183B75] text-white font-bold text-xs shadow-xs transition-colors"
             >
-              <Home className="w-4 h-4" />
+              <Home className="w-4 h-4 text-sky-400" />
               <span>Back to Home</span>
             </Link>
             <Link
-              to="/portfolio"
+              to="/services"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 font-bold text-xs transition-colors shadow-xs"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <span>Explore Services</span>
+            </Link>
+            <Link
+              to="/portfolio"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-sky-50 border border-sky-200 hover:bg-sky-100 text-[#0284C7] font-bold text-xs transition-colors shadow-xs"
+            >
               <span>Browse Projects</span>
             </Link>
           </div>

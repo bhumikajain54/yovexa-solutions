@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Calendar, Clock, BookOpen } from 'lucide-react';
 import { imageKitService } from '../../services/imageKitService';
 
-export default function BlogCard({ blog, layout = 'grid' }) {
+export default function BlogCard({ blog }) {
   const formattedDate = blog.publishedAt || blog.createdAt
     ? new Date(blog.publishedAt || blog.createdAt).toLocaleDateString('en-US', {
         month: 'short',
@@ -18,30 +18,22 @@ export default function BlogCard({ blog, layout = 'grid' }) {
   return (
     <article className="group relative flex flex-col justify-between rounded-2xl bg-white border border-slate-200/90 hover:border-sky-300 shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
       {/* Featured Image */}
-      <Link to={`/blog/${blog.slug}`} className="block relative aspect-16/10 overflow-hidden bg-slate-950 border-b border-slate-100 flex items-center justify-center p-1.5">
+      <Link to={`/blog/${blog.slug}`} className="block relative aspect-16/10 overflow-hidden bg-slate-50 border-b border-slate-100 flex items-center justify-center p-2">
         {blog.featuredImage ? (
-          <>
-            <img
-              src={imageKitService.getLqipUrl(blog.featuredImage)}
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
-            />
-            <img
-              src={imageKitService.getCardUrl(blog.featuredImage, 600)}
-              alt={blog.title}
-              className="relative z-10 w-full h-full object-contain rounded-lg transition-transform duration-300"
-              loading="lazy"
-              decoding="async"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
-            />
-          </>
+          <img
+            src={imageKitService.getCardUrl(blog.featuredImage, 600)}
+            alt={blog.title}
+            className="relative z-10 w-full h-full object-contain rounded-lg transition-transform duration-300 group-hover:scale-[1.02]"
+            loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-sky-400">
-            <BookOpen className="w-8 h-8 opacity-40 mb-1" />
-            <span className="text-[11px] font-mono text-slate-400">Yovexa Engineering</span>
+          <div className="w-full h-full flex flex-col items-center justify-center bg-sky-50 text-[#0284C7]">
+            <BookOpen className="w-8 h-8 opacity-60 mb-1" />
+            <span className="text-[11px] font-mono font-medium text-slate-500">Yovexa Engineering</span>
           </div>
         )}
         <div className="absolute top-3 left-3 z-20">

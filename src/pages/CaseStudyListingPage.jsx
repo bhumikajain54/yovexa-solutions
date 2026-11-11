@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Search, BookOpen, ArrowRight, ExternalLink, Layers, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Search, BookOpen, ArrowRight, ExternalLink, Layers } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import SEO from '../components/common/SEO';
@@ -88,16 +88,16 @@ export default function CaseStudyListingPage() {
 
       <Navbar />
 
-      <main className="flex-1 pt-20 sm:pt-24 pb-16">
-        {/* Streamlined Publication Header */}
+      <main className="flex-1 pt-24 sm:pt-28 pb-20">
+        {/* Publication Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 pb-5 border-b border-slate-200">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 pb-6 border-b border-slate-200">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-100/80 border border-sky-200/80 text-[#0284C7] text-[10px] font-bold uppercase tracking-wider mb-2 shadow-2xs">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-bold uppercase tracking-wider mb-2 shadow-xs">
                 <Sparkles className="w-3 h-3 text-[#0284C7]" />
                 <span>PROJECT BREAKDOWNS</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-display">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0B1B3A] tracking-tight font-display">
                 Technical <span className="text-[#0284C7]">Case Studies</span>
               </h1>
               <p className="mt-1 text-xs sm:text-sm text-slate-500 max-w-xl font-normal leading-relaxed">
@@ -113,7 +113,7 @@ export default function CaseStudyListingPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search case studies..."
-                className="w-full pl-9 pr-3.5 py-2 rounded-xl bg-white text-slate-900 placeholder-slate-400 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#0284C7] shadow-2xs border border-slate-200 transition-all"
+                className="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-white text-slate-900 placeholder-slate-400 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#0284C7] shadow-xs border border-slate-200 transition-all"
               />
             </div>
           </div>
@@ -126,10 +126,11 @@ export default function CaseStudyListingPage() {
                 return (
                   <button
                     key={cat.id}
+                    type="button"
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 shrink-0 ${
+                    className={`whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 shrink-0 cursor-pointer ${
                       isActive
-                        ? 'bg-[#0B1B3A] text-white shadow-xs ring-2 ring-[#0284C7]'
+                        ? 'bg-[#0B1B3A] text-white shadow-xs'
                         : 'bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200'
                     }`}
                   >
@@ -159,7 +160,7 @@ export default function CaseStudyListingPage() {
               <div className="w-14 h-14 rounded-2xl bg-sky-50 text-[#0284C7] flex items-center justify-center mx-auto mb-4">
                 <BookOpen className="w-7 h-7" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900">
+              <h3 className="text-xl font-bold text-[#0B1B3A]">
                 {search ? 'No matching case studies found' : 'No case studies available yet.'}
               </h3>
               <p className="text-sm text-slate-500 mt-2 max-w-md mx-auto leading-relaxed">
@@ -169,8 +170,9 @@ export default function CaseStudyListingPage() {
               </p>
               {search && (
                 <button
+                  type="button"
                   onClick={() => setSearch('')}
-                  className="mt-5 px-5 py-2.5 rounded-xl bg-[#0B1B3A] text-white text-xs font-bold hover:bg-[#183B75] transition-colors"
+                  className="mt-5 px-5 py-2.5 rounded-xl bg-[#0284C7] text-white text-xs font-bold hover:bg-[#0369A1] transition-colors cursor-pointer shadow-xs"
                 >
                   Clear Search
                 </button>
@@ -178,37 +180,28 @@ export default function CaseStudyListingPage() {
             </div>
           ) : (
             <div className="space-y-12">
-              {/* Featured Case Study Hero Feature */}
+              {/* Featured Case Study Hero Feature (Pure Light Mode) */}
               {featuredCaseStudy && (
-                <div className="rounded-2xl bg-white border border-slate-200/90 shadow-lg shadow-slate-200/50 overflow-hidden hover:border-sky-300 transition-all duration-300">
+                <div className="rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:border-sky-300 transition-all duration-300 overflow-hidden">
                   <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
                     {/* Visual Project Preview */}
-                    <div className="lg:col-span-7 relative bg-slate-900 min-h-[320px] lg:min-h-[460px] flex items-center justify-center overflow-hidden group">
+                    <div className="lg:col-span-7 relative bg-slate-50 min-h-[320px] lg:min-h-[460px] flex items-center justify-center overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-200">
                       {featuredCaseStudy.featuredImage ? (
-                        <>
-                          <img
-                            src={imageKitService.getLqipUrl(featuredCaseStudy.featuredImage)}
-                            alt=""
-                            aria-hidden="true"
-                            className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-35 scale-110 pointer-events-none"
-                          />
-                          <img
-                            src={imageKitService.getDetailUrl(featuredCaseStudy.featuredImage, 1000)}
-                            alt={featuredCaseStudy.title}
-                            loading="lazy"
-                            decoding="async"
-                            className="relative z-10 w-full h-full max-h-[460px] object-contain rounded-xl p-2 transition-transform duration-300"
-                          />
-                        </>
+                        <img
+                          src={imageKitService.getDetailUrl(featuredCaseStudy.featuredImage, 1000)}
+                          alt={featuredCaseStudy.title}
+                          loading="lazy"
+                          decoding="async"
+                          className="relative z-10 w-full h-full max-h-[460px] object-contain p-4 transition-transform duration-300"
+                        />
                       ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-slate-900 text-sky-400">
+                        <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center text-[#0284C7]">
                           <Layers className="w-16 h-16 opacity-40 mb-3" />
-                          <span className="text-sm font-semibold text-slate-300">Technical Architecture Overview</span>
+                          <span className="text-sm font-semibold text-slate-500">Technical Architecture Overview</span>
                         </div>
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent lg:hidden" />
                       <div className="absolute top-4 left-4">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-extrabold uppercase tracking-wider bg-white/95 text-[#0284C7] shadow-xs border border-sky-100">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-[#0284C7] shadow-xs border border-sky-200">
                           <Sparkles className="w-3 h-3 text-[#0284C7]" />
                           <span>Featured Architecture</span>
                         </span>
@@ -229,8 +222,11 @@ export default function CaseStudyListingPage() {
                           )}
                         </div>
 
-                        <Link to={`/case-studies/${featuredCaseStudy.slug || featuredCaseStudy.id}`}>
-                          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display hover:text-[#0284C7] transition-colors leading-tight">
+                        <Link
+                          to={`/case-studies/${featuredCaseStudy.slug || featuredCaseStudy.id}`}
+                          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        >
+                          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0B1B3A] font-display hover:text-[#0284C7] transition-colors leading-tight">
                             {featuredCaseStudy.title}
                           </h2>
                         </Link>
@@ -249,8 +245,8 @@ export default function CaseStudyListingPage() {
 
                         {/* Problem Excerpt Callout */}
                         {featuredCaseStudy.problem && (
-                          <div className="mt-5 p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
-                            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                          <div className="mt-5 p-3.5 rounded-xl bg-[#F8FAFC] border border-slate-200">
+                            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 font-mono">
                               The Core Challenge:
                             </div>
                             <p className="text-xs text-slate-700 line-clamp-2 leading-relaxed italic">
@@ -268,7 +264,7 @@ export default function CaseStudyListingPage() {
                             ).slice(0, 5).map((tech, idx) => (
                               <span
                                 key={idx}
-                                className="px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs font-mono font-medium border border-slate-200/80"
+                                className="px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs font-mono font-medium border border-slate-200"
                               >
                                 {tech.trim()}
                               </span>
@@ -281,6 +277,7 @@ export default function CaseStudyListingPage() {
                       <div className="mt-8 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-3">
                         <Link
                           to={`/case-studies/${featuredCaseStudy.slug || featuredCaseStudy.id}`}
+                          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs sm:text-sm font-bold transition-all shadow-xs"
                         >
                           <span>Read Full Case Study</span>
@@ -309,7 +306,7 @@ export default function CaseStudyListingPage() {
                 <div>
                   {featuredCaseStudy && (
                     <div className="mb-6 flex items-center justify-between">
-                      <h3 className="text-xl font-extrabold text-slate-900 font-display">
+                      <h3 className="text-xl font-extrabold text-[#0B1B3A] font-display">
                         Additional Architectural Studies
                       </h3>
                       <span className="text-xs text-slate-500 font-medium">
@@ -327,30 +324,24 @@ export default function CaseStudyListingPage() {
                       return (
                         <article
                           key={cs.id || cs.slug}
-                          className="group rounded-2xl bg-white border border-slate-200 hover:border-sky-300 shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden flex flex-col justify-between"
+                          className="group rounded-2xl bg-white border border-slate-200 hover:border-sky-300 shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col justify-between"
                         >
                           <div>
                             {/* Image Header */}
                             {cs.featuredImage ? (
-                              <div className="relative h-56 w-full overflow-hidden bg-slate-950 border-b border-slate-200 flex items-center justify-center p-2">
-                                <img
-                                  src={imageKitService.getLqipUrl(cs.featuredImage)}
-                                  alt=""
-                                  aria-hidden="true"
-                                  className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
-                                />
+                              <div className="relative h-56 w-full overflow-hidden bg-slate-50 border-b border-slate-200 flex items-center justify-center p-2">
                                 <img
                                   src={imageKitService.getCardUrl(cs.featuredImage, 600)}
                                   alt={cs.title}
                                   loading="lazy"
                                   decoding="async"
-                                  className="relative z-10 w-full h-full object-contain rounded-lg transition-transform duration-300"
+                                  className="relative z-10 w-full h-full object-contain rounded-lg transition-transform duration-300 group-hover:scale-105"
                                   onError={(e) => {
                                     e.currentTarget.parentElement.style.display = 'none';
                                   }}
                                 />
                                 <div className="absolute top-4 left-4">
-                                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#0284C7] bg-white/95 px-2.5 py-1 rounded-md border border-sky-200 shadow-xs">
+                                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#0284C7] bg-white px-2.5 py-1 rounded-md border border-sky-200 shadow-xs">
                                     {cs.category ? cs.category.replace(/_/g, ' ') : 'Case Study'}
                                   </span>
                                 </div>
@@ -372,8 +363,11 @@ export default function CaseStudyListingPage() {
                                 )}
                               </div>
 
-                              <Link to={`/case-studies/${cs.slug || cs.id}`}>
-                                <h3 className="text-xl font-bold text-slate-900 font-display group-hover:text-[#0284C7] transition-colors line-clamp-2 leading-snug">
+                              <Link
+                                to={`/case-studies/${cs.slug || cs.id}`}
+                                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                              >
+                                <h3 className="text-xl font-bold text-[#0B1B3A] font-display group-hover:text-[#0284C7] transition-colors line-clamp-2 leading-snug">
                                   {cs.title}
                                 </h3>
                               </Link>
@@ -405,10 +399,11 @@ export default function CaseStudyListingPage() {
                           </div>
 
                           {/* Footer Action */}
-                          <div className="px-6 pb-6 pt-2 border-t border-slate-100 flex items-center justify-between">
+                          <div className="px-6 pb-6 pt-3 border-t border-slate-100 flex items-center justify-between">
                             <Link
                               to={`/case-studies/${cs.slug || cs.id}`}
-                              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0284C7] group-hover:text-[#0369A1] transition-colors"
+                              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0284C7] hover:text-[#0369A1] transition-colors"
                             >
                               <span>Read Case Study</span>
                               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />

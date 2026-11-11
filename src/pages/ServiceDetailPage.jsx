@@ -12,21 +12,14 @@ import { PROCESS_STEPS } from '../data/process';
 export default function ServiceDetailPage() {
   const { slug } = useParams();
 
-  const [service, setService] = useState(null);
+  const service = SERVICES_DATA.find(s => s.slug === slug || s.id === slug) || null;
+  const notFound = !service;
   const [relatedProjects, setRelatedProjects] = useState([]);
-  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    const matched = SERVICES_DATA.find(s => s.slug === slug || s.id === slug);
-    if (!matched) {
-      setNotFound(true);
-      return;
-    }
-
-    setService(matched);
-    setNotFound(false);
+    if (!service) return;
 
     let isMounted = true;
     projectService.getProjects({ publishedOnly: true })
@@ -42,7 +35,7 @@ export default function ServiceDetailPage() {
     return () => {
       isMounted = false;
     };
-  }, [slug]);
+  }, [slug, service]);
 
   if (notFound) {
     return (
@@ -51,14 +44,15 @@ export default function ServiceDetailPage() {
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-32 px-4 text-center">
           <div className="max-w-md mx-auto space-y-4">
-            <h1 className="text-4xl font-extrabold text-slate-900 font-display">404</h1>
-            <h2 className="text-xl font-bold text-slate-900">Service Not Found</h2>
+            <h1 className="text-4xl font-extrabold text-[#0B1B3A] font-display">404</h1>
+            <h2 className="text-xl font-bold text-[#0B1B3A]">Service Not Found</h2>
             <p className="text-sm text-slate-600">
               The service category you are looking for might have been updated or moved.
             </p>
             <Link
               to="/services"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0B1B3A] text-white text-xs font-bold hover:bg-[#183B75] transition-colors"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0284C7] text-white text-xs font-bold hover:bg-[#0369A1] transition-colors shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Services</span>
@@ -135,6 +129,7 @@ export default function ServiceDetailPage() {
           <div className="mb-6">
             <Link
               to="/services"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0284C7] hover:text-[#0369A1] transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
@@ -144,11 +139,11 @@ export default function ServiceDetailPage() {
 
           {/* Header Badges */}
           <div className="flex flex-wrap items-center gap-2.5 mb-3">
-            <span className="w-9 h-9 rounded-xl bg-[#0B1B3A] text-sky-400 flex items-center justify-center shadow-xs">
+            <span className="w-9 h-9 rounded-xl bg-sky-50 border border-sky-100 text-[#0284C7] flex items-center justify-center shadow-xs">
               <DynamicIcon name={service.icon || 'Globe'} className="w-4 h-4" />
             </span>
             {service.popularTag && (
-              <span className="px-2.5 py-1 rounded-md text-xs font-bold bg-sky-50 text-[#0284C7] border border-sky-200">
+              <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-50 text-[#0284C7] border border-sky-200">
                 {service.popularTag}
               </span>
             )}
@@ -158,7 +153,7 @@ export default function ServiceDetailPage() {
           </div>
 
           {/* Service Title */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight font-display leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1B3A] tracking-tight font-display leading-tight">
             {service.title}
           </h1>
 
@@ -169,17 +164,17 @@ export default function ServiceDetailPage() {
 
           {/* Deliverables Card */}
           {featuresList.length > 0 && (
-            <div className="mt-10 p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-card">
+            <div className="mt-10 p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs">
               <h3 className="text-xs font-mono font-bold uppercase text-[#0284C7] tracking-wider mb-2">
                 What This Service Includes
               </h3>
-              <h2 className="text-xl font-bold text-slate-900 font-display mb-6">
+              <h2 className="text-xl font-bold text-[#0B1B3A] font-display mb-6">
                 Standard Deliverables & Architectural Scope
               </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {featuresList.map((feat, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                  <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-[#F8FAFC] border border-slate-200/90 hover:border-sky-300 transition-colors">
                     <CheckCircle2 className="w-4 h-4 text-[#0284C7] shrink-0 mt-0.5" />
                     <span className="text-xs sm:text-sm font-semibold text-slate-800 leading-snug">
                       {feat}
@@ -191,22 +186,22 @@ export default function ServiceDetailPage() {
           )}
 
           {/* Development Approach */}
-          <div className="mt-12 p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-card">
+          <div className="mt-12 p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs">
             <h3 className="text-xs font-mono font-bold uppercase text-[#0284C7] tracking-wider mb-2">
               Our Development Approach
             </h3>
-            <h2 className="text-xl font-bold text-slate-900 font-display mb-6">
+            <h2 className="text-xl font-bold text-[#0B1B3A] font-display mb-6">
               How We Build & Launch This Solution
             </h2>
 
             <div className="space-y-4">
               {PROCESS_STEPS.slice(0, 4).map((step, sIdx) => (
-                <div key={sIdx} className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200/80">
-                  <span className="w-7 h-7 rounded-lg bg-[#0B1B3A] text-white flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">
+                <div key={sIdx} className="flex items-start gap-4 p-4 rounded-xl bg-[#F8FAFC] border border-slate-200/90">
+                  <span className="w-7 h-7 rounded-lg bg-white border border-slate-200 text-[#0B1B3A] flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5 shadow-xs">
                     {step.step}
                   </span>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900">{step.title}</h4>
+                    <h4 className="text-sm font-bold text-[#0B1B3A]">{step.title}</h4>
                     <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">{step.description}</p>
                   </div>
                 </div>
@@ -214,10 +209,10 @@ export default function ServiceDetailPage() {
             </div>
           </div>
 
-          {/* Related Case Studies or Projects */}
+          {/* Relevant Engineering Projects */}
           {relatedProjects.length > 0 && (
             <div className="mt-12">
-              <h3 className="text-xl font-bold text-slate-900 font-display mb-4">
+              <h3 className="text-xl font-bold text-[#0B1B3A] font-display mb-4">
                 Relevant Engineering Projects
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -225,12 +220,13 @@ export default function ServiceDetailPage() {
                   <Link
                     key={p.id}
                     to={`/projects/${p.slug || p.id}`}
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-sky-300 shadow-xs transition-all group block"
                   >
-                    <span className="text-[10px] font-bold uppercase text-[#0284C7] tracking-wider">
+                    <span className="text-[10px] font-bold uppercase text-[#0284C7] tracking-wider font-mono">
                       {p.category ? p.category.replace(/_/g, ' ') : 'Project'}
                     </span>
-                    <h4 className="text-base font-bold text-slate-900 group-hover:text-[#0284C7] transition-colors mt-1 font-display">
+                    <h4 className="text-base font-bold text-[#0B1B3A] group-hover:text-[#0284C7] transition-colors mt-1 font-display">
                       {p.title || p.projectName}
                     </h4>
                     <p className="text-xs text-slate-500 line-clamp-2 mt-1">
@@ -242,22 +238,23 @@ export default function ServiceDetailPage() {
             </div>
           )}
 
-          {/* Project Inquiry CTA */}
-          <div className="mt-14 p-8 rounded-2xl bg-[#061225] text-white border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6 tech-grid-dark">
+          {/* Project Inquiry CTA (Pure Light Mode) */}
+          <div className="mt-14 p-8 rounded-2xl bg-sky-50/70 text-[#0B1B3A] border border-sky-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-[#0284C7]/20 text-sky-400 text-xs font-mono font-bold mb-2">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-white text-[#0284C7] text-xs font-mono font-bold mb-2 border border-sky-200">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Ready To Build?</span>
               </div>
-              <h3 className="text-xl font-bold font-display text-white">Start With {service.title}</h3>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1">
+              <h3 className="text-xl font-bold font-display text-[#0B1B3A]">Start With {service.title}</h3>
+              <p className="text-xs sm:text-sm text-slate-600 mt-1">
                 Tell us about your requirements and we will prepare an architecture scope and timeline.
               </p>
             </div>
 
             <Link
               to={`/contact?service=${encodeURIComponent(service.title)}`}
-              className="shrink-0 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-sm"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="shrink-0 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#0284C7] hover:bg-[#0369A1] transition-all shadow-xs hover:shadow-md"
             >
               Discuss This Service
             </Link>

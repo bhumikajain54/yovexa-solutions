@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import TrustStrip from '../components/TrustStrip';
@@ -15,30 +16,17 @@ import SEO from '../components/common/SEO';
 
 export default function HomePage() {
   const [selectedProject, setSelectedProject] = useState(null);
-  const [preselectedService, setPreselectedService] = useState('');
-  const [preselectedProject, setPreselectedProject] = useState('');
-
-  const handleSelectService = (serviceTitle) => {
-    setPreselectedService(serviceTitle);
-    const contactEl = document.getElementById('contact');
-    if (contactEl) {
-      contactEl.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const navigate = useNavigate();
 
   const handleDiscussProject = (projectTitle) => {
-    setPreselectedProject(projectTitle);
-    const contactEl = document.getElementById('contact');
-    if (contactEl) {
-      contactEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    setSelectedProject(null);
+    navigate(`/contact?project=${encodeURIComponent(projectTitle)}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleOpenContact = () => {
-    const contactEl = document.getElementById('contact');
-    if (contactEl) {
-      contactEl.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleSelectService = (serviceTitle) => {
+    navigate(`/contact?service=${encodeURIComponent(serviceTitle)}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const homeSchema = {
@@ -110,7 +98,7 @@ export default function HomePage() {
       />
 
       {/* Sticky Header */}
-      <Navbar onOpenContact={handleOpenContact} />
+      <Navbar />
 
       {/* Main Single Page Content */}
       <main className="flex-1">
@@ -122,16 +110,13 @@ export default function HomePage() {
         <WhyYovexa />
         <Portfolio onSelectProject={setSelectedProject} />
         <LatestBlogs />
-        <Contact 
-          preselectedService={preselectedService} 
-          preselectedProject={preselectedProject} 
-        />
+        <Contact />
       </main>
 
       {/* Footer */}
       <Footer />
 
-      {/* Deep Project Detail Case Study Modal */}
+      {/* Deep Project Detail Quick-View Modal */}
       {selectedProject && (
         <ProjectModal
           project={selectedProject}

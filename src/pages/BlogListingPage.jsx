@@ -197,26 +197,18 @@ export default function BlogListingPage() {
                 <div className="rounded-2xl bg-white border border-slate-200/90 shadow-lg shadow-slate-200/50 overflow-hidden hover:border-sky-300 transition-all duration-300">
                   <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
                     {/* Featured Image */}
-                    <div className="lg:col-span-7 relative bg-slate-950 min-h-[280px] sm:min-h-[340px] lg:min-h-[420px] flex items-center justify-center overflow-hidden group p-2 sm:p-4">
+                    <div className="lg:col-span-7 relative bg-slate-50 min-h-[280px] sm:min-h-[340px] lg:min-h-[420px] flex items-center justify-center overflow-hidden group p-3 sm:p-6 border-b lg:border-b-0 lg:border-r border-slate-100">
                       {featuredArticle.featuredImage ? (
-                        <>
-                          <img
-                            src={imageKitService.getLqipUrl(featuredArticle.featuredImage)}
-                            alt=""
-                            aria-hidden="true"
-                            className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-35 scale-110 pointer-events-none"
-                          />
-                          <img
-                            src={imageKitService.getDetailUrl(featuredArticle.featuredImage, 1000)}
-                            alt={featuredArticle.title}
-                            loading="lazy"
-                            decoding="async"
-                            className="relative z-10 w-full h-full max-h-[440px] object-contain rounded-xl transition-transform duration-300"
-                          />
-                        </>
+                        <img
+                          src={imageKitService.getDetailUrl(featuredArticle.featuredImage, 1000)}
+                          alt={featuredArticle.title}
+                          loading="lazy"
+                          decoding="async"
+                          className="relative z-10 w-full h-full max-h-[440px] object-contain rounded-xl transition-transform duration-300 shadow-2xs border border-slate-200/80 bg-white"
+                        />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-slate-900 text-sky-400">
-                          <BookOpen className="w-16 h-16 opacity-30" />
+                        <div className="w-full h-full flex items-center justify-center bg-sky-50 text-[#0284C7]">
+                          <BookOpen className="w-16 h-16 opacity-40" />
                         </div>
                       )}
                       <div className="absolute top-4 left-4 z-20">
