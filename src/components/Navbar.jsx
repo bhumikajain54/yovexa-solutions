@@ -45,6 +45,8 @@ export default function Navbar({ onOpenContact }) {
         setActiveSection('portfolio');
       } else if (location.pathname.startsWith('/case-studies')) {
         setActiveSection('case-studies');
+      } else if (location.pathname.startsWith('/careers')) {
+        setActiveSection('careers');
       } else if (location.pathname.startsWith('/blog')) {
         setActiveSection('blog');
       } else if (location.pathname.startsWith('/about')) {
@@ -133,6 +135,11 @@ export default function Navbar({ onOpenContact }) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
+    if (href === '/careers' || href === '/careers/') {
+      navigate('/careers');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (href === '/portfolio' || href === '/portfolio/') {
       navigate('/portfolio');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -210,7 +217,7 @@ export default function Navbar({ onOpenContact }) {
                     <button
                       onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
                       onMouseEnter={() => setServicesDropdownOpen(true)}
-                      className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
+                      className={`inline-flex items-center gap-1.5 px-2.5 xl:px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
                         isActive || servicesDropdownOpen
                           ? 'bg-[#0B1B3A] text-white shadow-xs'
                           : 'text-slate-700 hover:text-[#0B1B3A] hover:bg-white/70'
@@ -305,7 +312,7 @@ export default function Navbar({ onOpenContact }) {
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
+                  className={`px-2.5 xl:px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
                     isActive
                       ? 'bg-[#0B1B3A] text-white shadow-xs'
                       : 'text-slate-700 hover:text-[#0B1B3A] hover:bg-white/70'

@@ -11,6 +11,7 @@ Allow: /portfolio/
 Allow: /projects/
 Allow: /case-studies
 Allow: /case-studies/
+Allow: /careers
 Allow: /blog
 Allow: /blog/
 Allow: /contact

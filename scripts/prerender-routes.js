@@ -207,6 +207,26 @@ const routesToPrerender = [
     }
   },
   {
+    path: '/careers',
+    title: 'Careers — Build Your Future With Us | Yovexa Solutions',
+    description: 'Join Yovexa Solutions. Explore our engineering culture, core values, continuous learning, and future career opportunities in software development.',
+    keywords: 'careers at Yovexa Solutions, tech jobs, software engineering careers, web developer jobs, work at Yovexa',
+    h1: 'Build Your Future With Yovexa Solutions',
+    bodyText: 'Join a team of passionate innovators, developers, and creative thinkers building meaningful digital experiences. At Yovexa Solutions, we believe in innovation, collaboration, continuous learning, and creating technology that makes a difference.',
+    schema: {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      'name': 'Careers at Yovexa Solutions',
+      'url': `${BASE_URL}/careers`,
+      'description': 'Join Yovexa Solutions. Explore our engineering culture, core values, continuous learning, and future career opportunities.',
+      'publisher': {
+        '@type': 'Organization',
+        'name': 'Yovexa Solutions',
+        'url': BASE_URL
+      }
+    }
+  },
+  {
     path: '/contact',
     title: 'Contact Us — Start Your Software Development Project | Yovexa Solutions',
     description: 'Ready to build your digital product? Get in touch with Yovexa Solutions to discuss requirements, architecture approach, estimates, and timelines.',
@@ -307,6 +327,7 @@ export function prerenderRoutes() {
           <a href="/services" style="color: #38bdf8; text-decoration: underline;">Services</a>
           <a href="/portfolio" style="color: #38bdf8; text-decoration: underline;">Portfolio</a>
           <a href="/case-studies" style="color: #38bdf8; text-decoration: underline;">Case Studies</a>
+          <a href="/careers" style="color: #38bdf8; text-decoration: underline;">Careers</a>
           <a href="/blog" style="color: #38bdf8; text-decoration: underline;">Blog &amp; Insights</a>
           <a href="/contact" style="color: #38bdf8; text-decoration: underline;">Contact</a>
         </nav>

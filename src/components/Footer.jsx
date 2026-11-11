@@ -49,6 +49,11 @@ export default function Footer() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
+    if (href === '/careers' || href === '/careers/') {
+      navigate('/careers');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (href === '/portfolio' || href === '/portfolio/' || href === '/#portfolio') {
       navigate('/portfolio');
       window.scrollTo({ top: 0, behavior: 'smooth' });

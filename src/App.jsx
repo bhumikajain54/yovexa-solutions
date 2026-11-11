@@ -10,6 +10,7 @@ import ServicesPage from './pages/ServicesPage';
 import ServiceDetailPage from './pages/ServiceDetailPage';
 import ContactPage from './pages/ContactPage';
 import PortfolioPage from './pages/PortfolioPage';
+import CareersPage from './pages/CareersPage';
 import BlogListingPage from './pages/BlogListingPage';
 import BlogDetailPage from './pages/BlogDetailPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
@@ -64,6 +65,7 @@ export default function App() {
             <Route path="/projects/:slug" element={<ProjectDetailPage />} />
             <Route path="/case-studies" element={<CaseStudyListingPage />} />
             <Route path="/case-studies/:slug" element={<CaseStudyDetailPage />} />
+            <Route path="/careers" element={<CareersPage />} />
             <Route path="/blog" element={<BlogListingPage />} />
             <Route path="/blog/:slug" element={<BlogDetailPage />} />
             <Route path="/login" element={<LoginPage />} />
